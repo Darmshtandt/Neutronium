@@ -1,0 +1,90 @@
+﻿  Main.cpp
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\JSON\JSON.h(36,17): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Icon.h(170,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,9): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(60,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=wchar_t
+          ]
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=wchar_t
+          ]
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4456: declaration of 'pNextCellCoord' hides previous local declaration
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(125,10): message : see declaration of 'pNextCellCoord'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4456: declaration of 'pNextCellSize' hides previous local declaration
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(126,10): message : see declaration of 'pNextCellSize'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(92,15): warning C4189: 'currentIndex': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4189: 'pNextCellSize': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4189: 'pNextCellCoord': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(169,71): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(207,70): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9): message : see declaration of 'i'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Renderer.h(364,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(11,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(16,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,40): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,34): warning C4244: 'initializing': conversion from 'double' to 'const Nt::Float', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(114,16): warning C4189: 'ABLength': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(115,16): warning C4189: 'BCLength': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(116,16): warning C4189: 'CALength': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(286,29): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics.h(17,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(114,23): warning C4189: 'pTriangleCollider': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(120,19): warning C4189: 'pMeshCollider': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(131,4): warning C5205: delete of an abstract class 'Nt::ICollider' that has a non-virtual destructor results in undefined behavior
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(4,8): message : see declaration of 'Nt::ICollider'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(136,5): warning C5205: delete of an abstract class 'Nt::ICollider' that has a non-virtual destructor results in undefined behavior
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(4,8): message : see declaration of 'Nt::ICollider'
+  Collision.cpp
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\JSON\JSON.h(36,17): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Icon.h(170,19): warning C4018: '>': signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,9): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(60,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=wchar_t
+          ]
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+          with
+          [
+              _Elem=wchar_t
+          ]
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4456: declaration of 'pNextCellCoord' hides previous local declaration
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(125,10): message : see declaration of 'pNextCellCoord'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4456: declaration of 'pNextCellSize' hides previous local declaration
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(126,10): message : see declaration of 'pNextCellSize'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(92,15): warning C4189: 'currentIndex': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4189: 'pNextCellSize': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4189: 'pNextCellCoord': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(169,71): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(207,70): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9): message : see declaration of 'i'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Renderer.h(364,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(11,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(16,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,40): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,34): warning C4244: 'initializing': conversion from 'double' to 'const Nt::Float', possible loss of data
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(114,16): warning C4189: 'ABLength': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(115,16): warning C4189: 'BCLength': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(116,16): warning C4189: 'CALength': local variable is initialized but not referenced
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(286,29): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+  Generating Code...
+     Creating library C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumPhysics32d.lib and object C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumPhysics32d.exp
+  NeutroniumPhysics.vcxproj -> C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumPhysics32d.dll

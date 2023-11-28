@@ -1,0 +1,4 @@
+﻿  Utilities.cpp
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
+  NeutroniumCore.vcxproj -> C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumCore32d.dll

@@ -1,0 +1,646 @@
+﻿  String.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winbase.h(7794,48): warning C5039: 'TpSetCallbackCleanupGroup': pointer or reference to potentially throwing function passed to 'extern "C"' function under -EHc. Undefined behavior may occur if this function throws an exception.
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xlocale(2010,13): warning C5262: implicit fall-through occurs here; are you missing a break statement? Use [[fallthrough]] when a break statement is intentionally omitted between cases
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xlocale(2007,17): message : statement that may fall through is here
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xlocale(2210,13): warning C5262: implicit fall-through occurs here; are you missing a break statement? Use [[fallthrough]] when a break statement is intentionally omitted between cases
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xlocale(2207,17): message : statement that may fall through is here
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(9,37): warning C4365: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(9,37): warning C4365: 'initializing': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(15,41): warning C4365: 'argument': conversion from 'const Nt::uInt' to 'int', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(20,19): warning C4365: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(20,19): warning C4365: 'initializing': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(26,23): warning C4365: 'argument': conversion from 'const Nt::uInt' to 'int', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(132,37): warning C4365: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Core\String.cpp(132,37): warning C4365: 'initializing': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\atomic(917,9): warning C5262: implicit fall-through occurs here; are you missing a break statement? Use [[fallthrough]] when a break statement is intentionally omitted between cases
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\atomic(916,13): message : statement that may fall through is here
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\atomic(912,1): message : while compiling class template member function 'void std::_Atomic_storage<_Ty,4>::store(const std::_Stop_callback_base *const ,const std::memory_order) noexcept'
+          with
+          [
+              _Ty=const std::_Stop_callback_base *
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\stop_token(96,36): message : see reference to function template instantiation 'void std::_Atomic_storage<_Ty,4>::store(const std::_Stop_callback_base *const ,const std::memory_order) noexcept' being compiled
+          with
+          [
+              _Ty=const std::_Stop_callback_base *
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\atomic(1915,1): message : see reference to class template instantiation 'std::_Atomic_storage<_Ty,4>' being compiled
+          with
+          [
+              _Ty=const std::_Stop_callback_base *
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\atomic(2085,1): message : see reference to class template instantiation 'std::_Atomic_pointer<_Ty>' being compiled
+          with
+          [
+              _Ty=const std::_Stop_callback_base *
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\stop_token(75,40): message : see reference to class template instantiation 'std::atomic<const std::_Stop_callback_base *>' being compiled
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\atomic(240,36): warning C5264: 'std::_Form_mask': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3608,31): warning C5264: 'std::ranges::fill': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1191,33): warning C5264: 'std::ranges::all_of': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1532,34): warning C5264: 'std::ranges::copy_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(562,35): warning C5264: 'std::ranges::count_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(497,32): warning C5264: 'std::ranges::count': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4334,38): warning C5264: 'std::ranges::unique_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(5724,38): warning C5264: 'std::ranges::find_if_not': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(749,60): warning C5264: 'std::ranges::uninitialized_default_construct_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10349,43): warning C5264: 'std::ranges::prev_permutation': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3563,42): warning C5264: 'std::ranges::replace_copy_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1628,40): warning C5264: 'std::ranges::move_backward': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1582,31): warning C5264: 'std::ranges::move': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(2351,38): warning C5264: 'std::ranges::starts_with': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6187,35): warning C5264: 'std::ranges::pop_heap': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(8472,39): warning C5264: 'std::ranges::partial_sort': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10466,42): warning C5264: 'std::ranges::is_sorted_until': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(7903,31): warning C5264: 'std::ranges::sort': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(2579,36): warning C5264: 'std::ranges::ends_with': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(8353,38): warning C5264: 'std::ranges::stable_sort': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1938,42): warning C5264: 'std::ranges::partition_point': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(5258,31): warning C5264: 'std::ranges::find': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10245,43): warning C5264: 'std::ranges::next_permutation': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(5538,36): warning C5264: 'std::ranges::partition': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(7503,40): warning C5264: 'std::ranges::inplace_merge': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(326,47): warning C5264: 'std::ranges::uninitialized_move_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6694,38): warning C5264: 'std::ranges::equal_range': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9939,30): warning C5264: 'std::ranges::max': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(375,37): warning C5264: 'std::ranges::for_each_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1315,34): warning C5264: 'std::ranges::none_of': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1130,41): warning C5264: 'std::ranges::is_permutation': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4023,41): warning C5264: 'std::ranges::remove_copy_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10610,50): warning C5264: 'std::ranges::lexicographical_compare': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9862,41): warning C5264: 'std::ranges::minmax_element': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(106,45): warning C5264: 'std::ranges::uninitialized_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4647,33): warning C5264: 'std::ranges::rotate': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9418,51): warning C5264: 'std::ranges::set_symmetric_difference': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4397,34): warning C5264: 'std::ranges::reverse': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3899,36): warning C5264: 'std::ranges::remove_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3041,38): warning C5264: 'std::ranges::swap_ranges': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(871,58): warning C5264: 'std::ranges::uninitialized_value_construct_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(5911,43): warning C5264: 'std::ranges::stable_partition': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6743,40): warning C5264: 'std::ranges::binary_search': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1386,44): warning C5264: 'std::ranges::contains_subrange': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(504,37): warning C5264: 'std::ranges::destroy_at': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1732,41): warning C5264: 'std::ranges::partition_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(690,58): warning C5264: 'std::ranges::uninitialized_default_construct': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(241,45): warning C5264: 'std::ranges::uninitialized_move': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(482,39): warning C5264: 'std::ranges::construct_at': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(2949,40): warning C5264: 'std::ranges::find_first_of': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(8748,38): warning C5264: 'std::ranges::nth_element': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(618,36): warning C5264: 'std::ranges::destroy_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6408,40): warning C5264: 'std::ranges::is_heap_until': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(561,34): warning C5264: 'std::ranges::destroy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6911,32): warning C5264: 'std::ranges::merge': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(462,47): warning C5264: 'std::ranges::uninitialized_fill_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(4812,35): warning C5264: 'std::ranges::mismatch': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3295,34): warning C5264: 'std::ranges::replace': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(5010,34): warning C5264: 'std::ranges::shuffle': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9140,43): warning C5264: 'std::ranges::set_intersection': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4724,38): warning C5264: 'std::ranges::rotate_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4537,39): warning C5264: 'std::ranges::reverse_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(2845,35): warning C5264: 'std::ranges::find_end': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(2286,35): warning C5264: 'std::ranges::search_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3963,38): warning C5264: 'std::ranges::remove_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4921,33): warning C5264: 'std::ranges::sample': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(187,47): warning C5264: 'std::ranges::uninitialized_copy_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(8872,35): warning C5264: 'std::ranges::includes': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(5233,37): warning C5264: 'std::ranges::shift_left': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6480,36): warning C5264: 'std::ranges::sort_heap': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6588,38): warning C5264: 'std::ranges::upper_bound': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9009,36): warning C5264: 'std::ranges::set_union': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9268,41): warning C5264: 'std::ranges::set_difference': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1253,33): warning C5264: 'std::ranges::any_of': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(384,45): warning C5264: 'std::ranges::uninitialized_fill': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(8626,44): warning C5264: 'std::ranges::partial_sort_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3845,33): warning C5264: 'std::ranges::remove': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10439,36): warning C5264: 'std::ranges::is_sorted': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1344,35): warning C5264: 'std::ranges::contains': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(5775,40): warning C5264: 'std::ranges::adjacent_find': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3470,39): warning C5264: 'std::ranges::replace_copy': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3672,37): warning C5264: 'std::ranges::generate_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1418,33): warning C5264: 'std::ranges::copy_n': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\memory(823,56): warning C5264: 'std::ranges::uninitialized_value_construct': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6381,34): warning C5264: 'std::ranges::is_heap': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(5394,38): warning C5264: 'std::ranges::shift_right': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10009,30): warning C5264: 'std::ranges::min': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6021,36): warning C5264: 'std::ranges::push_heap': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2198,38): warning C5264: 'std::ranges::_Cpos::rend': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(747,43): warning C5264: 'std::ranges::_Cpos::iter_swap': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2450,36): warning C5264: 'std::ranges::_Cpos::cdata': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2061,35): warning C5264: 'std::ranges::_Cpos::cend': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2046,37): warning C5264: 'std::ranges::_Cpos::cbegin': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2129,40): warning C5264: 'std::ranges::_Cpos::rbegin': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2684,36): warning C5264: 'std::ranges::_Cpos::ssize': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2213,38): warning C5264: 'std::ranges::_Cpos::crbegin': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(2228,36): warning C5264: 'std::ranges::_Cpos::crend': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6261,36): warning C5264: 'std::ranges::make_heap': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(4407,27): warning C5264: 'std::ranges::enable_borrowed_range<std::filesystem::directory_iterator>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(4409,27): warning C5264: 'std::ranges::enable_borrowed_range<std::filesystem::recursive_directory_iterator>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1816,41): warning C5264: 'std::ranges::is_partitioned': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10141,33): warning C5264: 'std::ranges::minmax': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3372,37): warning C5264: 'std::ranges::replace_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(762,32): warning C5264: 'std::ranges::equal': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(4137,33): warning C5264: 'std::ranges::unique': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(348,35): warning C5264: 'std::ranges::for_each': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(3649,35): warning C5264: 'std::ranges::generate': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(5920,33): warning C5264: 'std::ranges::search': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(5677,34): warning C5264: 'std::ranges::find_if': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(6535,38): warning C5264: 'std::ranges::lower_bound': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9550,38): warning C5264: 'std::ranges::max_element': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(9671,38): warning C5264: 'std::ranges::min_element': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(4411,27): warning C5264: 'std::ranges::enable_view<std::filesystem::directory_iterator>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(4413,27): warning C5264: 'std::ranges::enable_view<std::filesystem::recursive_directory_iterator>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(10532,32): warning C5264: 'std::ranges::clamp': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\algorithm(1447,40): warning C5264: 'std::ranges::copy_backward': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\utility(127,39): warning C5264: 'std::allocator_arg': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(174,27): warning C5264: 'std::filesystem::_Is_Source<const std::filesystem::path::value_type*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(174,27): warning C5264: 'std::filesystem::_Is_Source<std::error_code>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(183,27): warning C5264: 'std::filesystem::?$_Is_Source@V?$basic_string@$RBAAB@$RBAAC@$RBAAD@@std@@<std::filesystem::path::string_type>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(179,27): warning C5264: 'std::filesystem::_Is_Source<std::filesystem::path>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(186,27): warning C5264: 'std::filesystem::?$_Is_Source@V?$basic_string_view@$RBAAB@$RBAAC@@std@@<std::wstring_view>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\filesystem(174,27): warning C5264: 'std::filesystem::_Is_Source<std::filesystem::file_status>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1518,28): warning C5264: 'std::chrono::April': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1519,28): warning C5264: 'std::chrono::May': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1512,30): warning C5264: 'std::chrono::Friday': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1521,28): warning C5264: 'std::chrono::July': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1511,30): warning C5264: 'std::chrono::Thursday': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1510,30): warning C5264: 'std::chrono::Wednesday': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1508,30): warning C5264: 'std::chrono::Monday': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1522,28): warning C5264: 'std::chrono::August': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1517,28): warning C5264: 'std::chrono::March': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1524,28): warning C5264: 'std::chrono::October': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1516,28): warning C5264: 'std::chrono::February': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1513,30): warning C5264: 'std::chrono::Saturday': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(75,32): warning C5264: 'std::chrono::_Is_duration_v<std::chrono::duration<double,std::ratio<1,1>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(75,32): warning C5264: 'std::chrono::_Is_duration_v<_Internal_duration>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(75,32): warning C5264: 'std::chrono::_Is_duration_v<std::chrono::duration<int,std::ratio<2629746,1>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<long double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<unsigned __int64>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<unsigned int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<std::chrono::duration<int,std::ratio<3600,1>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<std::chrono::days>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<std::chrono::duration<int,std::ratio<31556952,1>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<std::chrono::duration<__int64,std::ratio<1,1>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\__msvc_chrono.hpp(35,32): warning C5264: 'std::chrono::treat_as_floating_point_v<std::chrono::duration<__int64,std::nano>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1525,28): warning C5264: 'std::chrono::November': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1523,28): warning C5264: 'std::chrono::September': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\chrono(1509,30): warning C5264: 'std::chrono::Tuesday': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const unsigned int&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const char*const &>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const char8_t*const &>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const char16_t*const &>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const char32_t&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const char32_t*const &>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::back_insert_iterator<std::_Fmt_buffer<char>>&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::back_insert_iterator<std::_Fmt_buffer<wchar_t>>&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::chrono::duration<__int64,std::ratio<1,1>>&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const int&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>&>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>&>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>&>': 'const' variable is not used
+          with
+          [
+              _Ty=std::wstring_view
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::filesystem::_Path_iterator<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>>&>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::chrono::leap_second*const &>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const _Uint_type*const &>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::chrono::time_point<std::chrono::system_clock,std::chrono::seconds>&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_String_view_iterator<_Traits>&>': 'const' variable is not used
+          with
+          [
+              _Traits=std::char_traits<char>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_String_view_iterator<_Traits>&>': 'const' variable is not used
+          with
+          [
+              _Traits=std::char_traits<wchar_t>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>&>': 'const' variable is not used
+          with
+          [
+              _Elem=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const unsigned char&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_Unicode_codepoint_iterator<_CharT>&>': 'const' variable is not used
+          with
+          [
+              _CharT=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(261,28): warning C5264: 'std::is_lvalue_reference_v<const std::_Unicode_codepoint_iterator<_CharT>&>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\typeinfo(28,27): warning C5264: 'std::_Small_object_num_ptrs': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\mutex(534,37): warning C5264: 'std::_Init_once_init_failed': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<const char*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<std::error_condition>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<std::error_code>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<std::system_error>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<std::_Timeobj<wchar_t,const tm *>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<__std_win_error>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\system_error(44,28): warning C5264: 'std::is_error_code_enum_v<std::ios_base&(__cdecl *)(std::ios_base &)>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(3690,41): warning C5264: 'std::unreachable_sentinel': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\mutex(121,36): warning C5264: 'std::defer_lock': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(1007,5): warning C5264: 'std::?$_Wrapped_seekable_v@$RBAAB@$RBAAC@$$Yvoid_t@std@@$<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,const wchar_t*const &,void>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(1003,28): warning C5264: 'std::_Wrapped_seekable_v<const wchar_t*,const wchar_t*const &,void>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xcharconv_ryu_tables.h(81,38): warning C5264: 'std::__DIGIT_TABLE<wchar_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xmemory(2332,31): warning C5264: 'std::from_range': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(2054,23): warning C5264: 'std::_Is_trivially_swappable_v<std::byte>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(179,28): warning C5264: 'std::is_integral_v<std::_Timeobj<wchar_t,const tm *>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(179,28): warning C5264: 'std::is_integral_v<std::ios_base&(__cdecl *)(std::ios_base &)>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xmemory(123,30): warning C5264: 'std::_Big_allocation_sentinel': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(162,28): warning C5264: 'std::disjunction_v<std::is_array<std::filesystem::_Dir_enum_impl>,std::is_void<std::filesystem::_Dir_enum_impl>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(162,28): warning C5264: 'std::disjunction_v<std::is_array<std::filesystem::_Recursive_dir_enum_impl>,std::is_void<std::filesystem::_Recursive_dir_enum_impl>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\new(26,38): warning C5264: 'std::destroying_delete': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(896,28): warning C5264: 'std::_Unwrappable_v<const wchar_t*,void>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(4822,23): warning C5264: 'std::_Lex_compare_memcmp_classify_elements<std::byte,std::byte>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(4505,23): warning C5264: 'std::_Can_memcmp_elements<std::byte,std::byte,false>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xstring(938,28): warning C5264: 'std::_Is_EcharT<char32_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xstring(938,28): warning C5264: 'std::_Is_EcharT<char>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xstring(938,28): warning C5264: 'std::_Is_EcharT<char16_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xstring(938,28): warning C5264: 'std::_Is_EcharT<std::filesystem::path::string_type>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<const char*,std::_Alloc_unpack_tuple_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<const char*,std::_Alloc_exact_args_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<const char*,std::_Exact_args_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<std::_Exact_args_t,std::_Alloc_exact_args_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<std::_Exact_args_t,std::_Exact_args_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<std::_Exact_args_t,std::_Alloc_unpack_tuple_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xtr1common(74,28): warning C5264: 'std::is_same_v<std::_Exact_args_t,std::_Unpack_tuple_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(812,28): warning C5264: 'std::?$_Is_iterator_v@$RBAAB@$$Yvoid_t@std@@$std:?$iterator_traits@$RBAAB@:iterator_category:<const std::chrono::leap_second*,void>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(812,28): warning C5264: 'std::?$_Is_iterator_v@$RBAAB@$$Yvoid_t@std@@$std:?$iterator_traits@$RBAAB@:iterator_category:<const wchar_t*,void>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(812,28): warning C5264: 'std::?$_Is_iterator_v@$RBAAB@$$Yvoid_t@std@@$std:?$iterator_traits@$RBAAB@:iterator_category:<char*,void>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(812,28): warning C5264: 'std::?$_Is_iterator_v@$RBAAB@$$Yvoid_t@std@@$std:?$iterator_traits@$RBAAB@:iterator_category:<wchar_t*,void>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const __int64&,std::chrono::system_clock::rep>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::chrono::duration<int,std::ratio<3600,1>>&,__int64>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::chrono::duration<__int64,std::nano>&,double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const _ToRep&,double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const unsigned __int64&,int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const long double&,double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const unsigned __int64&,__int64>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const unsigned int&,int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const __int64&,int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<std::chrono::days,std::chrono::seconds>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::chrono::days&,__int64>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const int&,__int64>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::_String_constructor_concat_tag&,std::basic_string_view<char,std::char_traits<char>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::chrono::duration<int,std::ratio<31556952,1>>&,int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::chrono::duration<int,std::ratio<86400,1>>&,int>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<std::chrono::duration<int,std::ratio<3600,1>>,std::chrono::seconds>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const std::chrono::duration<__int64,std::ratio<1,1>>&,std::chrono::system_clock::rep>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<const wchar_t*const &,std::basic_string_view<char16_t,std::char_traits<char16_t>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(339,28): warning C5264: 'std::is_convertible_v<char32_t&&,const char32_t&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\optional(37,28): warning C5264: 'std::nullopt': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(330,28): warning C5264: 'std::_Pass_functor_by_value_v<std::_Widen_char<_CharT>>': 'const' variable is not used
+          with
+          [
+              _CharT=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(330,28): warning C5264: 'std::_Pass_functor_by_value_v<std::identity>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xutility(330,28): warning C5264: 'std::_Pass_functor_by_value_v<std::_Widen_char<_CharT>>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\new(39,25): warning C5264: 'std::hardware_destructive_interference_size': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(251,23): warning C5264: 'std::is_unbounded_array_v<std::filesystem::_Dir_enum_impl>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(251,23): warning C5264: 'std::is_unbounded_array_v<std::filesystem::_Recursive_dir_enum_impl>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\new(38,25): warning C5264: 'std::hardware_constructive_interference_size': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Tuple_constructible_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,const char *&,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Tuple_constructible_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,const char *&,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<std::vector<std::chrono::leap_second,std::allocator<std::chrono::leap_second>>,std::vector<std::chrono::leap_second,std::allocator<std::chrono::leap_second>>>,std::is_constructible<bool,bool &>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_copy_constructible<std::vector<std::chrono::leap_second,std::allocator<std::chrono::leap_second>>>,std::is_copy_constructible<bool>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<int,int>,std::is_constructible<int,int &>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_copy_constructible<_Ty>,std::is_copy_constructible<_Ty>>': 'const' variable is not used
+          with
+          [
+              _Ty=int
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<__std_win_error,__std_win_error &>,std::is_constructible<bool,bool>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_copy_constructible<__std_win_error>,std::is_copy_constructible<bool>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<__std_win_error,__std_win_error>,std::is_constructible<bool,bool>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Uint_type>,std::is_trivially_copyable<_Floating>>': 'const' variable is not used
+          with
+          [
+              _Floating=float
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Floating>,std::is_trivially_copyable<_Uint_type>>': 'const' variable is not used
+          with
+          [
+              _Floating=float
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Uint_type>,std::is_trivially_copyable<_Floating>>': 'const' variable is not used
+          with
+          [
+              _Floating=double
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Floating>,std::is_trivially_copyable<_Uint_type>>': 'const' variable is not used
+          with
+          [
+              _Floating=double
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,_Ty,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Tuple_constructible_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,_Ty,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Exact_args_t,const char *&,_Ty,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Tuple_constructible_val<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Exact_args_t,const char *&,_Ty,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::negation<std::is_same<std::optional<int>,int>>,std::negation<std::conjunction<std::is_scalar<_Ty>,std::is_same<int,int>>>,std::is_constructible<_Ty,const _Ty &>,std::is_assignable<int &,const _Ty &>>': 'const' variable is not used
+          with
+          [
+              _Ty=int
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::negation<std::is_same<int,std::optional<int>>>,std::negation<std::is_same<int,std::in_place_t>>,std::is_constructible<int,const _Ty &>>': 'const' variable is not used
+          with
+          [
+              _Ty=int
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Uint_type>,std::is_trivially_copyable<_Ty>>': 'const' variable is not used
+          with
+          [
+              _Ty=long double
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,_Ty>,std::_Tuple_constructible_val<std::tuple<std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,_Ty>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Exact_args_t,_Ty,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Tuple_constructible_val<std::tuple<std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Exact_args_t,_Ty,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<std::filesystem::path::iterator,_InIt1 &>,std::is_constructible<std::filesystem::path::iterator,_InIt1 &>>': 'const' variable is not used
+          with
+          [
+              _InIt1=std::filesystem::path::iterator
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_copy_constructible<std::filesystem::path::iterator>,std::is_copy_constructible<std::filesystem::path::iterator>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<_Uint_type>>': 'const' variable is not used
+          with
+          [
+              _Ty=long double
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<char *,_CharT *const &>,std::is_constructible<std::errc,std::errc>>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_copy_constructible<char *>,std::is_copy_constructible<std::errc>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<char *,_CharT *>,std::is_constructible<std::errc,std::errc>>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_constructible<char *,_CharT *&>,std::is_constructible<std::errc,std::errc>>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::is_default_constructible<std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::_Tuple_perfect_val<std::tuple<std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Exact_args_t,_Ty>,std::_Tuple_constructible_val<std::tuple<std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::_Exact_args_t,_Ty>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [4]>>': 'const' variable is not used
+          with
+          [
+              _Ty=int
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Uint_type>,std::is_trivially_copyable<unsigned char [4]>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Ty=__int64
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Uint_type>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [1]>>': 'const' variable is not used
+          with
+          [
+              _Ty=bool
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [2]>>': 'const' variable is not used
+          with
+          [
+              _Ty=_CharType
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Floating>,std::is_trivially_copyable<unsigned char [4]>>': 'const' variable is not used
+          with
+          [
+              _Floating=float
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Floating>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Floating=double
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Ty=long double
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [4]>>': 'const' variable is not used
+          with
+          [
+              _Ty=const void *
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [4]>>': 'const' variable is not used
+          with
+          [
+              _Ty=const _CharType *
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::basic_string_view<wchar_t,std::char_traits<wchar_t>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::basic_format_arg<std::wformat_context>::handle
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [1]>>': 'const' variable is not used
+          with
+          [
+              _Ty=_CharType
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::basic_string_view<char,std::char_traits<char>>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(64,28): warning C5264: 'std::conjunction_v<std::integral_constant<bool,true>,std::is_trivially_copyable<_Ty>,std::is_trivially_copyable<unsigned char [8]>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::basic_format_arg<std::format_context>::handle
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(830,60): warning C5264: 'std::_Cpos::compare_partial_order_fallback': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(713,59): warning C5264: 'std::_Cpos::compare_strong_order_fallback': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(653,43): warning C5264: 'std::_Cpos::partial_order': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(767,57): warning C5264: 'std::_Cpos::compare_weak_order_fallback': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(456,42): warning C5264: 'std::_Cpos::strong_order': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(576,40): warning C5264: 'std::_Cpos::weak_order': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<float>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<long double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::ios_base::iostate>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::streamsize>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<wchar_t*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::default_delete<std::_Facet_base>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::ios_base::_Iosarray*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::ios_base::_Fnarray*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::locale*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Stop_state*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<_Thrd_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Fmt_it>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Fmt_wit>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Tzdb_deleter<__std_tzdb_current_zone_info>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Tzdb_deleter<__std_tzdb_time_zones_info>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Tzdb_deleter<__std_tzdb_leap_info[]>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::wstring_view
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::filesystem::path::iterator>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::default_delete<wchar_t []>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::default_delete<Nt::Char *>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::filesystem::_Recursive_dir_enum_impl*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Ref_count_base*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::filesystem::_Dir_enum_impl*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_String_view_iterator<_Traits>>': 'const' variable is not used
+          with
+          [
+              _Traits=std::char_traits<wchar_t>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>>': 'const' variable is not used
+          with
+          [
+              _Elem=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_String_view_iterator<_Traits>>': 'const' variable is not used
+          with
+          [
+              _Traits=std::char_traits<char>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Unicode_codepoint_iterator<_CharT>>': 'const' variable is not used
+          with
+          [
+              _CharT=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(667,28): warning C5264: 'std::is_move_constructible_v<std::_Unicode_codepoint_iterator<_CharT>>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(1153,30): warning C5264: 'std::extent_v<Nt::Char*,0>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\utility(114,45): warning C5264: 'std::piecewise_construct': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\limits(1197,16): warning C5264: 'std::_Is_standard_unsigned_integer<std::_Vbase>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\tuple(132,31): warning C5264: 'std::ignore': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\mutex(122,37): warning C5264: 'std::try_to_lock': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\compare(273,32): warning C5264: 'std::_Classify_category<std::weak_ordering>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\tuple(44,28): warning C5264: 'std::_Tuple_constructible_v<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\tuple(44,28): warning C5264: 'std::_Tuple_constructible_v<std::tuple<std::string,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,const std::string&,const std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>&,const std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\tuple(44,28): warning C5264: 'std::_Tuple_constructible_v<std::tuple<std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\tuple(44,28): warning C5264: 'std::_Tuple_constructible_v<std::tuple<std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>,std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>>,const std::vector<std::chrono::time_zone,std::allocator<std::chrono::time_zone>>&,const std::vector<std::chrono::time_zone_link,std::allocator<std::chrono::time_zone_link>>&>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\mutex(120,36): warning C5264: 'std::adopt_lock': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<float>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<long double>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::ios_base::iostate>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::streamsize>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<wchar_t*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::ios_base::_Iosarray*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::ios_base::_Fnarray*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::locale*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_Stop_state*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<_Thrd_t>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_Fmt_it>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_Fmt_wit>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_List_iterator<std::_List_val<std::_List_simple_types<_Ty>>>>': 'const' variable is not used
+          with
+          [
+              _Ty=std::wstring_view
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::filesystem::path::iterator>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::filesystem::_Recursive_dir_enum_impl*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_Ref_count_base*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::filesystem::_Dir_enum_impl*>': 'const' variable is not used
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>>': 'const' variable is not used
+          with
+          [
+              _Elem=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_String_view_iterator<_Traits>>': 'const' variable is not used
+          with
+          [
+              _Traits=std::char_traits<wchar_t>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>>': 'const' variable is not used
+          with
+          [
+              _Elem=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_String_view_iterator<_Traits>>': 'const' variable is not used
+          with
+          [
+              _Traits=std::char_traits<char>
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_Unicode_codepoint_iterator<_CharT>>': 'const' variable is not used
+          with
+          [
+              _CharT=wchar_t
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\type_traits(716,28): warning C5264: 'std::is_move_assignable_v<std::_Unicode_codepoint_iterator<_CharT>>': 'const' variable is not used
+          with
+          [
+              _CharT=char
+          ]
+E:\VS 2022\VC\Tools\MSVC\14.34.31933\include\xatomic_wait.h(22,42): warning C5264: '_Atomic_wait_no_deadline': 'const' variable is not used
+     Creating library C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\NeutroniumCore32.lib and object C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\NeutroniumCore32.exp
+  Generating code
+C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\String.h(153): warning C4710: 'class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > __cdecl std::to_string(float)': function not inlined
+  2 of 788 functions ( 0.3%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  NeutroniumCore.vcxproj -> C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\NeutroniumCore32.dll

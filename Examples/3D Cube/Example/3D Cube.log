@@ -1,0 +1,317 @@
+﻿  _Main.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\winbase.h(7794,48): warning C5039: 'TpSetCallbackCleanupGroup': pointer or reference to potentially throwing function passed to 'extern "C"' function under -EHc. Undefined behavior may occur if this function throws an exception.
+E:\VS 2022\VC\Tools\MSVC\14.33.31629\include\xmemory(156,5): warning C4365: 'argument': conversion from 'long' to 'unsigned int', signed/unsigned mismatch
+E:\VS 2022\VC\Tools\MSVC\14.33.31629\include\xmemory(166,5): warning C4365: 'argument': conversion from 'long' to 'unsigned int', signed/unsigned mismatch
+E:\VS 2022\VC\Tools\MSVC\14.33.31629\include\atomic(206,9): warning C4365: 'argument': conversion from 'long' to 'unsigned int', signed/unsigned mismatch
+E:\VS 2022\VC\Tools\MSVC\14.33.31629\include\atomic(221,9): warning C4365: 'argument': conversion from 'long' to 'unsigned int', signed/unsigned mismatch
+E:\VS 2022\VC\Tools\MSVC\14.33.31629\include\atomic(237,9): warning C4365: 'argument': conversion from 'long' to 'unsigned int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector2D.h(216,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector2D.h(224): message : see reference to class template instantiation 'Nt::Vector2D<_Ty>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector2D.h(221,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(243,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(267): message : see reference to class template instantiation 'Nt::Vector3D<_Ty>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(247,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(251,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(256,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(260,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(264,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(265,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(307): message : see reference to class template instantiation 'Nt::Vector4D<_Ty>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(269,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(274,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(278,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(282,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(287,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(291,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(296,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(300,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(304,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(62,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(70): message : see reference to class template instantiation 'Nt::Rect<_Ty>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(68,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix3x3.h(150,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix3x3.h(5,22): warning C4582: 'Nt::Matrix3x3::Rows': constructor is not implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix3x3.h(8,22): warning C4582: 'Nt::Matrix3x3::Rows': constructor is not implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(211,5): warning C4201: nonstandard extension used: nameless struct/union
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(5,22): warning C4582: 'Nt::Matrix4x4::Rows': constructor is not implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(8,22): warning C4582: 'Nt::Matrix4x4::Rows': constructor is not implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(102,10): warning C5219: implicit conversion from 'Nt::uInt' to 'const float', possible loss of data
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(104,10): warning C5219: implicit conversion from 'Nt::uInt' to 'const float', possible loss of data
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(111,9): warning C5219: implicit conversion from 'Nt::uInt' to 'const float', possible loss of data
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(9): message : while compiling class template member function 'Nt::Vector4D<Nt::Float>::Vector4D(const _Ty &,const _Ty &,const _Ty &,const _Ty &)'
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(212): message : see reference to class template instantiation 'Nt::Vector4D<Nt::Float>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::zw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xyz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yzw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::ba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rgb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(10,22): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Serialization.h(13,2): warning C5204: 'Nt::ISerialization': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Serialization.h(10,42): warning C4100: 'ClassType': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(14,2): warning C5204: 'Nt::JSONDataType': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(40,2): warning C4265: 'Nt::JSONString': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(52,2): warning C5204: 'Nt::JSONInt': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(64,2): warning C5204: 'Nt::JSONFloat': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(76,2): warning C4820: 'Nt::JSONBool': '3' bytes padding added after data member 'Nt::JSONBool::Data'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(76,2): warning C5204: 'Nt::JSONBool': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\DataTypes.h(101,28): warning C4365: 'argument': conversion from 'const Nt::uInt' to 'const Nt::Int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\JSON.h(36,1): warning C4242: 'initializing': conversion from 'int' to 'char', possible loss of data
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\JSON.h(89,181): warning C4100: 'CurrentValue': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\JSON.h(89,39): warning C4100: 'Iterator': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\JSON.h(117,181): warning C4100: 'CurrentValue': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\JSON.h(117,39): warning C4100: 'Iterator': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\JSON\JSON.h(141,95): warning C4100: 'Contaiters': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics.h(8,1): warning C4005: 'ERROR_MSGW': macro redefinition
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core.h(17): message : see previous definition of 'ERROR_MSGW'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics.h(9,1): warning C4005: 'INFO_MSGW': macro redefinition
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core.h(18): message : see previous definition of 'INFO_MSGW'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics.h(10,1): warning C4005: 'WARNING_MSGW': macro redefinition
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core.h(19): message : see previous definition of 'WARNING_MSGW'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics.h(12,1): warning C4005: 'ERROR_MSGA': macro redefinition
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core.h(21): message : see previous definition of 'ERROR_MSGA'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics.h(13,1): warning C4005: 'INFO_MSGA': macro redefinition
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core.h(22): message : see previous definition of 'INFO_MSGA'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics.h(14,1): warning C4005: 'WARNING_MSGA': macro redefinition
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core.h(23): message : see previous definition of 'WARNING_MSGA'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(26,2): warning C4820: 'Nt::Face': '2' bytes padding added after data member 'Nt::Face::Indices'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(55,1): warning C4365: 'argument': conversion from 'unsigned int' to 'GLsizeiptr', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(63,1): warning C4365: 'argument': conversion from 'unsigned int' to 'GLsizeiptr', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(136,1): warning C4365: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(136,1): warning C4365: 'initializing': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(137,1): warning C4365: 'argument': conversion from 'const Nt::uInt' to 'GLint', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\IObject.h(138,2): warning C4820: 'Nt::IObject': '2' bytes padding added after data member 'Nt::IObject::m_IsVisible'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\IObject.h(138,2): warning C5204: 'Nt::IObject': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(281,2): warning C4820: 'Nt::Shader': '3' bytes padding added after data member 'Nt::Shader::m_fStrict'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(104,1): warning C4365: 'initializing': conversion from 'Nt::Int' to 'unsigned int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(184,1): warning C4365: 'initializing': conversion from 'Nt::uInt' to 'Nt::Int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(184,1): warning C4365: 'initializing': conversion from 'Nt::uInt' to 'const Nt::Int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(224,1): warning C4365: 'return': conversion from 'const Nt::Int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(272,1): warning C4365: 'initializing': conversion from 'Nt::Int' to 'unsigned int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(319,2): warning C4820: 'Nt::Window': '2' bytes padding added after data member 'Nt::Window::m_IsError'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(60,4): warning C4265: 'Nt::Window': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(133,1): warning C4365: 'argument': conversion from 'const Nt::uInt' to 'int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(148,1): warning C4365: 'argument': conversion from 'unsigned long' to 'LONG', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(151,1): warning C4365: 'argument': conversion from 'unsigned long' to 'LONG', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(154,1): warning C4365: 'argument': conversion from 'unsigned long' to 'LONG', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(157,1): warning C4365: 'argument': conversion from 'unsigned long' to 'LONG', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(217,46): warning C4100: 'pWindowStruct': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(218,57): warning C4100: 'Height': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(218,38): warning C4100: 'Width': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(253,1): warning C4365: '=': conversion from '_Ty' to 'Nt::uInt', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Int
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(254,1): warning C4365: '=': conversion from '_Ty' to 'Nt::uInt', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Int
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(257,1): warning C4365: '=': conversion from 'Nt::uInt' to '_Ty', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Int
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(258,1): warning C4365: '=': conversion from 'Nt::uInt' to '_Ty', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Int
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(296,1): warning C4365: 'argument': conversion from 'short' to 'const Nt::DWord', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\IResource.h(80,16): warning C4820: 'Nt::IResource': '3' bytes padding added after data member 'Nt::IResource::m_IsLoaded'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\IResource.h(103,2): warning C4626: 'Nt::IResource': assignment operator was implicitly defined as deleted
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\IResource.h(20,4): warning C4265: 'Nt::IResource': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Image.h(142,2): warning C4626: 'Nt::Image': assignment operator was implicitly defined as deleted
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Image.h(77,1): warning C4365: '=': conversion from 'Nt::Short' to '_Ty', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Word
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Image.h(78,1): warning C4365: '=': conversion from 'Nt::Short' to '_Ty', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Word
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Image.h(79,1): warning C4365: '=': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Texture.h(82,2): warning C4626: 'Nt::Texture': assignment operator was implicitly defined as deleted
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Texture.h(18,4): warning C4265: 'Nt::Texture': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Texture.h(61,1): warning C4365: 'argument': conversion from '_Ty' to 'GLint', signed/unsigned mismatch
+          with
+          [
+              _Ty=Nt::Word
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(135,2): warning C4820: 'Nt::Mesh': '3' bytes padding added after data member 'Nt::Mesh::m_IsUsedIndexBuffer'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(135,2): warning C4626: 'Nt::Mesh': assignment operator was implicitly defined as deleted
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(27,4): warning C4265: 'Nt::Mesh': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(17,4): warning C5038: data member 'Nt::Mesh::m_IsUsedIndexBuffer' will be initialized after data member 'Nt::Mesh::m_Scale'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(18,4): warning C5038: data member 'Nt::Mesh::m_Scale' will be initialized after data member 'Nt::Mesh::m_pVertexArray'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(490,2): warning C4820: 'Nt::Renderer': '2' bytes padding added after data member 'Nt::Renderer::m_IsInitialized'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(57,4): warning C5038: data member 'Nt::Renderer::m_Is3DEnabled' will be initialized after data member 'Nt::Renderer::m_Zoom'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(58,4): warning C5038: data member 'Nt::Renderer::m_Zoom' will be initialized after data member 'Nt::Renderer::m_FPSLimit'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(60,4): warning C5038: data member 'Nt::Renderer::m_FPSCounter' will be initialized after data member 'Nt::Renderer::m_DrawingMode'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(61,4): warning C5038: data member 'Nt::Renderer::m_DrawingMode' will be initialized after data member 'Nt::Renderer::m_Color'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(63,4): warning C5038: data member 'Nt::Renderer::m_IsInitialized' will be initialized after data member 'Nt::Renderer::m_ShaderPtr'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(71,1): warning C4365: 'argument': conversion from 'LONG' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(82,1): warning C4365: 'argument': conversion from 'Nt::uInt' to 'GLsizei', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(125,23): warning C4244: 'argument': conversion from 'Nt::uLLong' to 'DWORD', possible loss of data
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(152,1): warning C4365: 'argument': conversion from 'unsigned int' to 'GLsizei', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(154,1): warning C4365: 'argument': conversion from 'unsigned int' to 'GLsizei', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(317,21): warning C5219: implicit conversion from 'const Nt::uInt' to 'float', possible loss of data
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(429,1): warning C4365: 'argument': conversion from 'LONG' to 'const Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(510,4): warning C4265: 'Nt::RenderWindow': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(611,38): warning C4100: 'pWindowStruct': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Model.h(30,4): warning C4265: 'Nt::Model': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Sprite.h(126,2): warning C4626: 'Nt::Sprite': assignment operator was implicitly defined as deleted
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Sprite.h(38,4): warning C4265: 'Nt::Sprite': class has virtual functions, but its non-trivial destructor is not virtual; instances of this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Sprite.h(89,1): warning C4245: '=': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Camera.h(40,2): warning C5204: 'Nt::Camera': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Camera.h(38,33): warning C4100: 'pRenderer': unreferenced formal parameter
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Camera.h(121,2): warning C4820: 'Nt::Camera2D': '3' bytes padding added after data member 'Nt::Camera2D::m_fClampPosition'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Camera.h(121,2): warning C5204: 'Nt::Camera2D': class has virtual functions, but its trivial destructor is not virtual; instances of objects derived from this class may not be destructed correctly
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(10,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(9): message : while compiling class template member function 'Nt::Vector3D<Nt::Float>::Vector3D(const _Ty &,const _Ty &,const _Ty &) noexcept'
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(41): message : see reference to function template instantiation 'Nt::Vector3D<Nt::Float>::Vector3D(const _Ty &,const _Ty &,const _Ty &) noexcept' being compiled
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix3x3.h(151): message : see reference to class template instantiation 'Nt::Vector3D<Nt::Float>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(10,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(10,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(10,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::KEY_UP' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::NONE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::WINDOW_CREATED' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::WINDOW_RESIZE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::MOUSE_MOVE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::MOUSE_ACTIVATE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::MOUSE_HOVER' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::MOUSE_LEAVE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::MOUSE_WHEEL' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::MOUSE_HWHEEL' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::NOT_CLIENT_MOUSE_HOVER' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::NOT_CLIENT_MOUSE_LEAVE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Examples\3D Cube\_Main.cpp(35,5): warning C4062: enumerator 'Nt::Event::Types::NOT_CLIENT_MOUSE_MOVE' in switch of enum 'Nt::Event::Types' is not handled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(17): message : see declaration of 'Nt::Event::Types'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Word>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(6): message : while compiling class template member function 'Nt::Vector3D<Nt::Word>::Vector3D(void) noexcept'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(502): message : see reference to function template instantiation 'Nt::Vector3D<Nt::Word>::Vector3D(void) noexcept' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(54): message : see reference to class template instantiation 'Nt::Vector3D<Nt::Word>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Word>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Word>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Word>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(25,1): warning C4587: 'Nt::Rect<Nt::Int>::<unnamed-tag>::LeftTop': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(21): message : while compiling class template member function 'Nt::Rect<Nt::Int>::Rect(const RECT &) noexcept'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(13): message : see reference to function template instantiation 'Nt::Rect<Nt::Int>::Rect(const RECT &) noexcept' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Window.h(10): message : see reference to class template instantiation 'Nt::Rect<Nt::Int>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(25,1): warning C4587: 'Nt::Rect<Nt::Int>::<unnamed-tag>::RightBottom': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(18,1): warning C4587: 'Nt::Rect<Nt::Float>::<unnamed-tag>::LeftTop': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(14): message : while compiling class template member function 'Nt::Rect<Nt::Float>::Rect(const _Ty &,const _Ty &,const _Ty &,const _Ty &) noexcept'
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(74): message : see reference to function template instantiation 'Nt::Rect<Nt::Float>::Rect(const _Ty &,const _Ty &,const _Ty &,const _Ty &) noexcept' being compiled
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(34): message : see reference to class template instantiation 'Nt::Rect<Nt::Float>' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Rect.h(18,1): warning C4587: 'Nt::Rect<Nt::Float>::<unnamed-tag>::RightBottom': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(33): message : while compiling class template member function 'Nt::Vector4D<Nt::Float>::Vector4D(const Nt::Vector3D<Nt::Float> &)'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(96): message : see reference to function template instantiation 'Nt::Vector4D<Nt::Float>::Vector4D(const Nt::Vector3D<Nt::Float> &)' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::zw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xyz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yzw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::ba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rgb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(34,42): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(24): message : while compiling class template member function 'Nt::Vector4D<Nt::Float>::Vector4D(const Nt::Vector3D<Nt::Float> &,const _Ty &)'
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(11): message : see reference to function template instantiation 'Nt::Vector4D<Nt::Float>::Vector4D(const Nt::Vector3D<Nt::Float> &,const _Ty &)' being compiled
+          with
+          [
+              _Ty=Nt::Float
+          ]
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::zw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xyz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yzw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::ba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rgb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(25,36): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(6): message : while compiling class template member function 'Nt::Vector4D<Nt::Float>::Vector4D(void)'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(9): message : see reference to function template instantiation 'Nt::Vector4D<Nt::Float>::Vector4D(void)' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::xyz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::yzw': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::ba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::rgb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector4D.h(7,10): warning C4587: 'Nt::Vector4D<Nt::Float>::<unnamed-tag>::gba': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(19,32): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(18): message : while compiling class template member function 'Nt::Vector3D<Nt::Float>::Vector3D(const Nt::Vector2D<Nt::Float> &) noexcept'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(41): message : see reference to function template instantiation 'Nt::Vector3D<Nt::Float>::Vector3D(const Nt::Vector2D<Nt::Float> &) noexcept' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(19,32): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(19,32): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(19,32): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::xy': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(6): message : while compiling class template member function 'Nt::Vector3D<Nt::Float>::Vector3D(void) noexcept'
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix3x3.h(103): message : see reference to function template instantiation 'Nt::Vector3D<Nt::Float>::Vector3D(void) noexcept' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::yz': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::rg': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Vector3D.h(7,16): warning C4587: 'Nt::Vector3D<Nt::Float>::<unnamed-tag>::gb': behavior change: constructor is no longer implicitly called
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(166,3): warning C4365: 'initializing': conversion from 'Nt::uInt' to 'Nt::Int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(347): message : see reference to function template instantiation 'void Nt::Shader::SetUniformVec4<Nt::Float>(const Nt::String,const Nt::uInt &,const Nt::Vector4D<Nt::Float> &) const' being compiled
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Shader.h(166,3): warning C4365: 'initializing': conversion from 'Nt::uInt' to 'const Nt::Int', signed/unsigned mismatch
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(136): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(135): message : index 'i' range checked by comparison on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\Geometry.h(136): message : feeds call on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(131): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(128): message : index '' range checked by comparison on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(131): message : feeds call on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(125): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(124): message : index '' range checked by comparison on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\RenderWindow.h(125): message : feeds call on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(177): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(173): message : index 'i' range checked by comparison on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Core\Math\Matrix4x4.h(177): message : feeds call on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(137): warning C5045: Compiler will insert Spectre mitigation for memory load if /Qspectre switch specified
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(132): message : index 'i' range checked by comparison on this line
+C:\Users\kings\Desktop\всякие визуалы\Neutronium\Include\Nt\Graphics\VertexArray.h(137): message : feeds call on this line
+  3D Cube.vcxproj -> C:\Users\kings\Desktop\всякие визуалы\Neutronium\Bin\3D Cube.exe

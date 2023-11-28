@@ -1,0 +1,106 @@
+﻿  Collision.cpp
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\VertexArray.h(134,1): warning C4312: 'type cast': conversion from 'Nt::uInt' to 'LPCVOID' of greater size
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4311: 'reinterpret_cast': pointer truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4302: 'reinterpret_cast': truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(215,43): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(218,41): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(64,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(68,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(81,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(92,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(137,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(139,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Font.h(99,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(128,1): warning C4267: 'initializing': conversion from 'size_t' to 'UINT', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(189): message : see reference to function template instantiation 'void Nt::Serialization::_Write<_Ty>(std::ostream &,_Ty &)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(73): message : see reference to function template instantiation 'void Nt::Serialization::_WriteRecursive<Nt::cString>(std::ostream &,_Ty)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\IResource.h(25): message : see reference to function template instantiation 'void Nt::Serialization::WriteAll<Nt::cString>(std::ostream &,const Nt::cString &)' being compiled
+  RenderWindow.cpp
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\VertexArray.h(134,1): warning C4312: 'type cast': conversion from 'Nt::uInt' to 'LPCVOID' of greater size
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4311: 'reinterpret_cast': pointer truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4302: 'reinterpret_cast': truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(215,43): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(218,41): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(64,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(68,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(81,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(92,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(137,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(139,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Font.h(99,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(128,1): warning C4267: 'initializing': conversion from 'size_t' to 'UINT', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(189): message : see reference to function template instantiation 'void Nt::Serialization::_Write<_Ty>(std::ostream &,_Ty &)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(73): message : see reference to function template instantiation 'void Nt::Serialization::_WriteRecursive<Nt::cString>(std::ostream &,_Ty)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\IResource.h(25): message : see reference to function template instantiation 'void Nt::Serialization::WriteAll<Nt::cString>(std::ostream &,const Nt::cString &)' being compiled
+  ResourceMenager.cpp
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\VertexArray.h(134,1): warning C4312: 'type cast': conversion from 'Nt::uInt' to 'LPCVOID' of greater size
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4311: 'reinterpret_cast': pointer truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4302: 'reinterpret_cast': truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(215,43): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(218,41): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(64,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(68,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(81,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(92,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(137,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(139,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Font.h(99,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\ResourceMenager.cpp(62,3): warning C4267: 'return': conversion from 'size_t' to 'Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(128,1): warning C4267: 'initializing': conversion from 'size_t' to 'UINT', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(189): message : see reference to function template instantiation 'void Nt::Serialization::_Write<_Ty>(std::ostream &,_Ty &)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(73): message : see reference to function template instantiation 'void Nt::Serialization::_WriteRecursive<Nt::cString>(std::ostream &,_Ty)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\IResource.h(25): message : see reference to function template instantiation 'void Nt::Serialization::WriteAll<Nt::cString>(std::ostream &,const Nt::cString &)' being compiled
+  Window.cpp
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\VertexArray.h(134,1): warning C4312: 'type cast': conversion from 'Nt::uInt' to 'LPCVOID' of greater size
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4311: 'reinterpret_cast': pointer truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(188,1): warning C4302: 'reinterpret_cast': truncation from 'Nt::Window *' to 'LONG'
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(215,43): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Window.h(218,41): warning C4244: 'argument': conversion from 'WPARAM' to 'const Nt::DWord', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(64,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(68,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(81,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\Mesh.h(92,1): warning C4267: 'argument': conversion from 'size_t' to 'const Nt::uInt', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(137,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\RenderWindow.h(139,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Font.h(99,1): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(128,1): warning C4267: 'initializing': conversion from 'size_t' to 'UINT', possible loss of data
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(189): message : see reference to function template instantiation 'void Nt::Serialization::_Write<_Ty>(std::ostream &,_Ty &)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumUtilities\Utilities\Serialization.h(73): message : see reference to function template instantiation 'void Nt::Serialization::_WriteRecursive<Nt::cString>(std::ostream &,_Ty)' being compiled
+          with
+          [
+              _Ty=Nt::cString
+          ]
+C:\Users\kings\Desktop\Minecraft\NeutroniumGraphics\Graphics\Resources\IResource.h(25): message : see reference to function template instantiation 'void Nt::Serialization::WriteAll<Nt::cString>(std::ostream &,const Nt::cString &)' being compiled
+  Generating Code...
+glew64s.lib(glew.obj) : warning LNK4099: PDB 'glew_static.pdb' was not found with 'glew64s.lib(glew.obj)' or at 'C:\Users\kings\Desktop\Minecraft\Bin 64 Debug\glew_static.pdb'; linking object as if no debug info
+     Creating library C:\Users\kings\Desktop\Minecraft\Bin 64 Debug\NeutroniumGraphics64d.lib and object C:\Users\kings\Desktop\Minecraft\Bin 64 Debug\NeutroniumGraphics64d.exp
+LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  NeutroniumGraphics.vcxproj -> C:\Users\kings\Desktop\Minecraft\Bin 64 Debug\NeutroniumGraphics64d.dll
