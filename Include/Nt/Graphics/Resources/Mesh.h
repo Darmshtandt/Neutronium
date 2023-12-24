@@ -158,32 +158,45 @@ namespace Nt {
 			std::vector<Float3D> texCoords;
 			std::vector<Float3D> normals;
 
-			std::ifstream file(GetFilePath(), std::ios::in | std::ios::binary);
+			std::ifstream file(GetFilePath());
 			Shape loadedShape;
 
-			uInt i = 0;
-			std::string line;
+			String errorMessage = "Failed to load model.\nLine: ";
+			uInt LineNumber = 0;
+
+			String line;
 			while (std::getline(file, line)) {
-				++i;
+				++LineNumber;
 				if (line == "" || line == "\r")
 					continue;
 
-				String errorMessage = "Failed to load model.\nLine: ";
-				errorMessage += i;
+				errorMessage = "Failed to load model.\nLine: ";
+				errorMessage += LineNumber;
 
-				std::stringstream stream;
-				stream << line;
-
-				std::string type;
-				stream >> type;
+				std::vector<String> splitedString = line.Split(' ');
+				const std::string type = splitedString[0];
 
 				if (type == "mtllib")
 					continue;
-				if (type == "usemtl")
+				else if (type == "#")
+					continue;
+				else if (type == "usemtl")
 					continue;
 
 				String x, y, z, w;
-				stream >> x >> y >> z >> w;
+				if (type[0] != 'f') {
+					if (splitedString.size() > 1) {
+						x = splitedString[1];
+						if (splitedString.size() > 2) {
+							y = splitedString[2];
+							if (splitedString.size() > 3) {
+								z = splitedString[3];
+								if (splitedString.size() > 4)
+									w = splitedString[4];
+							}
+						}
+					}
+				}
 
 				Float4D data;
 
@@ -250,52 +263,32 @@ namespace Nt {
 					}
 					break;
 				case 'f': {
-					String xyxw[4] = { x, y, z, w };
-					Vertex vertex;
-					for (uInt i = 0; i < 4; ++i) {
-						if (xyxw[i].length() > 0) {
-							uInt firstSlashIndex = xyxw[i].find('/');
-							if (firstSlashIndex != uInt(-1)) {
-								Int value = stoi(xyxw[i].substr(0, firstSlashIndex)) - 1;
-								if (value < 0)
-									value = positions.size() - value;
+					for (uInt i = 1; i < splitedString.size(); ++i) {
+						std::vector<String> splitedData = splitedString[i].Split('/');
 
-								vertex = { };
-								vertex.Position = positions[value];
+						if (splitedData.size() <= 1)
+							Raise(errorMessage);
 
-								uInt secondSlashIndex = xyxw[i].find('/', firstSlashIndex + 1);
-								if (secondSlashIndex != uInt(-1)) {
-									if (secondSlashIndex - firstSlashIndex > 1) {
-										value = stoi(xyxw[i].substr(firstSlashIndex + 1, secondSlashIndex)) - 1;
-										if (value < 0)
-											value = positions.size() - value;
-										vertex.TexCoord = texCoords[value];
-									}
+						Int vertexIndex = -1;
+						vertexIndex = stoi(splitedData[0]) - 1;
 
-									value = stoi(xyxw[i].substr(secondSlashIndex + 1, xyxw[i].size())) - 1;
-									if (value < 0)
-										value = positions.size() - value;
-									vertex.Normal = normals[value];
-								}
-								else {
-									value = stoi(xyxw[i].substr(firstSlashIndex + 1, secondSlashIndex)) - 1;
-									if (value < 0)
-										value = positions.size() - value;
-									vertex.TexCoord = texCoords[value];
-								}
-							}
-							else {
-								Int value = Int(xyxw[i]) - 1;
-								if (value < 0)
-									value = positions.size() - value;
+						Int texCoordIndex = -1;
+						if (splitedData[1].length() > 0)
+							texCoordIndex = stoi(splitedData[1]) - 1;
 
-								vertex = { };
-								vertex.Position = positions[value];
-							}
+						Int NormalIndex = -1;
+						if (splitedData[2].length() > 0)
+							NormalIndex = stoi(splitedData[2]) - 1;
 
-							vertex.Color = Colors::White;
-							loadedShape.Vertices.push_back(vertex);
-						}
+						Vertex vertex = { };
+						vertex.Position = positions[vertexIndex];
+						if (texCoordIndex != -1)
+							vertex.TexCoord = texCoords[texCoordIndex];
+						if (NormalIndex != -1)
+							vertex.Normal = normals[NormalIndex];
+						vertex.Color = Colors::White;
+
+						loadedShape.Vertices.push_back(vertex);
 					}
 				}
 					break;

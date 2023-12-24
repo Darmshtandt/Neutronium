@@ -1,53 +1,279 @@
 ﻿  HandleWindow.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Graphics\HandleWindow.cpp(400,17): warning C4456: declaration of 'pItem' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Graphics\HandleWindow.cpp(390,16): message : see declaration of 'pItem'
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/HandleWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/HandleWindow.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/HandleWindow.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\HandleWindow.cpp(413,17): warning C4456: declaration of 'pItem' hides previous local declaration
+  C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\HandleWindow.cpp(403,16):
+  see declaration of 'pItem'
+  
   RenderWindow.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Icon.h(170,19): warning C4018: '>': signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,9): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(71,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\GDI\Bitmap.h(80,8): warning C4189: 'b': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Icon.h(175,19): warning C4018: '>': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,21): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(80,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:             _Elem=wchar_t
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,38): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,45): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,62): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:             _Elem=wchar_t
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(159,14): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(242,5): warning C4297: 'Nt::GridLayout::SetPadding': function assumed not to throw an exception but does
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(242,5):
+  __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(112,50): warning C4244: '=': conversion from 'Nt::uLLong' to 'Nt::uInt', possible loss of data
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(352,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244: 'return': conversion from '_U' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:             _U=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18):
+  the template instantiation context (the oldest one first) is
+  	C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(331,22):
+  	see reference to function template instantiation '_Ty Nt::ConvertUnit<Nt::Int,Nt::Float>(const _Ty &,const Nt::UnitType &,const Nt::UnitType &,const _U &) noexcept' being compiled
           with
           [
-              _Elem=wchar_t
+              _Ty=Nt::Int,
+              _U=Nt::Float
           ]
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=wchar_t
-          ]
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(205,11): warning C4456: declaration of 'pNextCellCoord' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(202,10): message : see declaration of 'pNextCellCoord'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(206,11): warning C4456: declaration of 'pNextCellSize' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(203,10): message : see declaration of 'pNextCellSize'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(169,15): warning C4189: 'currentIndex': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(206,11): warning C4189: 'pNextCellSize': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(205,11): warning C4189: 'pNextCellCoord': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(234,79): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(272,78): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9): message : see declaration of 'i'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Renderer.h(364,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244: 'return': conversion from '_U' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:             _U=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         ]
+  (compiling source file '../Src/Nt/Graphics/RenderWindow.cpp')
+  
   Renderer.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9): message : see declaration of 'i'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Renderer.h(364,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/Renderer.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Renderer.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Renderer.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(112,50): warning C4244: '=': conversion from 'Nt::uLLong' to 'Nt::uInt', possible loss of data
+  (compiling source file '../Src/Nt/Graphics/Renderer.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(352,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Graphics/Renderer.cpp')
+  
+  ResourceMenager.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/Resources/ResourceMenager.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Resources/ResourceMenager.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Resources/ResourceMenager.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  Texture.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/Resources/Texture.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Resources/Texture.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Resources/Texture.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\Resources\Texture.cpp(70,16): warning C4189: 'ThisDataPtr': local variable is initialized but not referenced
+  Shader.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/Shader.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Shader.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Shader.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  Sprite.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/Sprite.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Sprite.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Sprite.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(112,50): warning C4244: '=': conversion from 'Nt::uLLong' to 'Nt::uInt', possible loss of data
+  (compiling source file '../Src/Nt/Graphics/Sprite.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(352,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Graphics/Sprite.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\Sprite.cpp(130,21): warning C4245: '=': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  VertexArray.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/VertexArray.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/VertexArray.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/VertexArray.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
   Window.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Graphics\Window.cpp(54,4): warning C4297: 'Nt::FileDialog': function assumed not to throw an exception but does
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Graphics\Window.cpp(54,4): message : __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Graphics/Window.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Window.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Graphics/Window.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\Window.cpp(54,4): warning C4297: 'Nt::FileDialog': function assumed not to throw an exception but does
+  C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\Window.cpp(54,4):
+  __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+  
   Generating Code...
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Src\Nt\Graphics\HandleWindow.cpp(110): warning C4172: returning address of local variable or temporary: window
-     Creating library C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumGraphics32d.lib and object C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumGraphics32d.exp
+C:\Users\Пользователь\source\repos\Neutronium\Src\Nt\Graphics\HandleWindow.cpp(109): warning C4172: returning address of local variable or temporary: window
+  LINK : C:\Users\Пользователь\source\repos\Neutronium\Bin\Debug\NeutroniumGraphics32d.dll not found or not built by the last incremental link; performing full link
+     Creating library C:\Users\Пользователь\source\repos\Neutronium\Bin\Debug\NeutroniumGraphics32d.lib and object C:\Users\Пользователь\source\repos\Neutronium\Bin\Debug\NeutroniumGraphics32d.exp
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
 Glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'Glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
-  NeutroniumGraphics.vcxproj -> C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumGraphics32d.dll
+  NeutroniumGraphics.vcxproj -> C:\Users\Пользователь\source\repos\Neutronium\Bin\Debug\NeutroniumGraphics32d.dll

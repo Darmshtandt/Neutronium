@@ -280,11 +280,11 @@ namespace Nt {
 		}
 		template <typename _Ty> requires IsContainer<_Ty>
 		__inline static void _Read(std::istream& Stream, _Ty& Container) {
-			uInt Size;
+			Int Size;
 			_StreamRead(Stream, reinterpret_cast<Char*>(&Size), sizeof(Size));
 
 			Container.clear();
-			for (uInt i = 0; i < Size; ++i) {
+			for (Int i = 0; i < Size; ++i) {
 				typename _Ty::value_type Value = { };
 				_Read(Stream, Value);
 				_UniversalPush(Container, Value);

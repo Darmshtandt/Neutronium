@@ -3,6 +3,9 @@
 namespace Nt {
 	class TextEdit : public HandleWindow {
 	public:
+		static const Int2D DefaultSize;
+
+	public:
 		TextEdit() noexcept :
 			m_CharFormat({ }),
 			m_TextColor(255, 255, 255)
@@ -30,7 +33,13 @@ namespace Nt {
 		}
 
 		void Create(const String& text, const Bool& isRich) {
-			Create(IntRect(0, 0, 300, 25), text, isRich);
+			if (m_WindowRect.Right == 0)
+				m_WindowRect.Right = DefaultSize.x;
+
+			if (m_WindowRect.Bottom == 0)
+				m_WindowRect.Bottom = DefaultSize.y;
+
+			Create(m_WindowRect, text, isRich);
 		}
 		void Create(const IntRect& windowRect, const String& text, const Bool& isRich) {
 			if (IsCreated()) {
@@ -109,7 +118,6 @@ namespace Nt {
 			SendMessage(m_hwnd, EM_SETBKGNDCOLOR, 0, VectorToColorRef(m_BackgroundColor));
 			SendMessage(m_hwnd, EM_SETCHARFORMAT, SCF_ALL, reinterpret_cast<LPARAM>(&m_CharFormat));
 			SendMessage(m_hwnd, EM_SETCUEBANNER, TRUE, reinterpret_cast<LPARAM>(m_Placeholder.c_str()));
-
 		}
 		static LRESULT CALLBACK _TextEditProc(HWND hwnd, uInt uMsg, WPARAM wParam,
 			LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
@@ -125,4 +133,6 @@ namespace Nt {
 			return SubClassProc_KillFocus(hwnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
 		}
 	};
+
+	inline const Int2D TextEdit::DefaultSize = { 300, 25 };
 }

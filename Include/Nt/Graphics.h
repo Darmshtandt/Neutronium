@@ -51,6 +51,7 @@ namespace Nt {
 #include <Nt/Graphics/Shader.h>
 
 #include <Nt/Graphics/Menu.h>
+//#include <Nt/Graphics/HandleDeviceContext.h>
 #include <Nt/Graphics/HandleWindow.h>
 #include <Nt/Graphics/GDI/GDI.h>
 #include <Nt/Graphics/GDI/Font.h>
@@ -60,7 +61,7 @@ namespace Nt {
 #include <Nt/Graphics/Window.h>
 #include <Nt/Graphics/Layouts.h>
 
-#include <Nt/Graphics/Resources/ResourceMenager.h>
+#include <Nt/Graphics/Resources/ResourceManager.h>
 #include <Nt/Graphics/Resources/IResource.h>
 #include <Nt/Graphics/Resources/Image.h>
 #include <Nt/Graphics/Resources/Texture.h>

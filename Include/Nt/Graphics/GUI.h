@@ -6,7 +6,7 @@ namespace Nt {
 		GUI() = default;
 
 		void Render(RenderWindow* pRenderWindow) const {
-			if (pRenderWindow->Is3DEnabled()) {
+			if (pRenderWindow->IsEnabled3D()) {
 				pRenderWindow->MatricesPush();
 				pRenderWindow->DisableDepthBuffer();
 

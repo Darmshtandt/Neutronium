@@ -3,18 +3,18 @@
 namespace Nt {
 	class RenderWindow : public Renderer, public Window {
 	public:
-		RenderWindow(const Bool& Is3DEnabled) noexcept :
-			Renderer(Is3DEnabled),
+		RenderWindow(const Bool& IsEnabled3D) noexcept :
+			Renderer(IsEnabled3D),
 			m_CurrentCameraPtr(nullptr)
 		{ }
-		RenderWindow(const IntRect& WindowRect, const String& Name, const Bool& Is3DEnabled) :
-			Renderer(Is3DEnabled),
+		RenderWindow(const IntRect& WindowRect, const String& Name, const Bool& IsEnabled3D) :
+			Renderer(IsEnabled3D),
 			m_CurrentCameraPtr(nullptr)
 		{
 			Create(WindowRect, Name);
 		}
-		RenderWindow(const Int2D& Size, const String& Name, const Bool& Is3DEnabled) :
-			Renderer(Is3DEnabled),
+		RenderWindow(const Int2D& Size, const String& Name, const Bool& IsEnabled3D) :
+			Renderer(IsEnabled3D),
 			m_CurrentCameraPtr(nullptr)
 		{
 			Create(Size, Name);
@@ -32,9 +32,9 @@ namespace Nt {
 
 		NT_API void Update();
 
-		void Resize(const uInt2D& Size) {
-			Renderer::Resize(Size);
-			Window::SetSize(Size);
+		void Resize(const uInt2D& size) {
+			Renderer::Resize(size);
+			Window::SetSize(size);
 		}
 
 		void SetPerspectiveProjection(const Float& FOV, const Float& Near, const Float& Far) {
@@ -124,13 +124,13 @@ namespace Nt {
 			Renderer::_Initialize(Window::GetHandle());
 			glewInit();
 			_InitializeDefaultShader();
-			if (Renderer::Is3DEnabled())
+			if (Renderer::IsEnabled3D())
 				SetPerspectiveProjection(60.f, 0.01f, 100.f);
 			else
 				SetOrtho2DProjection();
 		}
-		void _WMResize(const uInt2D& Size) override {
-			Renderer::Resize(Size);
+		void _WMResize(const uInt2D& size) override {
+			Renderer::Resize(size);
 		}
 	};
 }

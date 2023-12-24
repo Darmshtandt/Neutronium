@@ -63,7 +63,7 @@ namespace Nt {
 			PFD.iPixelType = PFD_TYPE_RGBA;
 			PFD.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
 
-			if (m_Is3DEnabled) {
+			if (m_IsEnabled3D) {
 				PFD.cDepthBits = 24;
 				PFD.cStencilBits = 8;
 			}
@@ -86,7 +86,7 @@ namespace Nt {
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-			if (m_Is3DEnabled)
+			if (m_IsEnabled3D)
 				EnableDepthBuffer();
 
 			m_Matrices.Projection.MakeIdentity();

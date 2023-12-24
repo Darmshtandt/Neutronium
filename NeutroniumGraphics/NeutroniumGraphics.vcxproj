@@ -261,6 +261,7 @@
     <ClInclude Include="..\Include\Nt\Graphics\GDI\GDI.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Geometry.h" />
     <ClInclude Include="..\Include\Nt\Graphics\GUI.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\HandleDeviceContext.h" />
     <ClInclude Include="..\Include\Nt\Graphics\HandleWindow.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Icon.h" />
     <ClInclude Include="..\Include\Nt\Graphics\IObject.h" />

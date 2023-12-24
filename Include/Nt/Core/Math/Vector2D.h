@@ -41,7 +41,7 @@ namespace Nt {
 		}
 		constexpr String ToString() const noexcept {
 			String str;
-			return str << "{ x: " << x << ", y: " << y << " };";
+			return str << ("{ x: ") << String(x) << ", y: " << String(y) << " };";
 		}
 
 // ============================================================================

@@ -3,6 +3,9 @@
 namespace Nt {
 	class Button : public HandleWindow {
 	public:
+		static const Int2D DefaultSize;
+
+	public:
 		Button() noexcept = default;
 		Button(HandleWindow& parent, const IntRect& rect, const uInt& id, const String& text) {
 			SetID(id);
@@ -10,6 +13,15 @@ namespace Nt {
 			Create(rect, text);
 		}
 
+		void Create(const String& text) {
+			if (m_WindowRect.Right == 0)
+				m_WindowRect.Right = DefaultSize.x;
+
+			if (m_WindowRect.Bottom == 0)
+				m_WindowRect.Bottom = DefaultSize.y;
+
+			Create(m_WindowRect, text);
+		}
 		void Create(const IntRect& rect, const String& text) override {
 			m_Name = text;
 			m_ClassName = WC_BUTTON;
@@ -71,9 +83,10 @@ namespace Nt {
 
 	private:
 		static LRESULT CALLBACK _ButtonProc(HWND hwnd, uInt uMsg, WPARAM wParam,
-			LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
+			LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) 
+		{
 			Button* pThis = reinterpret_cast<Button*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-			if (pThis) {
+			if (pThis != nullptr) {
 				switch (uMsg) {
 				case BM_CLICK:
 					if (pThis->m_OnClick)
@@ -84,4 +97,6 @@ namespace Nt {
 			return DefSubclassProc(hwnd, uMsg, wParam, lParam);
 		}
 	};
+
+	inline const Int2D Button::DefaultSize(GetSystemMetrics(SM_CXMENUCHECK), GetSystemMetrics(SM_CYMENUCHECK));
 }

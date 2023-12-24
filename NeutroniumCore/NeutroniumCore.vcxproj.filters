@@ -124,8 +124,5 @@
     <ClCompile Include="..\Src\Nt\Core\JSON\JSON.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Nt\Core\Math\Vectors.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

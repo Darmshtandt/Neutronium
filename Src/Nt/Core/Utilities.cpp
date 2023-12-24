@@ -36,8 +36,22 @@ namespace Nt {
 		const Int WinaApi_ErorCode = GetLastError();
 		if (WinaApi_ErorCode != 0) {
 			FullErrorMessage += "\n====================";
-			FullErrorMessage += "\nWinApi error code: ";
-			FullErrorMessage += WinaApi_ErorCode;
+			FullErrorMessage += "\nWinApi error: ";
+
+			Char* messageBuffer = nullptr;
+			FormatMessageA(
+				FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+				nullptr, 
+				WinaApi_ErorCode,
+				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), 
+				messageBuffer, 
+				0, 
+				nullptr);
+
+			if (messageBuffer == nullptr)
+				FullErrorMessage += WinaApi_ErorCode;
+			else
+				FullErrorMessage += messageBuffer;
 		}
 
 		const Int OpenGL_ErrorCode = glGetError();

@@ -168,5 +168,8 @@
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\ILayout.h">
       <Filter>Header Files\Layouts</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\HandleDeviceContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -36,7 +36,7 @@ namespace Nt::Colors {
 	constexpr Float4D Orange		 = { 1.f,	0.5f,	0.f,	1.f };
 	constexpr Float4D LightOrange	 = { 1.f,	0.75f,	0.25f,	1.f };
 
-	__inline uInt4D ColorToInt(const Float4D& color) noexcept {
+	__inline Byte4D ColorToByte4D(const Float4D& color) noexcept {
 		return color * 255.f;
 	}
 }

@@ -1,4 +1,90 @@
-﻿  Utilities.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-  NeutroniumCore.vcxproj -> C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumCore32d.dll
+﻿  Console.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/Console.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Console.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Console.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  Input.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/Input.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Input.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Input.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  JSON.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/JSON/JSON.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/JSON/JSON.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/JSON/JSON.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  Log.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/Log.cpp')
+  
+  Serialization.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/Serialization.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Serialization.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Serialization.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  String.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/String.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/String.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/String.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  Utilities.cpp
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\String.h(76,14): warning C4389: '!=': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Core/Utilities.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Utilities.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Core/Utilities.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+  Generating Code...
+  NeutroniumCore.vcxproj -> C:\Users\Пользователь\source\repos\Neutronium\Bin\Debug\NeutroniumCore32d.dll

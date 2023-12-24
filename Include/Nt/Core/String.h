@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <string>
+#include <vector>
 #include <codecvt>
 
 namespace Nt {
@@ -59,6 +60,23 @@ namespace Nt {
 			std::string::assign(_ToString(Value));
 		}
 		NT_API void Assign(const wChar& Value);
+
+		std::vector<String> Split(const Char& separator) {
+			std::vector<String> strings;
+
+			Int start = 0;
+			Int end = find(separator);
+			while (end != -1) {
+				strings.push_back(substr(start, end - start));
+
+				start = end + 1;
+				end = find(separator, start);
+			}
+
+			if (start != length())
+				strings.push_back(substr(start, length() - start));
+			return strings;
+		}
 
 		NT_API String ToLower() const noexcept;
 		NT_API String ToUpper() const noexcept;

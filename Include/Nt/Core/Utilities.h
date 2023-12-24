@@ -23,7 +23,7 @@
 	if (Nt::g_NtExcepts) \
 		throw Nt::Error(Msg, "Error", __FILE__, __LINE__, __FUNCTION__)
 #define RaiseSelect(_1, _2, NAME, ...) NAME
-//#define Raise(...) RaiseSelect(__VA_ARGS__, RaiseWithCaption, RaiseWithoutCaption)(__VA_ARGS__)
+#define Raise(...) RaiseSelect(__VA_ARGS__, RaiseWithCaption, RaiseWithoutCaption)(__VA_ARGS__)
 #define Raise(Msg, Caption) RaiseWithCaption(Msg, Caption)
 #define Raise(Msg) RaiseWithoutCaption(Msg)
 
@@ -40,11 +40,25 @@
 namespace Nt {
 	inline Bool g_NtExcepts = true;
 
+	template <template <typename ...> class, template <typename ...> class>
+	struct Is_Same_Template : std::false_type 
+	{
+	};
+
+	template <template <typename ...> class _C>
+	struct Is_Same_Template<_C, _C> : std::true_type
+	{
+	};
+
+	template <template <typename ...> class _Ty, template <typename ...> class _U>
+	constexpr Bool Is_Same_Template_v = Is_Same_Template<_Ty, _U>::value;
+
 // ============================================================================
 //		Funcions
 // ----------------------------------------------------------------------------
 	NT_API void _ShowCursor(const Bool& fShow) noexcept;
-	__inline void __nop() noexcept {
+	__inline void __nop() noexcept 
+	{
 	}
 
 	//NT_API String GetFileExtension(String Path);

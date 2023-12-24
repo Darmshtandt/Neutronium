@@ -28,8 +28,8 @@ namespace Nt {
 	public:
 		struct Info {
 			uInt2D Hotstpot;
-			GDI::Bitmap Mask;
-			GDI::Bitmap Color;
+			GDI::Bitmap BitmapMask;
+			GDI::Bitmap BitmapColor;
 		};
 		struct InfoEx : public Info {
 			uShort ResourceID;
@@ -96,29 +96,34 @@ namespace Nt {
 			iconInfo.fIcon = TRUE;
 			iconInfo.xHotspot = info.Hotstpot.x;
 			iconInfo.yHotspot = info.Hotstpot.y;
-			if (!info.Color.IsCreated())
+			if (!info.BitmapColor.IsCreated())
 				Raise("Color bitmap pointer is null");
 
-			iconInfo.hbmColor = info.Color.GetHandle();
-			iconInfo.hbmMask = info.Mask.GetHandle();
+			iconInfo.hbmColor = info.BitmapColor.GetHandle();
+			iconInfo.hbmMask = info.BitmapMask.GetHandle();
 
 			m_Handle = CreateIconIndirect(&iconInfo);
 			if (m_Handle == nullptr)
 				Raise("Failed to create Icon");
 		}
 		Bool Destroy() noexcept {
+			if (m_Handle == nullptr)
+				return true;
+
 			const Bool result = DestroyIcon(m_Handle);
 			m_Handle = nullptr;
 			return result;
 		}
 
-		void Load(const std::wstring& iconName) {
+		void LoadFromFile(const Nt::String& iconName) {
 			if (m_Handle) {
 				Log::Warning("Icon already created");
 				return;
 			}
+			
+			const std::wstring wIconName = iconName.wstr();
 
-			m_Handle = LoadIcon(m_hInstance, iconName.c_str());
+			m_Handle = LoadIcon(m_hInstance, wIconName.c_str());
 			if (m_Handle == nullptr)
 				Raise("Failed to load Icon");
 		}
@@ -204,8 +209,8 @@ namespace Nt {
 
 			Info info;
 			info.Hotstpot = { iconInfo.xHotspot, iconInfo.yHotspot };
-			info.Color = GDI::Bitmap(iconInfo.hbmColor);
-			info.Mask = GDI::Bitmap(iconInfo.hbmMask);
+			info.BitmapColor = iconInfo.hbmColor;
+			info.BitmapMask = iconInfo.hbmMask;
 			return info;
 		}
 		InfoEx& GetInfoEx() const {
@@ -218,8 +223,8 @@ namespace Nt {
 
 			InfoEx info;
 			info.Hotstpot = { iconInfo.xHotspot, iconInfo.yHotspot };
-			info.Color = GDI::Bitmap(iconInfo.hbmColor);
-			info.Mask = GDI::Bitmap(iconInfo.hbmMask);
+			info.BitmapColor = GDI::Bitmap(iconInfo.hbmColor);
+			info.BitmapMask = GDI::Bitmap(iconInfo.hbmMask);
 			info.ResourceID = iconInfo.wResID;
 			info.ResourceName = iconInfo.szResName;
 			info.ModuleName = iconInfo.szModName;

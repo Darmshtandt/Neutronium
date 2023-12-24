@@ -5,7 +5,8 @@ namespace Nt {
 	public:
 		Simplex() :
 			m_Size(0)
-		{ }
+		{ 
+		}
 
 		void Add(const Float3D& point) {
 			m_Points[3] = m_Points[2];

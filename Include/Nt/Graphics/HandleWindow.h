@@ -8,13 +8,46 @@ namespace Nt {
 
 	NT_API IntRect GetClientRect(HWND hwnd) noexcept;
 	NT_API IntRect GetWindowRect(HWND hwnd) noexcept;
+
 	NT_API IntRect AdjustWindowRect(const IntRect& windowRect, const DWord& styles, const Bool& isHasMenu) noexcept;
-	NT_API IntRect AdjustWindowRectEx(const IntRect& windowRect, const DWord& styles, const Bool& isHasMenu, const DWord& exStyles) noexcept;
+	NT_API IntRect AdjustWindowRectEx(const IntRect& windowRect, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept;
+
+	__inline IntRect AdjustedWindowRect(HWND hwnd, const DWord& styles, const Bool& isHasMenu) noexcept {
+		return AdjustWindowRect(GetWindowRect(hwnd), styles, isHasMenu);
+	}
+	__inline IntRect AdjustedWindowRectEx(HWND hwnd, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept {
+		return AdjustWindowRectEx(GetWindowRect(hwnd), styles, isHasMenu, exStyles);
+	}
 
 	NT_API COLORREF VectorToColorRef(const Byte3D& color);
 	NT_API Byte3D ColorRefToVector(const COLORREF& color);
 
 	NT_API HBRUSH CreateSolidBrush(const Byte3D& color) noexcept;
+
+	__inline void DrawFrameRect(HDC hdc, const IntRect& rect, const Int& lineWeight, const Byte3D color) {
+		const RECT leftSide = { 
+			rect.Left, rect.Top, 
+			rect.Left + lineWeight, rect.Top + rect.Bottom 
+		};
+		const RECT topSide = { 
+			rect.Left, rect.Top, 
+			rect.Left + rect.Right, rect.Top + lineWeight 
+		};
+		const RECT rightSide = { 
+			rect.Left + rect.Right - lineWeight, rect.Top, 
+			rect.Left + rect.Right, rect.Top + rect.Bottom 
+		};
+		const RECT bottomSide = { 
+			rect.Left, rect.Top + rect.Bottom - lineWeight, 
+			rect.Left + rect.Right, rect.Top + rect.Bottom 
+		};
+
+		const HBRUSH hBrush = CreateSolidBrush(color);
+		FillRect(hdc, &leftSide, hBrush);
+		FillRect(hdc, &topSide, hBrush);
+		FillRect(hdc, &rightSide, hBrush);
+		FillRect(hdc, &bottomSide, hBrush);
+	}
 
 	using HandleWindowID = HWND;
 
@@ -116,8 +149,16 @@ namespace Nt {
 				InvalidateRect(m_hwnd, nullptr, TRUE);
 			}
 		}
-		NT_API void SetIcon(const cwString& iconName);
-		NT_API void SetIconSmall(const cwString& iconName);
+		void SetIcon(const HICON& hIcon) {
+			if (m_hwnd != nullptr)
+				SetClassLongPtr(m_hwnd, GCLP_HICON, reinterpret_cast<Long>(hIcon));
+		}
+		void SetIconSmall(const HICON& hIcon) {
+			if (m_hwnd != nullptr)
+				SetClassLongPtr(m_hwnd, GCLP_HICONSM, reinterpret_cast<Long>(hIcon));
+		}
+		NT_API void SetIcon(const String& iconPath);
+		NT_API void SetIconSmall(const String& iconPath);
 
 #ifdef _WINDEF_
 		NT_API void SetInstance(const HINSTANCE& hInstance) noexcept;
@@ -137,6 +178,9 @@ namespace Nt {
 		NT_API HWND GetParentHandle() const noexcept;
 		NT_API HWND GetHandle() const noexcept;
 		NT_API HDC GetDC() const noexcept;
+		__inline HDC GetWindowDC() const noexcept {
+			return ::GetWindowDC(m_hwnd);
+		}
 		NT_API HINSTANCE GetInstance() const noexcept;
 #endif
 		NT_API Nt::String GetName() const;
@@ -147,7 +191,13 @@ namespace Nt {
 		NT_API HandleWindow GetParent() const noexcept;
 		NT_API Int GetID() const noexcept;
 		NT_API void* GetParamPtr() const noexcept;
-		NT_API uInt3D GetBackgroundColor() const noexcept;
+		NT_API Byte3D GetBackgroundColor() const noexcept;
+		__inline uInt GetStyles() const noexcept {
+			return m_Styles;
+		}
+		__inline uInt GetExStyles() const noexcept {
+			return m_ExStyles;
+		}
 		NT_API Bool IsMenuEnabled() const noexcept;
 		NT_API Bool IsShowed() const noexcept;
 		NT_API Bool IsCreated() const noexcept;

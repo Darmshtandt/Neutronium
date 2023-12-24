@@ -1,90 +1,361 @@
 ﻿  Main.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\JSON\JSON.h(36,17): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Icon.h(170,19): warning C4018: '>': signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,9): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(60,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\JSON\JSON.h(36,17): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\GDI\Bitmap.h(80,8): warning C4189: 'b': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Icon.h(175,19): warning C4018: '>': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,21): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(80,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:             _Elem=wchar_t
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,38): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,45): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,62): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:             _Elem=wchar_t
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(159,14): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(242,5): warning C4297: 'Nt::GridLayout::SetPadding': function assumed not to throw an exception but does
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(242,5):
+  __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9):
+  see declaration of 'i'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(109,50): warning C4244: '=': conversion from 'Nt::uLLong' to 'Nt::uInt', possible loss of data
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(349,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Model.h(8,15): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Model.h(10,18): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Model.h(15,18): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RayCast.h(31,40): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RayCast.h(31,34): warning C4244: 'initializing': conversion from 'double' to 'const Nt::Float', possible loss of data
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(114,16): warning C4189: 'ABLength': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(115,16): warning C4189: 'BCLength': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(116,16): warning C4189: 'CALength': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(286,29): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics.h(17,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RigidBody.h(114,23): warning C4189: 'pTriangleCollider': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RigidBody.h(120,19): warning C4189: 'pMeshCollider': local variable is initialized but not referenced
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RigidBody.h(131,4): warning C5205: delete of an abstract class 'Nt::ICollider' that has a non-virtual destructor results in undefined behavior
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(4,8):
+  see declaration of 'Nt::ICollider'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RigidBody.h(136,5): warning C5205: delete of an abstract class 'Nt::ICollider' that has a non-virtual destructor results in undefined behavior
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(4,8):
+  see declaration of 'Nt::ICollider'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244: 'return': conversion from '_U' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:             _U=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18):
+  the template instantiation context (the oldest one first) is
+  	C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(331,22):
+  	see reference to function template instantiation '_Ty Nt::ConvertUnit<Nt::Int,Nt::Float>(const _Ty &,const Nt::UnitType &,const Nt::UnitType &,const _U &) noexcept' being compiled
           with
           [
-              _Elem=wchar_t
+              _Ty=Nt::Int,
+              _U=Nt::Float
           ]
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=wchar_t
-          ]
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4456: declaration of 'pNextCellCoord' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(125,10): message : see declaration of 'pNextCellCoord'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4456: declaration of 'pNextCellSize' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(126,10): message : see declaration of 'pNextCellSize'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(92,15): warning C4189: 'currentIndex': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4189: 'pNextCellSize': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4189: 'pNextCellCoord': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(169,71): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(207,70): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9): message : see declaration of 'i'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Renderer.h(364,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(11,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(16,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,40): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,34): warning C4244: 'initializing': conversion from 'double' to 'const Nt::Float', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(114,16): warning C4189: 'ABLength': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(115,16): warning C4189: 'BCLength': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(116,16): warning C4189: 'CALength': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(286,29): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics.h(17,10): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(114,23): warning C4189: 'pTriangleCollider': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(120,19): warning C4189: 'pMeshCollider': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(131,4): warning C5205: delete of an abstract class 'Nt::ICollider' that has a non-virtual destructor results in undefined behavior
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(4,8): message : see declaration of 'Nt::ICollider'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RigidBody.h(136,5): warning C5205: delete of an abstract class 'Nt::ICollider' that has a non-virtual destructor results in undefined behavior
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(4,8): message : see declaration of 'Nt::ICollider'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244: 'return': conversion from '_U' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:             _U=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         ]
+  (compiling source file '../Src/Nt/Physics/Main.cpp')
+  
   Collision.cpp
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\Utilities.h(27,1): message : see previous definition of 'Raise'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Core\JSON\JSON.h(36,17): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Icon.h(170,19): warning C4018: '>': signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,9): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(60,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file 'Collision.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(26,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(28,1): warning C4005: 'Raise': macro redefinition
+  (compiling source file 'Collision.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\Utilities.h(27,1):
+  see previous definition of 'Raise'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Core\JSON\JSON.h(36,17): warning C4244: 'initializing': conversion from 'int' to 'char', possible loss of data
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\GDI\Bitmap.h(80,8): warning C4189: 'b': local variable is initialized but not referenced
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Icon.h(175,19): warning C4018: '>': signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\Tooltip.h(117,21): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TextEdit.h(80,40): warning C4244: '=': conversion from 'Nt::uInt' to 'WORD', possible loss of data
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:             _Elem=wchar_t
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\TreeView.h(433,37): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,38): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,45): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,62): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:             _Elem=wchar_t
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(116,27): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(120,25): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(125,27): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244: '=': conversion from 'const _Ty' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:             _Ty=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\ILayout.h(128,25): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(159,14): warning C4018: '<': signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(242,5): warning C4297: 'Nt::GridLayout::SetPadding': function assumed not to throw an exception but does
+  (compiling source file 'Collision.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(242,5):
+  __declspec(nothrow), throw(), noexcept(true), or noexcept was specified on the function
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
+  (compiling source file 'Collision.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9):
+  see declaration of 'i'
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(109,50): warning C4244: '=': conversion from 'Nt::uLLong' to 'Nt::uInt', possible loss of data
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Renderer.h(349,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Model.h(8,15): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Model.h(10,18): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Model.h(15,18): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RayCast.h(31,40): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\RayCast.h(31,34): warning C4244: 'initializing': conversion from 'double' to 'const Nt::Float', possible loss of data
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(114,16): warning C4189: 'ABLength': local variable is initialized but not referenced
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(115,16): warning C4189: 'BCLength': local variable is initialized but not referenced
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(116,16): warning C4189: 'CALength': local variable is initialized but not referenced
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Physics\Collision.h(286,29): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+  (compiling source file 'Collision.cpp')
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244: 'return': conversion from '_U' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:             _U=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(25,18):
+  the template instantiation context (the oldest one first) is
+  	C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(331,22):
+  	see reference to function template instantiation '_Ty Nt::ConvertUnit<Nt::Int,Nt::Float>(const _Ty &,const Nt::UnitType &,const Nt::UnitType &,const _U &) noexcept' being compiled
           with
           [
-              _Elem=wchar_t
+              _Ty=Nt::Int,
+              _U=Nt::Float
           ]
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(616,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(619,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(664,1): warning C4245: 'argument': conversion from 'int' to 'const Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\WindowElements\ListView.h(785,37): warning C4244: 'argument': conversion from 'const Nt::uInt' to 'const _Elem', possible loss of data
-          with
-          [
-              _Elem=wchar_t
-          ]
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4456: declaration of 'pNextCellCoord' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(125,10): message : see declaration of 'pNextCellCoord'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4456: declaration of 'pNextCellSize' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(126,10): message : see declaration of 'pNextCellSize'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(92,15): warning C4189: 'currentIndex': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(129,11): warning C4189: 'pNextCellSize': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\BoxLayout.h(128,11): warning C4189: 'pNextCellCoord': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(169,71): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Layouts\GridLayout.h(207,70): warning C4244: '*=': conversion from 'Nt::Float' to 'Nt::Int', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(255,16): warning C4456: declaration of 'i' hides previous local declaration
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Resources\Mesh.h(164,9): message : see declaration of 'i'
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Renderer.h(364,16): warning C4189: 'IsNtExceptsEnabled': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(11,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Graphics\Model.h(16,1): warning C4245: 'initializing': conversion from 'int' to 'Nt::uInt', signed/unsigned mismatch
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,40): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\RayCast.h(31,34): warning C4244: 'initializing': conversion from 'double' to 'const Nt::Float', possible loss of data
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(114,16): warning C4189: 'ABLength': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(115,16): warning C4189: 'BCLength': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(116,16): warning C4189: 'CALength': local variable is initialized but not referenced
-C:\Users\kings\Desktop\Nový priečinok\Neutronium\Include\Nt\Physics\Collision.h(286,29): warning C4244: 'initializing': conversion from 'double' to 'Nt::Float', possible loss of data
+  
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244: 'return': conversion from '_U' to '_Ty', possible loss of data
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         with
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:             _U=Nt::Float
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         ]
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         and
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         [
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:             _Ty=Nt::Int
+C:\Users\Пользователь\source\repos\Neutronium\Include\Nt\Graphics\Layouts\Cell.h(27,18): warning C4244:         ]
+  (compiling source file 'Collision.cpp')
+  
   Generating Code...
-     Creating library C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumPhysics32d.lib and object C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumPhysics32d.exp
-  NeutroniumPhysics.vcxproj -> C:\Users\kings\Desktop\Nový priečinok\Neutronium\Bin\Debug\NeutroniumPhysics32d.dll
+  NeutroniumPhysics.vcxproj -> C:\Users\Пользователь\source\repos\Neutronium\Bin\Debug\NeutroniumPhysics32d.dll

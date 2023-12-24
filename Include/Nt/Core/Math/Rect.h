@@ -90,6 +90,52 @@ namespace Nt {
 			return (LeftTop == rect.LeftTop && RightBottom == rect.RightBottom);
 		}
 
+		constexpr Rect<_Ty>& operator += (const _Ty& num) noexcept {
+			LeftTop += num;
+			RightBottom += num;
+			return (*this);
+		}
+		constexpr Rect<_Ty>& operator -= (const _Ty& num) noexcept {
+			LeftTop -= num;
+			RightBottom -= num;
+			return (*this);
+		}
+		constexpr Rect<_Ty>& operator *= (const _Ty& num) noexcept {
+			LeftTop *= num;
+			RightBottom *= num;
+			return (*this);
+		}
+		constexpr Rect<_Ty>& operator /= (const _Ty& num) noexcept {
+			LeftTop /= num;
+			RightBottom /= num;
+			return (*this);
+		}
+		constexpr Rect<_Ty>& operator %= (const _Ty& num) noexcept {
+			LeftTop %= num;
+			RightBottom %= num;
+			return (*this);
+		}
+
+		constexpr Rect<_Ty> operator + (const _Ty& num) const noexcept {
+			return Rect(LeftTop + num, RightBottom + num);
+		}
+		constexpr Rect<_Ty> operator - (const _Ty& num) const noexcept {
+			return Rect(LeftTop - num, RightBottom - num);
+		}
+		constexpr Rect<_Ty> operator * (const _Ty& num) const noexcept {
+			return Rect(LeftTop * num, RightBottom * num);
+		}
+		constexpr Rect<_Ty> operator / (const _Ty& num) const noexcept {
+			return Rect(LeftTop / num, RightBottom / num);
+		}
+		constexpr Rect<_Ty> operator % (const _Ty& num) const noexcept {
+			return Rect(LeftTop % num, RightBottom % num);
+		}
+
+		constexpr Bool operator == (const _Ty& num) const noexcept {
+			return (LeftTop == num && RightBottom == num);
+		}
+
 		constexpr Rect<_Ty>& operator = (const Rect<_Ty>& rect) noexcept {
 			LeftTop = rect.LeftTop;
 			RightBottom = rect.RightBottom;

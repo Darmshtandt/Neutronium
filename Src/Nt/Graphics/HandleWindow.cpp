@@ -9,8 +9,7 @@
 #include <Nt/Core/Utilities.h>
 #include <Nt/Core/Log.h>
 
-#include <Nt/Core/Math/Vector2D.h>
-#include <Nt/Core/Math/Vector3D.h>
+#include <Nt/Core/Math/Vectors.h>
 #include <Nt/Core/Math/Rect.h>
 
 #include <Nt/Graphics/Menu.h>
@@ -51,7 +50,7 @@ namespace Nt {
 			Log::Warning("Failed to get window rect.");
 		return rect;
 	}
-	IntRect AdjustWindowRectEx(const IntRect& windowRect, const DWord& styles, const Bool& isHasMenu, const DWord& exStyles) noexcept {
+	IntRect AdjustWindowRectEx(const IntRect& windowRect, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept {
 		RECT rect = windowRect;
 		if (!AdjustWindowRectEx(&rect, styles, isHasMenu, exStyles))
 			Log::Warning("Failed to get window rect.");
@@ -191,13 +190,15 @@ namespace Nt {
 		}
 	}
 
-	void HandleWindow::SetIcon(const cwString& iconName) {
-		const HICON hIcon = LoadIcon(m_hInstance, iconName);
+	void HandleWindow::SetIcon(const String& iconPath) {
+		const HICON hIcon = (HICON)LoadImageA(nullptr, iconPath.c_str(), IMAGE_ICON,
+			0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
 		if (m_hwnd)
 			SetClassLongPtr(m_hwnd, GCLP_HICON, reinterpret_cast<Long>(hIcon));
 	}
-	void HandleWindow::SetIconSmall(const cwString& iconName) {
-		HICON hIcon = LoadIcon(m_hInstance, iconName);
+	void HandleWindow::SetIconSmall(const String& iconPath) {
+		HICON hIcon = (HICON)LoadImageA(nullptr, iconPath.c_str(), IMAGE_ICON,
+			0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
 		if (m_hwnd)
 			SetClassLongPtr(m_hwnd, GCLP_HICONSM, reinterpret_cast<Long>(hIcon));
 	}
@@ -238,7 +239,13 @@ namespace Nt {
 		const Bool result = ::SetWindowPos(m_hwnd, HWND(m_ZOrder), rect.Left, rect.Top, rect.Right, rect.Bottom, flags);
 		if (m_hwnd != nullptr && !(flags & POSITIONFLAG_NOMOVE || flags & POSITIONFLAG_NOSIZE)) {
 			m_WindowRect = rect;
-			m_ClientRect = Nt::GetClientRect(m_hwnd);
+
+			m_ClientRect = Nt::AdjustWindowRectEx(m_WindowRect, m_Styles, m_ExStyles, m_IsMenuEnabled);
+			m_ClientRect.RightBottom -= abs(m_ClientRect.LeftTop);
+			m_ClientRect.LeftTop = Int2D();
+
+			if (m_Styles & WS_BORDER)
+				m_ClientRect.RightBottom -= Int2D(GetSystemMetrics(SM_CXDLGFRAME), GetSystemMetrics(SM_CYDLGFRAME));
 		}
 
 		if (flags & POSITIONFLAG_SHOWWINDOW)
@@ -314,7 +321,7 @@ namespace Nt {
 	void* HandleWindow::GetParamPtr() const noexcept {
 		return m_pParam;
 	}
-	uInt3D HandleWindow::GetBackgroundColor() const noexcept {
+	Byte3D HandleWindow::GetBackgroundColor() const noexcept {
 		return m_BackgroundColor;
 	}
 	Bool HandleWindow::IsMenuEnabled() const noexcept {
@@ -360,7 +367,13 @@ namespace Nt {
 			Raise(errorMsg.c_str());
 		}
 
-		m_ClientRect = Nt::GetClientRect(m_hwnd);
+		m_ClientRect = Nt::AdjustedWindowRectEx(m_hwnd, m_Styles, m_ExStyles, m_IsMenuEnabled);
+		m_ClientRect.RightBottom -= abs(m_ClientRect.LeftTop);
+		m_ClientRect.LeftTop = Int2D();
+
+		if (m_Styles & WS_BORDER)
+			m_ClientRect.RightBottom -= Int2D(GetSystemMetrics(SM_CXDLGFRAME), GetSystemMetrics(SM_CYDLGFRAME)) - 1;
+
 		m_WindowRect = Nt::GetWindowRect(m_hwnd);
 		m_WindowRect.RightBottom -= m_WindowRect.LeftTop;
 

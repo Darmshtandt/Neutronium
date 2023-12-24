@@ -40,58 +40,62 @@ namespace Nt {
 		{
 			m_Styles |= (WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS);
 		}
-		Window(const IntRect& Rect, const String& Name) {
+		Window(const IntRect& rect, const String& name) {
 			m_Styles |= (WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS);
-			Create(Rect, Name);
+			Create(rect, name);
 		}
-		Window(const Int2D& Size, const String& Name) {
+		Window(const Int2D& size, const String& name) {
 			m_Styles |= (WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS);
-			Create(Size, Name);
+			Create(size, name);
 		}
-		Window(const String& Name) {
+		Window(const String& name) {
 			m_Styles |= (WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS);
-			Create(Name);
+			Create(name);
 		}
 
-		virtual void Create(const String& Name) {
+		virtual void Create(const String& name) {
 			constexpr IntRect defaultWindowRect = 
 				{ CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT };
-			Create(defaultWindowRect, Name);
+
+			if (m_WindowRect.Right == 0 || m_WindowRect.Bottom == 0)
+				Create(defaultWindowRect, name);
+			else
+				Create(m_WindowRect, name);
 		}
-		virtual void Create(const Int2D& Size, const String& Name) {
-			IntRect WindowRect;
-			WindowRect.RightBottom = Size;
-			WindowRect.Left = (GetMonitorSize().x - Size.x) / 2;
-			WindowRect.Top = (GetMonitorSize().y - Size.y) / 2;
-			Create(WindowRect, Name);
+		virtual void Create(const Int2D& size, const String& name) {
+			IntRect windowRect;
+			windowRect.RightBottom = size;
+			windowRect.Left = (GetMonitorSize().x - size.x) / 2;
+			windowRect.Top = (GetMonitorSize().y - size.y) / 2;
+			Create(windowRect, name);
 		}
-		virtual void Create(const IntRect& WindowRect, const String& Name) override {
-			m_WindowRect = WindowRect;
-			m_Name = Name;
+		virtual void Create(const IntRect& windowRect, const String& name) override {
+			m_WindowRect = windowRect;
+			m_Name = name;
 			m_ClassName = m_Name + L"Class";
 
-			WNDCLASS WndClass = { };
-			WndClass.hbrBackground = CreateSolidBrush(m_BackgroundColor);
-			WndClass.hInstance = GetModuleHandle(nullptr);
-			WndClass.lpfnWndProc = _BaseWndProc;
-			WndClass.lpszClassName = m_ClassName.c_str();
+			WNDCLASS wndClass = { };
+			wndClass.hbrBackground = CreateSolidBrush(m_BackgroundColor);
+			wndClass.hInstance = GetModuleHandle(nullptr);
+			wndClass.lpfnWndProc = _BaseWndProc;
+			wndClass.lpszClassName = m_ClassName.c_str();
 
-			if ((!RegisterClass(&WndClass)) && GetLastError() == 1410) {
+			if ((!RegisterClass(&wndClass)) && GetLastError() == 1410) {
 				for (uInt i = 0; i < 100; ++i) {
 					const std::wstring newClassName = m_ClassName + std::to_wstring(i);
-					WndClass.lpszClassName = newClassName.c_str();
+					wndClass.lpszClassName = newClassName.c_str();
 
-					if (RegisterClass(&WndClass)) {
+					if (RegisterClass(&wndClass)) {
 						m_ClassName = newClassName;
-						WndClass.lpszClassName = m_ClassName.c_str();
+						wndClass.lpszClassName = m_ClassName.c_str();
 						break;
 					}
 					else if (GetLastError() != 1410) {
-						String ErrorMsg = "Failed to create window class.\nClass name: \"";
-						ErrorMsg += WndClass.lpszClassName;
-						ErrorMsg += "\". Error code: ";
-						ErrorMsg += GetLastError();
-						Raise(ErrorMsg);
+						String errorMsg = "Failed to create window class.\nClass name: \"";
+						errorMsg += wndClass.lpszClassName;
+						errorMsg += "\". Error code: ";
+						errorMsg += GetLastError();
+						Raise(errorMsg);
 					}
 				}
 			}
@@ -135,7 +139,7 @@ namespace Nt {
 			return m_IsOpened;
 		}
 		IntRect GetClientRect() const noexcept {
-			return Nt::GetClientRect(m_hwnd);
+			return m_ClientRect;
 		}
 
 		void SetProcedure(Procedure procedure) {
@@ -166,8 +170,8 @@ namespace Nt {
 		{ 
 		}
 
-		void _AddEvent(const Event::Types& Type, const DWord& Value) {
-			m_Events.push({ Type, (Long)Value });
+		void _AddEvent(const Event::Types& type, const DWord& value) {
+			m_Events.push({ type, (Long)value });
 			if (m_Events.size() > 25)
 				m_Events.pop();
 		}
@@ -233,14 +237,9 @@ namespace Nt {
 					pThis->_WMCommand(wParam, lParam);
 					break;
 				case WM_SIZE:
-				{
-					uInt2D clientSize = { LOWORD(lParam), HIWORD(lParam) };
-
 					pThis->_AddEvent(Event::Types::WINDOW_RESIZE, 0);
-					pThis->_WMResize(clientSize);
-					pThis->m_ClientRect.RightBottom = clientSize;
+					pThis->_WMResize(pThis->m_WindowRect.RightBottom);
 					break;
-				}
 				case WM_KEYDOWN:
 					pThis->_AddEvent(Event::Types::KEY_DOWN, wParam);
 					break;
@@ -314,11 +313,11 @@ namespace Nt {
 					return pThis->m_Procedure(uMsg, wParam, lParam);
 				return DefWindowProc(hwnd, uMsg, wParam, lParam);
 			}
-			catch (const Nt::Error& Error) {
-				Error.Show();
+			catch (const Nt::Error& error) {
+				error.Show();
 			}
-			catch (const std::exception& Error) {
-				ErrorBoxA(Error.what(), "Error");
+			catch (const std::exception& error) {
+				ErrorBoxA(error.what(), "Error");
 			}
 			return NULL;
 		}

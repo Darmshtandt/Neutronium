@@ -47,9 +47,39 @@ namespace Nt::GDI {
 			for (uInt i = 0; i < imageSize; ++i)
 				reinterpret_cast<uInt*>(m_pData)[i] = 
 					reinterpret_cast<const uInt*>(pData)[imageSize - i - 1];
-			BGRtoRGB(m_pData);
+			_BGRtoRGB(m_pData);
 
 			m_Handle = CreateBitmap(m_Size.x, m_Size.y, 1, m_BitCount, m_pData);
+			if (m_Handle == nullptr)
+				Raise("Failed to create bitmap.");
+		}
+		void LoadFromFile(const String& filePath) {
+			std::ifstream file(filePath, std::ios::in | std::ios::binary);
+			if (!file.is_open())
+				Raise("Failed to open file");
+
+			Short code = 0;
+			file.read((Char*)&code, sizeof(code));
+			if (code != 0x4D42)
+				Raise("Incorrect code");
+
+			BITMAPCOREHEADER coreHeader;
+			file.read((Char*)&coreHeader, sizeof(coreHeader));
+
+			BITMAPINFOHEADER infoHeader;
+			file.read((Char*)&infoHeader, sizeof(infoHeader));
+
+			m_Size = Long2D(infoHeader.biWidth, infoHeader.biHeight);
+			m_BitCount = uInt(infoHeader.biBitCount);
+
+			const uInt imageByteCount = (m_Size.x * m_Size.y * (m_BitCount / 8));
+			m_pData = new Byte[imageByteCount];
+			file.read((Char*)m_pData, imageByteCount);
+			file.close();
+
+			int b = sizeof(infoHeader) + sizeof(coreHeader);
+
+			m_Handle = CreateBitmap(m_Size.x, m_Size.y, infoHeader.biPlanes, m_BitCount, m_pData);
 			if (m_Handle == nullptr)
 				Raise("Failed to create bitmap.");
 		}
@@ -79,8 +109,14 @@ namespace Nt::GDI {
 		HBITMAP GetHandle() const noexcept {
 			return m_Handle;
 		}
+		Byte* GetData() const noexcept {
+			return m_pData;
+		}
 		uInt2D GetSize() const noexcept {
 			return m_Size;
+		}
+		uInt GetBitCount() const noexcept {
+			return m_BitCount;
 		}
 		Bool IsCreated() const noexcept {
 			return m_Handle;
@@ -93,10 +129,10 @@ namespace Nt::GDI {
 		uInt m_BitCount;
 
 	private:
-		void BGRtoRGB(Byte* pData) {
+		void _BGRtoRGB(Byte* pData) {
 			Byte* imagePtr = m_pData;
 			for (uInt i = 0; i < m_Size.x * m_Size.y; ++i)
-				std::swap(*(imagePtr + i * 4 + 0), *(imagePtr + i * 4 + 2));
+				std::swap(imagePtr[i * (m_BitCount / 8) + 0], imagePtr[i * (m_BitCount / 8) + 2]);
 		}
 	};
 }

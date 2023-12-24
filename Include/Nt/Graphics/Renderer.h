@@ -24,10 +24,7 @@ namespace Nt {
 			Float Near = 0.01f;
 			Float Far = 1000.f;
 
-			Float Left = 0.f;
-			Float Top = 0.f;
-			Float Right = 0.f;
-			Float Bottom = 0.f;
+			FloatRect Rect;
 
 			_ProjectionType Type = _ProjectionType::NONE;
 		};
@@ -51,14 +48,18 @@ namespace Nt {
 			TRIANGLES = GL_TRIANGLES,
 			TRIANGLE_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
 			TRIANGLES_ADJACENCY = GL_TRIANGLES_ADJACENCY,
+			QUADS = GL_QUADS,
+			QUAD_STRIP = GL_QUAD_STRIP,
+			POLYGON = GL_POLYGON
 		};
 
 	public:
-		Renderer(const Bool& Is3DEnabled) noexcept :
-			m_Is3DEnabled(Is3DEnabled),
+		Renderer(const Bool& isEnabled3D) noexcept :
+			m_IsEnabled3D(isEnabled3D),
 			m_Zoom(1.f),
 			m_FPSLimit(120),
 			m_FPSCounter(0),
+			m_FrameTime(0),
 			m_DrawingMode(DrawingMode::TRIANGLES),
 			m_Color(Colors::White),
 			m_IsInitialized(false),
@@ -67,65 +68,57 @@ namespace Nt {
 		}
 
 		void Resize() {
-			RECT ClientRect;
-			GetWindowRect(m_hwnd, &ClientRect);
-			Resize(uInt2D(ClientRect.right, ClientRect.bottom));
+			Resize(GetWindowRect(m_hwnd).RightBottom);
 		}
-		void Resize(const uInt2D& Size) {
-			Resize(FloatRect(
-				m_ProjectionConfig.Left,
-				m_ProjectionConfig.Top,
-				static_cast<Float>(Size.x),
-				static_cast<Float>(Size.y)
-			));
+		void Resize(const uInt2D& size) {
+			Resize(FloatRect(m_ProjectionConfig.Rect.LeftTop, Float2D(size)));
 		}
-		void Resize(FloatRect Rect) {
-			glViewport(0, 0, uInt(Rect.Right), uInt(Rect.Bottom));
+		void Resize(FloatRect rect) {
+			glViewport(uInt(rect.Left), uInt(rect.Top), uInt(rect.Right), uInt(rect.Bottom));
 
-			Rect.Right /= m_Zoom;
-			Rect.Bottom /= m_Zoom;
+			rect.Right /= m_Zoom;
+			rect.Bottom /= m_Zoom;
 
 			switch (m_ProjectionConfig.Type) {
 			case _ProjectionType::NONE:
 				m_Matrices.Projection.MakeIdentity();
 				break;
 			case _ProjectionType::ORTHO:
-				SetOrthoProjection(Rect, m_ProjectionConfig.Near, m_ProjectionConfig.Far);
+				SetOrthoProjection(rect, m_ProjectionConfig.Near, m_ProjectionConfig.Far);
 				break;
 			case _ProjectionType::ORTHO2D:
-				SetOrtho2DProjection(Rect);
+				SetOrtho2DProjection(rect);
 				break;
 			case _ProjectionType::PERSPECTIVE:
 				SetPerspectiveProjection(
-					m_ProjectionConfig.FOV,
-					static_cast<Float>(Rect.Right) / static_cast<Float>(Rect.Bottom),
-					m_ProjectionConfig.Near,
-					m_ProjectionConfig.Far);
+					m_ProjectionConfig.FOV, rect.Right / rect.Bottom, m_ProjectionConfig.Near, m_ProjectionConfig.Far);
 				break;
 			}
 		}
 
-		void SetClearColor(const Float4D& ClearColor) const noexcept {
-			glClearColor(ClearColor.x, ClearColor.y, ClearColor.z, ClearColor.w);
+		void SetClearColor(const Float4D& clearColor) const noexcept {
+			glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		}
-		void Clear() const {
+		void Clear() {
 			CheckInitialization();
 
 			glClear(GL_COLOR_BUFFER_BIT);
-			if (m_Is3DEnabled)
+			if (m_IsEnabled3D)
 				glClear(GL_DEPTH_BUFFER_BIT);
 		}
 		void Display() {
 			CheckInitialization();
 
+			m_FrameTime = m_LoopTimeStamp.GetElapsedTimeMs();
+			m_LoopTimeStamp.Restart();
+
+			const uInt delayTimeMs = (1000 / m_FPSLimit) - m_FrameTime;
+			if (Int(delayTimeMs) > 0)
+				Sleep(delayTimeMs);
+			else
+				Sleep(1);
+
 			++m_FPSCounter;
-
-			static Timer FrameTimer;
-			const uInt FpameTimeMs = uInt(GetFrameTimeMs());
-			if (FpameTimeMs > FrameTimer.GetElapsedTimeMs())
-				Sleep(FpameTimeMs - (uInt)FrameTimer.GetElapsedTimeMs());
-			FrameTimer.Restart();
-
 			if (m_FPSTimer.GetElapsedTimeMs() > 1000ull) {
 				m_FPS = m_FPSCounter;
 				m_FPSCounter = 0;
@@ -231,36 +224,33 @@ namespace Nt {
 		}
 
 
-		void SetOrthoProjection(FloatRect Rect, const Float& Near, const Float& Far) {
-			if (Rect.Left == Rect.Right || Rect.Top == Rect.Bottom) {
+		void SetOrthoProjection(FloatRect rect, const Float& orthoNear, const Float& orthoFar) {
+			if (rect.Left == rect.Right || rect.Top == rect.Bottom) {
 				Log::Warning("SetOrthoProjection: Invalid value");
 				return;
 			}
 
-			Rect.LeftTop *= m_Zoom;
-			Rect.RightBottom /= m_Zoom;
+			rect.LeftTop *= m_Zoom;
+			rect.RightBottom /= m_Zoom;
 
 			m_ProjectionConfig = { };
-			m_ProjectionConfig.Left = Rect.Left;
-			m_ProjectionConfig.Top = Rect.Top;
-			m_ProjectionConfig.Right = Rect.Right;
-			m_ProjectionConfig.Bottom = Rect.Bottom;
-			m_ProjectionConfig.Near = Near;
-			m_ProjectionConfig.Far = Far;
+			m_ProjectionConfig.Rect = rect;
+			m_ProjectionConfig.Near = orthoNear;
+			m_ProjectionConfig.Far = orthoFar;
 
-			if (Near == -1.f && Far == 1.f)
+			if (orthoNear == -1.f && orthoFar == 1.f)
 				m_ProjectionConfig.Type = _ProjectionType::ORTHO2D;
 			else
 				m_ProjectionConfig.Type = _ProjectionType::ORTHO;
 
-			m_Matrices.Projection._11 = 2.f / (Rect.Right - Rect.Left);
-			m_Matrices.Projection._22 = 2.f / (Rect.Top - Rect.Bottom);
-			m_Matrices.Projection._33 = -2.f / (Far - Near);
+			m_Matrices.Projection._11 = 2.f / (rect.Right - rect.Left);
+			m_Matrices.Projection._22 = 2.f / (rect.Top - rect.Bottom);
+			m_Matrices.Projection._33 = -2.f / (orthoFar - orthoNear);
 			m_Matrices.Projection._44 = 1.f;
 
-			m_Matrices.Projection._14 = -(Rect.Right + Rect.Left) / (Rect.Right - Rect.Left);
-			m_Matrices.Projection._24 = -(Rect.Top + Rect.Bottom) / (Rect.Top - Rect.Bottom);
-			m_Matrices.Projection._34 = -(Far + Near) / (Far - Near);
+			m_Matrices.Projection._14 = -(rect.Right + rect.Left) / (rect.Right - rect.Left);
+			m_Matrices.Projection._24 = -(rect.Top + rect.Bottom) / (rect.Top - rect.Bottom);
+			m_Matrices.Projection._34 = -(orthoFar + orthoNear) / (orthoFar - orthoNear);
 
 			_SetProjection();
 		}
@@ -315,10 +305,8 @@ namespace Nt {
 		uInt GetFPS() const noexcept {
 			return m_FPS;
 		}
-		Float GetFrameTimeMs() const noexcept {
-			if (m_FPSLimit == 0)
-				return 0;
-			return (1000.f / m_FPSLimit);
+		uInt GetFrameTime() const noexcept {
+			return m_FrameTime;
 		}
 		Float GetZoom() const noexcept {
 			return m_Zoom;
@@ -326,8 +314,8 @@ namespace Nt {
 		Bool IsInitialized() const noexcept {
 			return m_IsInitialized;
 		}
-		Bool Is3DEnabled() const noexcept {
-			return m_Is3DEnabled;
+		Bool IsEnabled3D() const noexcept {
+			return m_IsEnabled3D;
 		}
 
 		void SetFPSLimit(const uInt& FPSLimit) noexcept {
@@ -392,10 +380,12 @@ namespace Nt {
 		uInt m_FPSLimit;
 		uInt m_FPSCounter;
 		uInt m_FPS;
+		uInt m_FrameTime;
+		Timer m_LoopTimeStamp;
 		Timer m_FPSTimer;
 
 		Float m_Zoom;
-		Bool m_Is3DEnabled;
+		Bool m_IsEnabled3D;
 		Bool m_IsInitialized;
 
 	private:

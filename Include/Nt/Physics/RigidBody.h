@@ -49,7 +49,7 @@ namespace Nt {
 		void Update(const Float& DeltaTime) {
 			m_DeltaTime = DeltaTime;
 			if (m_EnableGravitation)
-				AddForce(m_GravityDirection / m_DeltaTime);
+				AddForce(m_GravityDirection * m_DeltaTime);
 
 			if (m_IsActive && m_IsAwake) {
 				m_IsAwake = false;

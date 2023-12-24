@@ -26,7 +26,7 @@
 #include <Nt/Graphics/Resources/Image.h>
 #include <Nt/Graphics/Resources/Texture.h>
 #include <Nt/Graphics/Resources/Mesh.h>
-#include <Nt/Graphics/Resources/ResourceMenager.h>
+#include <Nt/Graphics/Resources/ResourceManager.h>
 
 
 namespace Nt {

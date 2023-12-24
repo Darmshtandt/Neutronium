@@ -1,9 +1,13 @@
 #include <windows.h>
+#include <shobjidl.h>
 #include <GL/GLEW.h>
 #include <GL/GL.h>
 
 #include <fstream>
 
+// ============================================================================
+//	Neutronium
+// ----------------------------------------------------------------------------
 #include <Nt/Core/Defines.h>
 #include <Nt/Core/NtTypes.h>
 #include <Nt/Core/String.h>
@@ -28,7 +32,10 @@
 #include <Nt/Graphics/Resources/Image.h>
 #include <Nt/Graphics/Resources/Texture.h>
 #include <Nt/Graphics/Resources/Mesh.h>
-#include <Nt/Graphics/Resources/ResourceMenager.h>
+#include <Nt/Graphics/Resources/ResourceManager.h>
+
+#include <Nt/Graphics/Menu.h>
+#include <Nt/Graphics/HandleWindow.h>
 
 #include <Nt/Graphics/Renderer.h>
 #include <Nt/Graphics/Sprite.h>

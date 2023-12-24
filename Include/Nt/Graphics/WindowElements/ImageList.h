@@ -149,6 +149,7 @@ namespace Nt {
 				Raise("ImageList is not created");
 			if (pBitmap == nullptr)
 				Raise("The passed Bitmap is null");
+
 			if (pBitmapMask)
 				return ImageList_Add(m_Handle, pBitmap->GetHandle(), pBitmapMask->GetHandle());
 			return ImageList_Add(m_Handle, pBitmap->GetHandle(), nullptr);

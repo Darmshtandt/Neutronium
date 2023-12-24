@@ -534,15 +534,18 @@ namespace Nt {
 		Bool SetItem(Item* pItem) {
 			if (pItem == nullptr)
 				Raise("The item pointer passed is null");
-
+			
 			TVITEM tvItem = pItem->ToWinApiStruct();
 			const Bool result = _SendMessage(TVM_SETITEM, 0, reinterpret_cast<Long>(&tvItem));
 			(*pItem) = tvItem;
 			return result;
 		}
-		ImageList SetImageList(const ImageList& imageList, const Bool& imageListIsState) {
+		ImageList SetImageList(const ImageList& imageList, const Bool& isImageListState) {
 			const Long lParam = reinterpret_cast<Long>(imageList.GetHandle());
-			const HIMAGELIST hList = reinterpret_cast<HIMAGELIST>(_SendMessage(TVM_SETIMAGELIST, imageListIsState, lParam));
+			const uInt style = (isImageListState) ? TVSIL_STATE : TVSIL_NORMAL;
+
+			const HIMAGELIST hList = 
+				reinterpret_cast<HIMAGELIST>(TreeView_SetImageList(m_hwnd, lParam, style));
 			return ImageList(hList);
 		}
 		HRESULT SetExtendedStyle(const ExtendStyles& styles, const ExtendStyles& mask) {
