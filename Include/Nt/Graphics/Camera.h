@@ -35,7 +35,7 @@ namespace Nt {
 		using IObject::SetColor;
 		using IObject::SetSize;
 
-		virtual void Render(Renderer* pRenderer) const override {
+		virtual void Render([[maybe_unused]] Renderer* pRenderer) const override {
 		}
 	};
 

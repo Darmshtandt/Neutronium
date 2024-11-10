@@ -4,7 +4,8 @@ namespace Nt {
 	template <typename _Ty>
 	struct Vector2D {
 		constexpr Vector2D() :
-			x(0), y(0) {
+			x(0), y(0) 
+		{
 		}
 #ifdef _WINDEF_
 		constexpr Vector2D(const POINT& Point) :
@@ -22,10 +23,10 @@ namespace Nt {
 		}
 
 		constexpr _Ty Length() const noexcept {
-			return sqrt(x * x + y * y);
+			return _Ty(sqrt(Double(x * x + y * y)));
 		}
 		constexpr _Ty LengthSquare() const noexcept {
-			return x * x + y * y;
+			return (x * x + y * y);
 		}
 		constexpr _Ty Distance(const Vector2D<_Ty>& Vec) const noexcept {
 			return ((*this) - Vec).Length();
@@ -42,6 +43,18 @@ namespace Nt {
 		constexpr String ToString() const noexcept {
 			String str;
 			return str << ("{ x: ") << String(x) << ", y: " << String(y) << " };";
+		}
+
+		constexpr Vector2D<_Ty> GetClamp(const _Ty& min, const _Ty& max) const noexcept {
+			Vector2D<_Ty> vector = (*this);
+			for (uInt i = 0; i < 2; ++i) {
+				if (vector.xy[i] < min)
+					vector.xy[i] = min;
+				else if (vector.xy[i] > max)
+					vector.xy[i] = max;
+			}
+
+			return vector;
 		}
 
 // ============================================================================
@@ -223,17 +236,6 @@ namespace Nt {
 		}
 #endif
 
-	// ============================================================================
-	//		Vectors
-	// ----------------------------------------------------------------------------
-		static const Vector2D<_Ty> Zero;
-		static const Vector2D<_Ty> Identity;
-
-		static const Vector2D<_Ty> Left;
-		static const Vector2D<_Ty> Right;
-		static const Vector2D<_Ty> Down;
-		static const Vector2D<_Ty> Up;
-
 		union {
 			struct {
 				_Ty x, y;
@@ -248,20 +250,20 @@ namespace Nt {
 	};
 	
 	template <typename _Ty>
-	const Vector2D<_Ty> Vector2D<_Ty>::Zero = { 0, 0 };
+	constexpr Vector2D<_Ty> Zero2D = { 0, 0 };
 	
 	template <typename _Ty>
-	const Vector2D<_Ty> Vector2D<_Ty>::Identity = { 1, 1 };
+	constexpr Vector2D<_Ty> Identity2D = { 1, 1 };
 	
 	template <typename _Ty>
-	const Vector2D<_Ty> Vector2D<_Ty>::Left = { -1, 0 };
+	constexpr Vector2D<_Ty> Left2D = { _Ty(-1), 0};
 	
 	template <typename _Ty>
-	const Vector2D<_Ty> Vector2D<_Ty>::Right = { 1, 0 };
+	constexpr Vector2D<_Ty> Right2D = { 1, 0 };
 	
 	template <typename _Ty>
-	const Vector2D<_Ty> Vector2D<_Ty>::Down = { 0, -1 };
+	constexpr Vector2D<_Ty> Down2D = { 0, _Ty(-1) };
 	
 	template <typename _Ty>
-	const Vector2D<_Ty> Vector2D<_Ty>::Up = { 0, 1 };
+	constexpr Vector2D<_Ty> Up2D = { 0, 1 };
 }

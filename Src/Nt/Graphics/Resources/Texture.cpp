@@ -34,13 +34,24 @@ namespace Nt {
 		Image(IResource::TYPE_TEXTURE)
 	{
 	}
-	Texture::Texture(const Texture& NewTexture) noexcept :
-		Image(NewTexture)
+	Texture::Texture(const Texture& newTexture) noexcept :
+		Image(newTexture)
 	{
-		_Create();
+		if (newTexture.m_ID != 0) {
+			Create(4, m_Size, m_pData);
+			GenerateMipmap();
+
+			if (m_pData == nullptr) {
+				newTexture.Bind();
+				m_pData = new Byte[m_Size.x * m_Size.y * 4];
+				glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pData);
+				this->Bind();
+			}
+		}
 	}
 	Texture::Texture(const String& FileName) :
-		Image(IResource::TYPE_TEXTURE) {
+		Image(IResource::TYPE_TEXTURE) 
+	{
 		LoadFromFile(FileName);
 	}
 	Texture::~Texture() {
@@ -57,17 +68,18 @@ namespace Nt {
 				const uInt ThisDataOffset = (m_Size.y - y - 1) * m_Size.x;
 				memcpy(pFlipData + FlipDataOffset, ThisDataPtr + ThisDataOffset, sizeof(uInt) * m_Size.x);
 			}
-			if (m_pData)
+
+			if (m_pData != nullptr)
 				delete(m_pData);
 			m_pData = pFlipData;
 
-			glDeleteTextures(1, &m_ID);
-			_Create();
+			Delete();
+			Create(4, m_Size, m_pData);
+			GenerateMipmap();
 		}
 	}
 	void Texture::Rotate_90_Degrees(const Bool& toRight) {
 		if (IsLoaded()) {
-			const uInt* ThisDataPtr = reinterpret_cast<const uInt*>(m_pData);
 			uInt* pFlipData = new uInt[m_Size.x * m_Size.y];
 
 			for (uInt y = 0; y < m_Size.y; ++y) {
@@ -79,41 +91,42 @@ namespace Nt {
 				}
 			}
 
-			if (m_pData)
+			if (m_pData != nullptr)
 				delete(m_pData);
 			m_pData = pFlipData;
 
-			glDeleteTextures(1, &m_ID);
-			_Create();
+			Delete();
+			Create(4, m_Size, m_pData);
+			GenerateMipmap();
 		}
 	}
 
 	void Texture::SetMinFiler(const MinFilter& filer) const noexcept {
-		Set();
+		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filer);
 	}
 	void Texture::SetMagFiler(const MagFilter& filer) const noexcept {
-		Set();
+		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filer);
 	}
 	void Texture::SetMinLOD(const Int& value) const noexcept {
-		Set();
+		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, value);
 	}
 	void Texture::SetMaxLOD(const Int& value) const noexcept {
-		Set();
+		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, value);
 	}
 	void Texture::SetWrapS(const Wrap& wrap) const noexcept {
-		Set();
+		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
 	}
 	void Texture::SetWrapT(const Wrap& wrap) const noexcept {
-		Set();
+		Bind();
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
 	}
 
-	void Texture::Set() const {
+	void Texture::Bind() const {
 		if (m_ID == 0)
 			Raise("Texture is not created");
 		glBindTexture(GL_TEXTURE_2D, m_ID);
@@ -123,31 +136,71 @@ namespace Nt {
 		return m_ID;
 	}
 
-	void Texture::_Create() {
+	Bool Texture::IsCreated() const noexcept {
+		return (m_ID != 0);
+	}
+
+	void Texture::Create(const uInt& channelsCount, const uInt2D& size, const void* pData) {
+		if (m_Size != size)
+			m_Size = size;
+
+		if (m_ID != 0)
+			glDeleteTextures(1, &m_ID);
+
 		glGenTextures(1, &m_ID);
 		if (m_ID == 0)
 			_ThrowError("Failed to create texture");
 
+		switch (channelsCount) {
+		case 1:
+			m_ColorComponent = GL_R;
+			break;
+		case 2:
+			m_ColorComponent = GL_RG;
+			break;
+		case 3:
+			m_ColorComponent = GL_RGB;
+			break;
+		case 4:
+			m_ColorComponent = GL_RGBA;
+			break;
+		default:
+			Raise("Incorrect number of channels");
+		}
+
 		glBindTexture(GL_TEXTURE_2D, m_ID);
-		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, m_Size.x, m_Size.y, GL_RGBA, GL_UNSIGNED_BYTE, m_pData);
+		if (pData != nullptr)
+			gluBuild2DMipmaps(GL_TEXTURE_2D, m_ColorComponent, size.x, size.y, m_ColorComponent, GL_UNSIGNED_BYTE, pData);
+		else
+			glTexImage2D(GL_TEXTURE_2D, 0, m_ColorComponent, size.x, size.y, 0, m_ColorComponent, GL_UNSIGNED_BYTE, nullptr);
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		SetMinFiler(MIN_NEAREST);
+		SetMagFiler(MAG_NEAREST);
+		SetWrapS(WRAP_REPEAT);
+		SetWrapT(WRAP_REPEAT);
+	}
 
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	void Texture::Delete() {
+		if (m_ID != 0) {
+			glDeleteTextures(1, &m_ID);
+			m_ID = 0;
+		}
+	}
 
-		glGenerateTextureMipmap(m_ID);
+	void Texture::GenerateMipmap() const {
+		if (m_ID != 0)
+			glGenerateTextureMipmap(m_ID);
 	}
 
 	void Texture::_LoadFromFile() {
 		Image::_LoadFromFile();
-		_Create();
+
+		Create(4, m_Size, m_pData);
+		GenerateMipmap();
 	}
 
 	void Texture::_Release() {
 		Image::_Release();
-		if (m_ID)
-			glDeleteTextures(1, &m_ID);
+		Delete();
 	}
 }

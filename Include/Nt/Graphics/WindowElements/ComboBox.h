@@ -66,7 +66,7 @@ namespace Nt {
 			SetWindowSubclass(m_hwnd, _ClassProc, 0, 0);
 		}
 
-		static LRESULT CALLBACK _ClassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
+		static LRESULT CALLBACK _ClassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData) {
 			const ComboBox* pComboBox = reinterpret_cast<ComboBox*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			if (pComboBox) {
 			}

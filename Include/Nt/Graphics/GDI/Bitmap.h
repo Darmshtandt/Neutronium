@@ -54,7 +54,7 @@ namespace Nt::GDI {
 				Raise("Failed to create bitmap.");
 		}
 		void LoadFromFile(const String& filePath) {
-			std::ifstream file(filePath, std::ios::in | std::ios::binary);
+			std::ifstream file(filePath, std::ios::binary);
 			if (!file.is_open())
 				Raise("Failed to open file");
 
@@ -76,8 +76,6 @@ namespace Nt::GDI {
 			m_pData = new Byte[imageByteCount];
 			file.read((Char*)m_pData, imageByteCount);
 			file.close();
-
-			int b = sizeof(infoHeader) + sizeof(coreHeader);
 
 			m_Handle = CreateBitmap(m_Size.x, m_Size.y, infoHeader.biPlanes, m_BitCount, m_pData);
 			if (m_Handle == nullptr)
@@ -130,9 +128,11 @@ namespace Nt::GDI {
 
 	private:
 		void _BGRtoRGB(Byte* pData) {
-			Byte* imagePtr = m_pData;
+			if (pData == nullptr)
+				Raise("Data pointer is null");
+
 			for (uInt i = 0; i < m_Size.x * m_Size.y; ++i)
-				std::swap(imagePtr[i * (m_BitCount / 8) + 0], imagePtr[i * (m_BitCount / 8) + 2]);
+				std::swap(pData[i * (m_BitCount / 8) + 0], pData[i * (m_BitCount / 8) + 2]);
 		}
 	};
 }

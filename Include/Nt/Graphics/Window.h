@@ -154,19 +154,19 @@ namespace Nt {
 		Bool m_IsOpened;
 
 	private:
-		virtual void _WMCreate(const CREATESTRUCT* pWindowStruct)
+		virtual void _WMCreate([[maybe_unused]] const CREATESTRUCT* pWindowStruct)
 		{ 
 		}
-		virtual void _WMResize(const uInt2D& windowSize)
+		virtual void _WMResize([[maybe_unused]] const uInt2D& windowSize)
 		{ 
 		}
-		virtual Bool _WMNCPaint(HDC& hdc) { 
+		virtual Bool _WMNCPaint([[maybe_unused]] HDC& hdc) {
 			return true;
 		}
-		virtual void _WMPaint(HDC& hdc, PAINTSTRUCT& paint) 
+		virtual void _WMPaint([[maybe_unused]] HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint)
 		{ 
 		}
-		virtual void _WMCommand(const Long& param_1, const Long& param_2) 
+		virtual void _WMCommand([[maybe_unused]] const Long& param_1, [[maybe_unused]] const Long& param_2)
 		{ 
 		}
 
@@ -323,7 +323,7 @@ namespace Nt {
 		}
 	};
 
-	NT_API extern String FileDialog(cwString FilePath, cwString Filter, const Bool& IsOpenFile) noexcept;
+	NT_API extern String FileDialog(cwString FilePath, cwString Filter, const Bool& IsOpenFile);
 	__inline String OpenFileDialog(cwString FilePath, cwString Filter) noexcept {
 		return FileDialog(FilePath, Filter, true);
 	}

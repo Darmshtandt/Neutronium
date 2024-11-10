@@ -61,7 +61,7 @@ namespace Nt {
 		}
 		NT_API void Assign(const wChar& Value);
 
-		std::vector<String> Split(const Char& separator) {
+		std::vector<String> Split(const Char& separator) const {
 			std::vector<String> strings;
 
 			Int start = 0;
@@ -73,7 +73,7 @@ namespace Nt {
 				end = find(separator, start);
 			}
 
-			if (start != length())
+			if (uInt(start) != length())
 				strings.push_back(substr(start, length() - start));
 			return strings;
 		}
@@ -134,6 +134,10 @@ namespace Nt {
 		NT_API String& operator += (const String& Str);
 		NT_API String& operator << (const String& Str);
 		NT_API String& operator << (std::ios_base& (__cdecl* _Pfn)(std::ios_base&));
+
+		NT_API Char& operator [] (const uInt& index);
+
+		NT_API Float ToFloat() const;
 
 		NT_API operator std::wstring() const;
 		NT_API operator cString() const;

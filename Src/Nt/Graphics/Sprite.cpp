@@ -86,7 +86,7 @@ namespace Nt {
 			return;
 
 		_CheckTexture();
-		m_pTexture->Set();
+		m_pTexture->Bind();
 
 		const Float4D Color = pRenderer->GetColor();
 		pRenderer->SetColor(GetColor());
@@ -124,14 +124,14 @@ namespace Nt {
 		_UpdateTexCoords();
 	}
 	void Sprite::SetTexture(const Texture& NewTexture) {
-		if (m_TextureIndex == -1)
+		if (m_TextureIndex == uInt(-1))
 			SAFE_DELETE(&m_pTexture);
 
-		m_TextureIndex = -1;
+		m_TextureIndex = uInt(-1);
 		m_pTexture = new Texture(NewTexture);
 	}
 	void Sprite::SetTexture(const uInt& TextureIndex) {
-		if (m_TextureIndex == -1)
+		if (m_TextureIndex == uInt(-1))
 			SAFE_DELETE(&m_pTexture);
 		m_TextureIndex = TextureIndex;
 		m_pTexture = ResourceManager::GetTexture(m_TextureIndex);
@@ -143,16 +143,17 @@ namespace Nt {
 	}
 
 	void Sprite::_CheckTexture() const {
-		if (!m_pTexture)
+		if (m_pTexture == nullptr)
 			Raise("No texture selected");
+
 		m_pTexture->CheckIfItsLoaded();
 	}
 	void Sprite::_UpdateTexCoords() const {
 		if (m_pMesh) {
 			Vertices_t Vertices = m_pMesh->GetVertices();
-			Vertices[0].TexCoord = Float2D(m_TextureRect.Right, m_TextureRect.Bottom);
+			Vertices[0].TexCoord = Float2D(m_TextureRect.Left, m_TextureRect.Top);
 			Vertices[1].TexCoord = Float2D(m_TextureRect.Right, m_TextureRect.Top);
-			Vertices[2].TexCoord = Float2D(m_TextureRect.Left, m_TextureRect.Top);
+			Vertices[2].TexCoord = Float2D(m_TextureRect.Right, m_TextureRect.Bottom);
 			Vertices[3].TexCoord = Float2D(m_TextureRect.Left, m_TextureRect.Bottom);
 			m_pMesh->SetVertices(Vertices);
 		}

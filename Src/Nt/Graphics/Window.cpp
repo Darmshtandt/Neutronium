@@ -20,7 +20,7 @@
 #include <Nt/Graphics/Window.h>
 
 namespace Nt {
-	String FileDialog(cwString FilePath, cwString Filter, const Bool& IsOpenFile) noexcept {
+	String FileDialog(cwString FilePath, cwString Filter, const Bool& IsOpenFile) {
 		std::filesystem::path initialPath = std::filesystem::current_path();
 
 		std::wstring wPath(FilePath, MAX_PATH);

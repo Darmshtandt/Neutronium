@@ -32,9 +32,9 @@ namespace Nt {
 	}
 
 
-	bool Log::m_EnableOutput = true;
-	bool Log::m_EnableOutputSuccessfulls = true;
-	bool Log::m_EnableOutputWarnings = true;
-	bool Log::m_EnableOutputErrors = true;
-	bool Log::m_EnableOutputMessages = true;
+	Bool Log::m_EnableOutput = true;
+	Bool Log::m_EnableOutputSuccessfulls = true;
+	Bool Log::m_EnableOutputWarnings = true;
+	Bool Log::m_EnableOutputErrors = true;
+	Bool Log::m_EnableOutputMessages = true;
 }

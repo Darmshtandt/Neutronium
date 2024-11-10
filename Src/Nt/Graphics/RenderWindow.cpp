@@ -62,7 +62,7 @@
 
 namespace Nt {
 	void RenderWindow::Update() {
-		if (m_CurrentCameraPtr) {
+		if (m_CurrentCameraPtr != nullptr && m_CurrentCameraPtr->IsChanged()) {
 			m_CurrentCameraPtr->Update();
 			Renderer::SetView(m_CurrentCameraPtr->GetView());
 		}

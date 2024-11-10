@@ -11,6 +11,7 @@
 
 #pragma comment(lib, "OpenGL32")
 
+
 namespace Nt {
 	void _ShowCursor(const Bool& fShow) noexcept {
 		SetCursor(fShow ? LoadCursor(nullptr, IDC_ARROW) : nullptr);

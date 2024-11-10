@@ -17,7 +17,8 @@ namespace Nt {
 				Raise("ListBox is not created");
 
 			ListBox_AddString(m_hwnd, text.wstr().c_str());
-			InvalidateRect(m_hwnd, nullptr, TRUE);
+			InvalidateRect(nullptr, true);
+
 			++m_ItemCount;
 			return (m_ItemCount - 1);
 		}
@@ -25,8 +26,9 @@ namespace Nt {
 		void RemoveItem(const uInt& index) {
 			if (!IsCreated())
 				Raise("ListBox is not created");
-			if (index >= m_ItemCount)
+			else if (index >= m_ItemCount)
 				Raise("Out of range");
+
 			ListBox_DeleteString(m_hwnd, index);
 			--m_ItemCount;
 		}
@@ -34,14 +36,14 @@ namespace Nt {
 		void SetItemData(const uInt& index, const void* pData) {
 			if (!IsCreated())
 				Raise("ListBox is not created");
-			if (index >= m_ItemCount)
+			else if (index >= m_ItemCount)
 				Raise("Out of range");
 			ListBox_SetItemData(m_hwnd, index, pData);
 		}
 		void SetItemHeight(const uInt& index, const uInt& height) {
 			if (!IsCreated())
 				Raise("ListBox is not created");
-			if (index >= m_ItemCount)
+			else if (index >= m_ItemCount)
 				Raise("Out of range");
 			ListBox_SetItemHeight(m_hwnd, index, height);
 		}
@@ -49,7 +51,7 @@ namespace Nt {
 		String GetText(const uInt& index) const {
 			if (!IsCreated())
 				Raise("ListBox is not created");
-			if (index >= m_ItemCount)
+			else if (index >= m_ItemCount)
 				Raise("Out of range");
 
 			const uInt length = ListBox_GetTextLen(m_hwnd, index);
@@ -68,7 +70,7 @@ namespace Nt {
 		void* GetItemData(const uInt& index) {
 			if (!IsCreated())
 				Raise("ListBox is not created");
-			if (index >= m_ItemCount)
+			else if (index >= m_ItemCount)
 				Raise("Out of range");
 			return reinterpret_cast<void*>(ListBox_GetItemData(m_hwnd, index));
 		}

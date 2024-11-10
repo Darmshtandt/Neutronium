@@ -2,7 +2,7 @@
 
 namespace Nt {
 	class Image : public IResource {
-	private:
+	public:
 #		pragma pack(1)
 		struct TGAHeader {
 			Byte IDLength;
@@ -23,20 +23,28 @@ namespace Nt {
 #		pragma pack(4)
 
 	protected:
-		Image(const Image& OtherImage) noexcept :
-			IResource(OtherImage),
-			m_Size(OtherImage.m_Size),
-			m_BitCount(OtherImage.m_BitCount) {
-			const uInt ImageSize = OtherImage.m_Size.x * OtherImage.m_Size.y * 4;
-			m_pData = new uInt[ImageSize];
-			memcpy(m_pData, OtherImage.m_pData, ImageSize);
+		Image(const Image& otherImage) noexcept :
+			IResource(otherImage),
+			m_Size(otherImage.m_Size),
+			m_BitCount(otherImage.m_BitCount)
+		{
+			if (otherImage.m_pData != nullptr) {
+				const uInt ImageSize = (otherImage.m_Size.x * otherImage.m_Size.y * 4);
+				m_pData = new uInt[ImageSize];
+				memcpy(m_pData, otherImage.m_pData, ImageSize);
+			}
+			else {
+				m_pData = nullptr;
+			}
 		}
-		Image(const uInt& ResourrceType) noexcept :
-			IResource(ResourrceType) {
+		Image(const uInt& resourrceType) noexcept :
+			IResource(resourrceType)
+		{
 		}
-		Image(const uInt& ResourrceType, cString FileName) :
-			IResource(ResourrceType) {
-			LoadFromFile(FileName);
+		Image(const uInt& resourrceType, cString fileName) :
+			IResource(resourrceType)
+		{
+			LoadFromFile(fileName);
 		}
 		~Image() override {
 			Release();
@@ -61,7 +69,7 @@ namespace Nt {
 			_LoadTGA();
 		}
 		virtual void _Release() override {
-			m_Size = uInt2D::Zero;
+			m_Size = Zero2D<uInt>;
 			m_BitCount = 0;
 		}
 
@@ -71,29 +79,29 @@ namespace Nt {
 			if (!fImage.is_open())
 				_ThrowError("Failed to open image file");
 
-			TGAHeader Head;
-			fImage.read(reinterpret_cast<char*>(&Head), 18);
-			fImage.seekg(Head.IDLength, std::ios::_Seekcur);
+			TGAHeader header;
+			fImage.read(reinterpret_cast<char*>(&header), 18);
+			fImage.seekg(header.IDLength, std::ios::_Seekcur);
 
-			m_Size.x = Head.Width;
-			m_Size.y = Head.Height;
-			m_BitCount = Head.Bits / 8;
+			m_Size.x = header.Width;
+			m_Size.y = header.Height;
+			m_BitCount = header.Bits / 8;
 
 			if (m_BitCount == 0 || m_Size.x == 0 || m_Size.y == 0)
 				_ThrowError("Image file is corrupted");
 
-			const uInt PixelCount = m_Size.x * m_Size.y;
+			const uInt pixelCount = m_Size.x * m_Size.y;
 			if (m_pData)
 				delete(m_pData);
-			m_pData = new Byte[PixelCount * 4];
+			m_pData = new Byte[pixelCount * 4];
 
-			Byte Pixel[4] = { 255, 255, 255, 255 };
-			uInt* pPixel = reinterpret_cast<uInt*>(Pixel);
+			Byte pixel[4] = { 255, 255, 255, 255 };
+			uInt* pPixel = reinterpret_cast<uInt*>(pixel);
 			uInt* pImage = reinterpret_cast<uInt*>(m_pData);
 
 			auto AddPixel = [&]() {
-				fImage.read(reinterpret_cast<char*>(&Pixel), m_BitCount);
-				std::swap(Pixel[0], Pixel[2]);
+				fImage.read(reinterpret_cast<char*>(&pixel), m_BitCount);
+				std::swap(pixel[0], pixel[2]);
 
 				(*pImage) = (*pPixel);
 				++pImage;
@@ -102,35 +110,35 @@ namespace Nt {
 			constexpr uInt UNCOMPRESSED = 2;
 			constexpr uInt COMPRESSED = 10;
 
-			switch (Head.ImageType) {
+			switch (header.ImageType) {
 			case UNCOMPRESSED:
-				for (uInt i = 0; i < PixelCount; ++i)
+				for (uInt i = 0; i < pixelCount; ++i)
 					AddPixel();
 				break;
 			case COMPRESSED:
 			{
-				uInt Chunk = 0;
-				uInt CurrentPixel = 0;
+				uInt chunk = 0;
+				uInt currentPixel = 0;
 
 				do {
-					fImage.read(reinterpret_cast<char*>(&Chunk), 1);
-					if (Chunk < 128) {
-						for (uInt i = 0; i <= Chunk; ++i)
+					fImage.read(reinterpret_cast<char*>(&chunk), 1);
+					if (chunk < 128) {
+						for (uInt i = 0; i <= chunk; ++i)
 							AddPixel();
 					}
 					else {
-						Chunk -= 128;
+						chunk -= 128;
 
-						fImage.read(reinterpret_cast<char*>(&Pixel), m_BitCount);
-						std::swap(Pixel[0], Pixel[2]);
+						fImage.read(reinterpret_cast<char*>(&pixel), m_BitCount);
+						std::swap(pixel[0], pixel[2]);
 
-						for (uInt i = 0; i <= Chunk; ++i) {
+						for (uInt i = 0; i <= chunk; ++i) {
 							(*pImage) = (*pPixel);
 							++pImage;
 						}
 					}
-					CurrentPixel += Chunk + 1;
-				} while (CurrentPixel < PixelCount);
+					currentPixel += chunk + 1;
+				} while (currentPixel < pixelCount);
 				break;
 			}
 			default:

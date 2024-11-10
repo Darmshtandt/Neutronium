@@ -177,6 +177,14 @@ namespace Nt {
 		return (*this);
 	}
 
+	Char& String::operator [] (const uInt& index) {
+		Assert(index < length(), "Out of range");
+		return const_cast<Char*>(c_str())[index];
+	}
+
+	Float String::ToFloat() const {
+		return operator Float();
+	}
 
 	String::operator std::wstring() const {
 		return wstr();

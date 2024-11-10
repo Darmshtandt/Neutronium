@@ -120,7 +120,7 @@ namespace Nt {
 			Renderer::SetCurrentShader(m_DefaultShader);
 		}
 
-		void _WMCreate(const CREATESTRUCT* pWindowStruct) override {
+		void _WMCreate([[maybe_unused]] const CREATESTRUCT* pWindowStruct) override {
 			Renderer::_Initialize(Window::GetHandle());
 			glewInit();
 			_InitializeDefaultShader();

@@ -4,26 +4,31 @@ namespace Nt {
 	template <typename _Ty>
 	struct Vector3D {
 		constexpr Vector3D() noexcept :
-			x(0), y(0), z(0) {
+			x(0), y(0), z(0) 
+		{
 		}
 		constexpr Vector3D(const _Ty& X, const _Ty& Y, const _Ty& Z) noexcept :
-			x(X), y(Y), z(Z) {
+			x(X), y(Y), z(Z) 
+		{
 		}
 		constexpr Vector3D(const _Ty& X, const Vector2D<_Ty>& YZ) noexcept :
-			xyz { X, YZ.x, YZ.y } {
+			xyz { X, YZ.x, YZ.y } 
+		{
 		}
 		constexpr Vector3D(const Vector2D<_Ty>& XY, const _Ty& Z) noexcept :
-			xyz { XY.x, XY.y, Z } {
+			xyz { XY.x, XY.y, Z } 
+		{
 		}
 		constexpr Vector3D(const Vector2D<_Ty>& Vec2D) noexcept :
-			xyz { Vec2D.x, Vec2D.y, 0 } {
+			xyz { Vec2D.x, Vec2D.y, 0 } 
+		{
 		}
 
 		constexpr _Ty Length() const noexcept {
-			return sqrt(x * x + y * y + z * z);
+			return _Ty(sqrt(Double(x * x + y * y + z * z)));
 		}
 		constexpr _Ty LengthSquare() const noexcept {
-			return x * x + y * y + z * z;
+			return (x * x + y * y + z * z);
 		}
 		constexpr _Ty GetDistance(const Vector3D<_Ty>& Vec) const noexcept {
 			return ((*this) - Vec).Length();

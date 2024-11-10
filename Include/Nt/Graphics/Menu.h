@@ -47,7 +47,7 @@ namespace Nt {
 
 					HMENU hSubmenu = ::GetSubMenu(m_Handle, i);
 					if (hSubmenu)
-						m_SubMenus.push_back(hSubmenu);
+						m_SubMenu.push_back(hSubmenu);
 				}
 			}
 		}
@@ -56,8 +56,8 @@ namespace Nt {
 			for (uInt i = 0; i < menu.m_Items.size(); ++i) {
 				Item item = menu.m_Items[i];
 				Add(item);
-				if (i < menu.m_SubMenus.size())
-					AddSubMenu(menu.m_SubMenus[i], item.Flags, item.Text);
+				if (i < menu.m_SubMenu.size())
+					AddSubMenu(menu.m_SubMenu[i], item.Flags, item.Text);
 			}
 		}
 
@@ -81,7 +81,7 @@ namespace Nt {
 			else if (subMenu.m_Handle == nullptr)
 				Raise("Sub menu is not created.");
 
-			m_SubMenus.push_back(subMenu);
+			m_SubMenu.push_back(subMenu);
 			Add(flags, (uInt)subMenu.m_Handle, text);
 
 			for (const Item& item : subMenu.m_Items)
@@ -112,26 +112,26 @@ namespace Nt {
 			if (m_Handle == nullptr)
 				Raise("Menu is not created.");
 
-			Item& item = _GetItemFromID(id);
-			item.Text = newText;
-			_Modify(item.Flags, item.ID, item.Text.c_str());
+			Item* pItem = _GetItemPtrFromID(id);
+			pItem->Text = newText;
+			_Modify(pItem->Flags, pItem->ID, pItem->Text.c_str());
 		}
 		void ChangeItemFlags(const uInt& id, const Flags& flags) {
 			if (m_Handle == nullptr)
 				Raise("Menu is not created.");
 
-			Item& item = _GetItemFromID(id);
-			item.Flags = flags;
-			_Modify(item.Flags, item.ID, item.Text.c_str());
+			Item* pItem = _GetItemPtrFromID(id);
+			pItem->Flags = flags;
+			_Modify(pItem->Flags, pItem->ID, pItem->Text.c_str());
 		}
 		void ChangeItem(const uInt& id, const Flags& flags, const String& newText) {
 			if (m_Handle == nullptr)
 				Raise("Menu is not created.");
 
-			Item& item = _GetItemFromID(id);
-			item.Flags = flags;
-			item.Text = newText;
-			_Modify(item.Flags, item.ID, item.Text.c_str());
+			Item* pItem = _GetItemPtrFromID(id);
+			pItem->Flags = flags;
+			pItem->Text = newText;
+			_Modify(pItem->Flags, pItem->ID, pItem->Text.c_str());
 		}
 
 		void CheckItem(const Menu& menu, const Bool& isChecked) {
@@ -147,22 +147,23 @@ namespace Nt {
 		}
 #endif
 		const Menu& GetSubMenu(const uInt& index) const {
-			if (index >= m_SubMenus.size())
+			if (index >= m_SubMenu.size())
 				Raise("Out of range.");
-			return m_SubMenus[index];
+			return m_SubMenu[index];
 		}
 		uInt GetSubMenuCount() const {
-			return m_SubMenus.size();
+			return m_SubMenu.size();
 		}
-		const Item& GetItem(const Menu& menu) const {
-			return GetItem((uInt)menu.m_Handle);
+		const Item* GetItemPtr(const Menu& menu) const {
+			return GetItemPtr((uInt)menu.m_Handle);
 		}
-		const Item& GetItem(const uInt& id) const {
+		const Item* GetItemPtr(const uInt& id) const {
 			for (const Item& item : m_Items)
 				if (item.ID == id)
-					return item;
+					return (&item);
+
 			Raise("Menu ID not find");
-			return Item();
+			return nullptr;
 		}
 		uInt GetItemCount() const {
 			return m_Items.size();
@@ -173,11 +174,11 @@ namespace Nt {
 		HMENU m_Handle;
 #endif
 		ItemContainer m_Items;
-		SubMenuContainer m_SubMenus;
+		SubMenuContainer m_SubMenu;
 
 	private:
-		Item& _GetItemFromID(const uInt& id) {
-			return const_cast<Item&>(GetItem(id));
+		Item* _GetItemPtrFromID(const uInt& id) {
+			return const_cast<Item*>(GetItemPtr(id));
 		}
 		void _Modify(const uInt& flags, const uInt& id, const std::wstring& text) {
 			if (!ModifyMenu(m_Handle, id, flags | MF_BYCOMMAND, id, text.c_str())) {

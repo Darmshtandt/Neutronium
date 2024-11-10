@@ -16,6 +16,9 @@ namespace Nt {
 		NT_API void Render(Renderer* pRenderer) const override;
 
 
+		_inline Texture* GetTexturePtr() const noexcept {
+			return m_pTexture;
+		}
 		NT_API const std::unique_ptr<Mesh>& GetMeshPtr() const noexcept;
 		NT_API FloatRect GetTextureRect() const noexcept;
 		NT_API uInt GetTextureIndex() const noexcept;

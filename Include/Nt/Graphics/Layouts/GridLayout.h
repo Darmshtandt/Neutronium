@@ -237,7 +237,7 @@ namespace Nt {
 			return m_Gap2D;
 		}
 
-		void SetPadding(FloatRect paddingRect, const UnitType& unit) noexcept {
+		void SetPadding(FloatRect paddingRect, const UnitType& unit) {
 			if (unit == Nt::UnitType::UNIT_PIXEL && (!IsCreated()))
 				Raise("Layout is not created");
 
@@ -396,7 +396,7 @@ namespace Nt {
 		Int2D m_Gap2D;
 
 	private:
-		virtual void _WMPaint(HDC& hdc, PAINTSTRUCT& paint) {
+		virtual void _WMPaint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
 			if (IsVisibleDebugGrid) {
 				constexpr uInt lineWeight = 1;
 

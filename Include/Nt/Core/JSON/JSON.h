@@ -33,7 +33,7 @@ namespace Nt {
 				if (_IsSkipSymbol(*Iterator))
 					continue;
 
-				char Symbol = std::tolower(*Iterator);
+				Char Symbol = Char(std::tolower(Int(*Iterator)));
 				PrevValue = CurrentValue;
 				CurrentValue = nullptr;
 

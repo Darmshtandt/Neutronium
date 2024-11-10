@@ -613,10 +613,10 @@ namespace Nt {
 		}
 
 		Int HitTest(HitTextInfo* pHitTextInfo) const {
-			return _SendMessage(LVM_HITTEST, -1, reinterpret_cast<Long>(pHitTextInfo));
+			return _SendMessage(LVM_HITTEST, uInt(-1), reinterpret_cast<Long>(pHitTextInfo));
 		}
 		Int SubItemHitTest(HitTextInfo* pHitTextInfo) const {
-			return _SendMessage(LVM_SUBITEMHITTEST, -1, reinterpret_cast<Long>(pHitTextInfo));
+			return _SendMessage(LVM_SUBITEMHITTEST, uInt(-1), reinterpret_cast<Long>(pHitTextInfo));
 		}
 
 		Bool ToggleVisible(const uInt& listIndex, const Bool& isVisible) const {
@@ -661,7 +661,7 @@ namespace Nt {
 		}
 
 		Int2D GetApproximateSize() const {
-			const DWord size = _SendMessage(LVM_APPROXIMATEVIEWRECT, -1, -1);
+			const DWord size = _SendMessage(LVM_APPROXIMATEVIEWRECT, uInt(-1), -1);
 			return Int2D(LOWORD(size), HIWORD(size));
 		}
 		Byte3D GetBackgroundColor() const noexcept {
@@ -782,7 +782,7 @@ namespace Nt {
 		}
 		std::wstring GetSearchString() const {
 			const uInt length = _SendMessage(LVM_GETISEARCHSTRING, 0, 0);
-			std::wstring searchString(L'\0', length);
+			std::wstring searchString(L"\0", length);
 			ListView_GetISearchString(m_hwnd, searchString.data());
 			return searchString;
 		}
@@ -968,14 +968,14 @@ namespace Nt {
 			m_TextColor = color;
 			if (m_hwnd) {
 				ListView_SetTextColor(m_hwnd, VectorToColorRef(m_TextColor));
-				InvalidateRect(m_hwnd, nullptr, FALSE);
+				InvalidateRect(nullptr, false);
 			}
 		}
 		void SetTextBackgroundColor(const uInt3D& color) {
 			m_TextBackgroundColor = color;
 			if (m_hwnd) {
 				ListView_SetTextBkColor(m_hwnd, VectorToColorRef(m_TextBackgroundColor));
-				InvalidateRect(m_hwnd, nullptr, FALSE);
+				InvalidateRect(nullptr, false);
 			}
 		}
 

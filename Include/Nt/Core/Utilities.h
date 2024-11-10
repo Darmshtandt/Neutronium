@@ -4,6 +4,11 @@
 #include <string>
 #include <filesystem>
 
+#pragma warning(disable : 4002)
+#pragma warning(disable : 4003)
+#pragma warning(disable : 4005)
+
+
 #ifndef min
 #	define min(a, b) ((a < b) ? a : b)
 #endif

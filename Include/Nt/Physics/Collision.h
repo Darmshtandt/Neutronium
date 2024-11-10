@@ -280,10 +280,10 @@ namespace Nt {
 
 			Float3D P = ray.Direction().GetCross(ac);
 			Float determinant = ab.Dot(P);
-			if (std::abs(determinant) < 0.000001)
+			if (std::fabs(determinant) < 0.000001f)
 				return false;
 
-			Float inverseDeterminant = 1.0 / determinant;
+			Float inverseDeterminant = 1.f / determinant;
 			Float3D rayStartToA = ray.Start - face[0];
 
 			Float intersectionParam1 = rayStartToA.Dot(P) * inverseDeterminant;

@@ -77,7 +77,8 @@ namespace Nt {
 				SendMessage(m_hwnd, EM_SETCHARFORMAT, SCF_ALL, reinterpret_cast<LPARAM>(&m_CharFormat));
 		}
 		void SetTextWeight(const uInt& weight) noexcept {
-			m_CharFormat.wWeight = m_TextWeight = weight;
+			m_TextWeight = weight;
+			m_CharFormat.wWeight = Word(m_TextWeight);
 			if (m_hwnd)
 				SendMessage(m_hwnd, EM_SETCHARFORMAT, SCF_ALL, reinterpret_cast<LPARAM>(&m_CharFormat));
 		}

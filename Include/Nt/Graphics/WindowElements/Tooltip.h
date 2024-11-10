@@ -114,7 +114,7 @@ namespace Nt {
 				return title;
 			}
 
-			uInt BitmapID = -1;
+			uInt BitmapID = uInt(-1);
 			uInt TextLength = 0;
 			wChar* pText = nullptr;
 		};

@@ -45,10 +45,10 @@ namespace Nt {
 		}
 
 	private:
-		static bool m_EnableOutput;
-		static bool m_EnableOutputSuccessfulls;
-		static bool m_EnableOutputWarnings;
-		static bool m_EnableOutputErrors;
-		static bool m_EnableOutputMessages;
+		static Bool m_EnableOutput;
+		static Bool m_EnableOutputSuccessfulls;
+		static Bool m_EnableOutputWarnings;
+		static Bool m_EnableOutputErrors;
+		static Bool m_EnableOutputMessages;
 	};
 }

@@ -74,7 +74,7 @@ namespace Nt {
 			Resize(FloatRect(m_ProjectionConfig.Rect.LeftTop, Float2D(size)));
 		}
 		void Resize(FloatRect rect) {
-			glViewport(uInt(rect.Left), uInt(rect.Top), uInt(rect.Right), uInt(rect.Bottom));
+			SetViewport(rect);
 
 			rect.Right /= m_Zoom;
 			rect.Bottom /= m_Zoom;
@@ -109,7 +109,7 @@ namespace Nt {
 		void Display() {
 			CheckInitialization();
 
-			m_FrameTime = m_LoopTimeStamp.GetElapsedTimeMs();
+			m_FrameTime = uInt(m_LoopTimeStamp.GetElapsedTimeMs());
 			m_LoopTimeStamp.Restart();
 
 			const uInt delayTimeMs = (1000 / m_FPSLimit) - m_FrameTime;
@@ -196,6 +196,10 @@ namespace Nt {
 				glCullFace(uInt(Mode));
 			}
 		}
+		void SetViewport(const Nt::uIntRect& rect) {
+			m_ViewportRect = rect;
+			glViewport(rect.Left, rect.Top, rect.Right, rect.Bottom);
+		}
 
 		void MatricesPush() noexcept {
 			m_CachedMatrices = m_Matrices;
@@ -264,11 +268,13 @@ namespace Nt {
 			m_ProjectionConfig.Far = Far;
 			m_ProjectionConfig.Type = _ProjectionType::PERSPECTIVE;
 
-			const Float f = 1.f / tanf(FOV * RADf / 2.f);
-			m_Matrices.Projection._11 = f / Aspect / m_Zoom;
-			m_Matrices.Projection._22 = f;
-			m_Matrices.Projection._33 = (Near + Far) / (Near - Far);
-			m_Matrices.Projection._34 = (2.f * Near * Far) / (Near - Far);
+			const Float tanFOV = tanf(FOV / 2.f * RADf);
+
+			m_Matrices.Projection.MakeIdentity();
+			m_Matrices.Projection._11 = 1.f / (tanFOV * Aspect * m_Zoom);
+			m_Matrices.Projection._22 = (1.f / tanFOV);
+			m_Matrices.Projection._33 = -(Far + Near) / (Far - Near);
+			m_Matrices.Projection._34 = -(2.f * Far * Near) / (Far - Near);
 			m_Matrices.Projection._43 = -1.f;
 			m_Matrices.Projection._44 = 0.f;
 
@@ -295,6 +301,9 @@ namespace Nt {
 		}
 		Float4D GetColor() const noexcept {
 			return m_Color;
+		}
+		uIntRect GetViewportRect() const noexcept {
+			return m_ViewportRect;
 		}
 		DrawingMode GetDrawingMode() const noexcept {
 			return m_DrawingMode;
@@ -349,7 +358,6 @@ namespace Nt {
 		void SetCurrentShader(Shader* ShaderPtr) {
 			m_ShaderPtr = ShaderPtr;
 			if (m_ShaderPtr) {
-				const Bool IsNtExceptsEnabled = g_NtExcepts;
 				m_ShaderPtr->Use();
 				m_ShaderPtr->SetUniformMatrix4x4("Projection", GL_FLOAT, m_Matrices.Projection);
 				m_ShaderPtr->SetUniformMatrix4x4("World", GL_FLOAT, m_Matrices.World);
@@ -372,6 +380,7 @@ namespace Nt {
 		_ProjectionConfig m_ProjectionConfig;
 		Float4D m_Color;
 
+		uIntRect m_ViewportRect;
 		Shader* m_ShaderPtr;
 
 		HWND m_hwnd;

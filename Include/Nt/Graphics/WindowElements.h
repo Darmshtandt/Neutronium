@@ -16,7 +16,7 @@ namespace Nt {
 		}
 	}
 
-	__inline LRESULT CALLBACK SubClassProc_KillFocus(HWND hwnd, uInt uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
+	__inline LRESULT CALLBACK SubClassProc_KillFocus(HWND hwnd, uInt uMsg, WPARAM wParam, LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData) {
 		if (uMsg == WM_CHAR) {
 			if (wParam == VK_ESCAPE) {
 				SendMessage(hwnd, WM_KILLFOCUS, 0, 0);
@@ -38,7 +38,7 @@ namespace Nt {
 		}
 		return SubClassProc_KillFocus(hwnd, uMsg, wParam, lParam, uIdSubclass, dwRefData);
 	};
-	__inline LRESULT CALLBACK SubClassProc_ListView(HWND hwnd, uInt uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
+	__inline LRESULT CALLBACK SubClassProc_ListView(HWND hwnd, uInt uMsg, WPARAM wParam, LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData) {
 		switch (uMsg) {
 		case WM_MOUSEMOVE:
 		case WM_LBUTTONUP:
@@ -49,7 +49,7 @@ namespace Nt {
 		}
 		return DefSubclassProc(hwnd, uMsg, wParam, lParam);
 	}
-	__inline LRESULT CALLBACK SubClassProc_ListBox(HWND hwnd, uInt uMsg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) {
+	__inline LRESULT CALLBACK SubClassProc_ListBox(HWND hwnd, uInt uMsg, WPARAM wParam, LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData) {
 		Bool isDeselect = false;
 		if (uMsg == WM_KEYDOWN && wParam == VK_ESCAPE) {
 			isDeselect = true;

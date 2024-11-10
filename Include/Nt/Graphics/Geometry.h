@@ -45,7 +45,7 @@ namespace Nt {
 			return 0;
 		}
 
-		static ISerialization* New(const uInt& classType) {
+		static ISerialization* New([[maybe_unused]] const uInt& classType) {
 			return new Shape;
 		}
 

@@ -109,7 +109,7 @@ namespace Nt {
 		NT_API void Link();
 
 		template <typename _Ty>
-		void SetUniform(const String SemanticName, const uInt& Type, const _Ty& Value) const {
+		void SetUniform(const String& SemanticName, const uInt& Type, const _Ty& Value) const {
 			const Int Location = _GetUniformLocation(SemanticName);
 			switch (Type) {
 			case GL_FLOAT:
@@ -118,6 +118,7 @@ namespace Nt {
 			case GL_DOUBLE:
 				m_GLEW.Uniform1D(Location, Value);
 				break;
+			case GL_BOOL:
 			case GL_INT:
 				m_GLEW.Uniform1I(Location, Value);
 				break;
@@ -127,17 +128,18 @@ namespace Nt {
 			}
 		}
 		template <typename _Ty>
-		void SetUniformVec2(const String SemanticName, const uInt& Type, const Vector2D<_Ty>& Vec) const {
+		void SetUniformVec2(const String& SemanticName, const uInt& Type, const Vector2D<_Ty>& Vec) const {
 			const Int Location = _GetUniformLocation(SemanticName);
 			switch (Type) {
 			case GL_FLOAT:
-				m_GLEW.Uniform2F(Location, float(Vec.x), float(Vec.y));
+				m_GLEW.Uniform2F(Location, Float(Vec.x), Float(Vec.y));
 				break;
 			case GL_DOUBLE:
-				m_GLEW.Uniform2D(Location, double(Vec.x), double(Vec.y));
+				m_GLEW.Uniform2D(Location, Double(Vec.x), Double(Vec.y));
 				break;
+			case GL_BOOL:
 			case GL_INT:
-				m_GLEW.Uniform2I(Location, int(Vec.x), int(Vec.y));
+				m_GLEW.Uniform2I(Location, Int(Vec.x), Int(Vec.y));
 				break;
 			case GL_UNSIGNED_INT:
 				m_GLEW.Uniform2UI(Location, uInt(Vec.x), uInt(Vec.y));
@@ -145,17 +147,18 @@ namespace Nt {
 			}
 		}
 		template <typename _Ty>
-		void SetUniformVec3(const String SemanticName, const uInt& Type, const Vector3D<_Ty>& Vec) const {
+		void SetUniformVec3(const String& SemanticName, const uInt& Type, const Vector3D<_Ty>& Vec) const {
 			const Int Location = _GetUniformLocation(SemanticName);
 			switch (Type) {
 			case GL_FLOAT:
-				m_GLEW.Uniform3F(Location, float(Vec.x), float(Vec.y), float(Vec.z));
+				m_GLEW.Uniform3F(Location, Float(Vec.x), Float(Vec.y), Float(Vec.z));
 				break;
 			case GL_DOUBLE:
-				m_GLEW.Uniform3D(Location, double(Vec.x), double(Vec.y), double(Vec.z));
+				m_GLEW.Uniform3D(Location, Double(Vec.x), Double(Vec.y), Double(Vec.z));
 				break;
+			case GL_BOOL:
 			case GL_INT:
-				m_GLEW.Uniform3I(Location, int(Vec.x), int(Vec.y), int(Vec.z));
+				m_GLEW.Uniform3I(Location, Int(Vec.x), Int(Vec.y), Int(Vec.z));
 				break;
 			case GL_UNSIGNED_INT:
 				m_GLEW.Uniform3UI(Location, uInt(Vec.x), uInt(Vec.y), uInt(Vec.z));
@@ -163,17 +166,18 @@ namespace Nt {
 			}
 		}
 		template <typename _Ty>
-		void SetUniformVec4(const String SemanticName, const uInt& Type, const Vector4D<_Ty>& Vec) const {
+		void SetUniformVec4(const String& SemanticName, const uInt& Type, const Vector4D<_Ty>& Vec) const {
 			const Int Location = _GetUniformLocation(SemanticName);
 			switch (Type) {
 			case GL_FLOAT:
-				m_GLEW.Uniform4F(Location, float(Vec.x), float(Vec.y), float(Vec.z), float(Vec.w));
+				m_GLEW.Uniform4F(Location, Float(Vec.x), Float(Vec.y), Float(Vec.z), Float(Vec.w));
 				break;
 			case GL_DOUBLE:
-				m_GLEW.Uniform4D(Location, double(Vec.x), double(Vec.y), double(Vec.z), double(Vec.w));
+				m_GLEW.Uniform4D(Location, Double(Vec.x), Double(Vec.y), Double(Vec.z), Double(Vec.w));
 				break;
+			case GL_BOOL:
 			case GL_INT:
-				m_GLEW.Uniform4I(Location, int(Vec.x), int(Vec.y), int(Vec.z), int(Vec.w));
+				m_GLEW.Uniform4I(Location, Int(Vec.x), Int(Vec.y), Int(Vec.z), Int(Vec.w));
 				break;
 			case GL_UNSIGNED_INT:
 				m_GLEW.Uniform4UI(Location, uInt(Vec.x), uInt(Vec.y), uInt(Vec.z), uInt(Vec.w));
@@ -188,6 +192,14 @@ namespace Nt {
 
 		NT_API void EnableStrict() noexcept;
 		NT_API void DisableStrict() noexcept;
+
+		void UniformBlockBinding(const String& SemanticName, const uInt& uniformBlockBinding) {
+			const Int location = _GetUniformLocation(SemanticName);
+			glUniformBlockBinding(m_Program, location, uniformBlockBinding);
+		}
+		void BindBufferBase(const uInt& target, const uInt& index, const uInt& bufferID) {
+			glBindBufferBase(target, index, bufferID);
+		}
 
 	private:
 		uInt m_Program;

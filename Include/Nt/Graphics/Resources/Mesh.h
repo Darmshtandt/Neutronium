@@ -4,13 +4,15 @@ namespace Nt {
 	class Mesh : public IResource {
 	public:
 		Mesh() :
-			IResource(IResource::TYPE_MESH) {
+			IResource(IResource::TYPE_MESH) 
+		{
 			_Initialize();
 		}
-		Mesh(LPCSTR FileName) :
-			IResource(IResource::TYPE_MESH) {
+		Mesh(const Nt::String fileName) :
+			IResource(IResource::TYPE_MESH) 
+		{
 			_Initialize();
-			LoadFromFile(FileName);
+			LoadFromFile(fileName);
 		}
 		Mesh(const Mesh& NewMesh) :
 			IResource(NewMesh),
@@ -18,7 +20,8 @@ namespace Nt {
 			m_Scale(NewMesh.m_Scale),
 			m_pVertexArray(std::make_unique<VertexArray>(*NewMesh.m_pVertexArray))
 		{
-			m_pData = new Shape(NewMesh.GetShape());
+			m_pShape = new Shape(NewMesh.GetShape());
+			m_pData = m_pShape;
 		}
 		Mesh(const Shape& NewShape, const uInt& Usage = USAGE_DYNAMICDRAW) :
 			IResource(IResource::TYPE_MESH) {
@@ -34,8 +37,8 @@ namespace Nt {
 			IResource::Write(Stream);
 			if (strlen(GetFilePath()) == 0) {
 				Shape shape = { };
-				if (m_pData)
-					shape = *static_cast<Shape*>(m_pData);
+				if (m_pData != nullptr)
+					shape = *m_pShape;
 				Serialization::WriteAll(Stream, shape);
 			}
 		}
@@ -53,19 +56,19 @@ namespace Nt {
 
 
 		const Shape& GetShape() const {
-			if (!m_pData)
+			if (m_pData == nullptr)
 				Raise("Data is nullptr");
-			return *static_cast<Shape*>(m_pData);
+			return (*m_pShape);
 		}
 		const Vertices_t& GetVertices() const {
-			if (!m_pData)
+			if (m_pData == nullptr)
 				Raise("Data is nullptr");
-			return static_cast<Shape*>(m_pData)->Vertices;
+			return m_pShape->Vertices;
 		}
 		const Indices_t& GetIndices() const {
-			if (!m_pData)
+			if (m_pData == nullptr)
 				Raise("Data is nullptr");
-			return static_cast<Shape*>(m_pData)->Indices;
+			return m_pShape->Indices;
 		}
 		Float3D GetScale() const noexcept {
 			return m_Scale;
@@ -83,29 +86,27 @@ namespace Nt {
 		void SetVertices(const Vertices_t& Vertices, const uInt& Usage = USAGE_DYNAMICDRAW) {
 			if (Vertices.size() == 0)
 				Raise("The number of vertices is 0");
-			if (Usage != USAGE_STATICDRAW && Usage != USAGE_DYNAMICDRAW)
+			else if (Usage != USAGE_STATICDRAW && Usage != USAGE_DYNAMICDRAW)
 				Raise("Non-existent usage specified");
 
-			Shape* pShape = static_cast<Shape*>(m_pData);
-			pShape->Vertices = Vertices;
-			for (Vertex& vertex : pShape->Vertices)
+			m_pShape->Vertices = Vertices;
+			for (Vertex& vertex : m_pShape->Vertices)
 				vertex.Position *= m_Scale;
-			m_pVertexArray->SetVBOData(pShape->Vertices.size(), pShape->Vertices.data(), Usage);
+			m_pVertexArray->SetVBOData(m_pShape->Vertices.size(), m_pShape->Vertices.data(), Usage);
 		}
 		void SetIndices(const Indices_t& Indices, const uInt& Usage = USAGE_DYNAMICDRAW) {
 			if (Usage != USAGE_STATICDRAW && Usage != USAGE_DYNAMICDRAW)
 				Raise("Non-existent usage specified");
 
-			Shape* pShape = static_cast<Shape*>(m_pData);
-			pShape->Indices = Indices;
+			m_pShape->Indices = Indices;
 
-			m_IsUsedIndexBuffer = (pShape->Indices.size() > 0);
+			m_IsUsedIndexBuffer = (m_pShape->Indices.size() > 0);
 			if (m_IsUsedIndexBuffer)
-				m_pVertexArray->SetEBOData(pShape->Indices.size(), pShape->Indices.data(), Usage);
+				m_pVertexArray->SetEBOData(m_pShape->Indices.size(), m_pShape->Indices.data(), Usage);
 		}
 
 		void SetColor(const Float4D& Color) {
-			for (Vertex& Vert : static_cast<Shape*>(m_pData)->Vertices)
+			for (Vertex& Vert : m_pShape->Vertices)
 				Vert.Color = Color;
 		}
 		void SetScale(Float3D scale) {
@@ -120,12 +121,10 @@ namespace Nt {
 				scale.z = 0.001f;
 
 			const Float3D value = scale / m_Scale;
-
-			Shape* pShape = static_cast<Shape*>(m_pData);
-			for (Vertex& vertex : pShape->Vertices)
+			for (Vertex& vertex : m_pShape->Vertices)
 				vertex.Position *= value;
-
-			m_pVertexArray->UpdateVBO(pShape->Vertices.size(), pShape->Vertices.data());
+			
+			m_pVertexArray->UpdateVBO(m_pShape->Vertices.size(), m_pShape->Vertices.data());
 			m_Scale = scale;
 		}
 
@@ -140,6 +139,7 @@ namespace Nt {
 
 	private:
 		std::unique_ptr<VertexArray> m_pVertexArray;
+		Shape* m_pShape = nullptr;
 		Float3D m_Scale;
 		uInt m_Usage;
 		Bool m_IsUsedIndexBuffer;
@@ -150,15 +150,20 @@ namespace Nt {
 			m_Scale = { 1.f, 1.f, 1.f };
 			m_pVertexArray.release();
 			m_pVertexArray = std::make_unique<VertexArray>();
-			m_pData = new Shape;
+			m_pShape = new Shape;
+			m_pData = m_pShape;
 		}
 
 		void _LoadFromFile() override {
 			std::vector<Float4D> positions;
+			std::vector<Float3D> colors;
 			std::vector<Float3D> texCoords;
 			std::vector<Float3D> normals;
 
 			std::ifstream file(GetFilePath());
+			if (!file.is_open())
+				Raise("Failed to open: " + GetFilePath());
+
 			Shape loadedShape;
 
 			String errorMessage = "Failed to load model.\nLine: ";
@@ -183,23 +188,19 @@ namespace Nt {
 				else if (type == "usemtl")
 					continue;
 
-				String x, y, z, w;
+				String x, y, z;
 				if (type[0] != 'f') {
 					if (splitedString.size() > 1) {
 						x = splitedString[1];
 						if (splitedString.size() > 2) {
 							y = splitedString[2];
-							if (splitedString.size() > 3) {
+							if (splitedString.size() > 3)
 								z = splitedString[3];
-								if (splitedString.size() > 4)
-									w = splitedString[4];
-							}
 						}
 					}
 				}
 
 				Float4D data;
-
 				switch (type[0]) {
 				case 's':
 				case 'g':
@@ -211,18 +212,24 @@ namespace Nt {
 						const Bool isX_Incorrect = (x.length() != 0 && (!x.IsFloat()));
 						const Bool isY_Incorrect = (y.length() != 0 && (!y.IsFloat()));
 						const Bool isZ_Incorrect = (z.length() != 0 && (!z.IsFloat()));
-						const Bool isW_Incorrect = (w.length() != 0 && (!w.IsFloat()));
-						if (isX_Incorrect || isY_Incorrect || isZ_Incorrect || isW_Incorrect)
+
+						if (isX_Incorrect || isY_Incorrect || isZ_Incorrect)
 							Raise(errorMessage);
 
 						data.x = x;
 						data.y = y;
 						data.z = z;
+						data.w = 1.f;
 
-						if (w.length() > 0)
-							data.w = w;
-						else
-							data.w = 1.f;
+						if (splitedString.size() > 4) {
+							const Float3D color = {
+								splitedString[4], 
+								splitedString[5], 
+								splitedString[6]
+							};
+
+							colors.push_back(color);
+						}
 
 						positions.push_back(data);
 					}
@@ -230,13 +237,13 @@ namespace Nt {
 						const Bool isU_Incorrect = (!x.IsFloat());
 						const Bool isV_Incorrect = (!y.IsFloat());
 						const Bool isW_Incorrect = (z.length() != 0 && (!z.IsFloat()));
-						if (isU_Incorrect || isV_Incorrect || isW_Incorrect || w.length() > 0)
+						if (isU_Incorrect || isV_Incorrect || isW_Incorrect)
 							Raise(errorMessage);
 
 						data.x = x;
 						data.y = y;
 
-						if (w.IsFloat())
+						if (z.IsFloat())
 							data.z = z;
 						else
 							data.z = 0.f;
@@ -247,7 +254,7 @@ namespace Nt {
 						const Bool isX_Incorrect = (x.length() != 0 && (!x.IsFloat()));
 						const Bool isY_Incorrect = (y.length() != 0 && (!y.IsFloat()));
 						const Bool isZ_Incorrect = (z.length() != 0 && (!z.IsFloat()));
-						if (isX_Incorrect || isY_Incorrect || isZ_Incorrect || w.length() > 0)
+						if (isX_Incorrect || isY_Incorrect || isZ_Incorrect)
 							Raise(errorMessage);
 
 						data.x = x;
@@ -282,11 +289,16 @@ namespace Nt {
 
 						Vertex vertex = { };
 						vertex.Position = positions[vertexIndex];
+
+						if (colors.size() > 0)
+							vertex.Color = colors[vertexIndex];
+						else
+							vertex.Color = Colors::White;
+
 						if (texCoordIndex != -1)
 							vertex.TexCoord = texCoords[texCoordIndex];
 						if (NormalIndex != -1)
 							vertex.Normal = normals[NormalIndex];
-						vertex.Color = Colors::White;
 
 						loadedShape.Vertices.push_back(vertex);
 					}
@@ -303,6 +315,7 @@ namespace Nt {
 
 		void _Release() override {
 			m_IsUsedIndexBuffer = false;
+			m_pShape = nullptr;
 		}
 	};
 }

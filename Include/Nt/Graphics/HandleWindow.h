@@ -78,6 +78,44 @@ namespace Nt {
 			POSITIONFLAG_NOZORDER = SWP_NOZORDER,
 			POSITIONFLAG_SHOWWINDOW = SWP_SHOWWINDOW
 		};
+		enum Index {
+			INDEX_EXSTYLE = GWL_EXSTYLE,
+			INDEX_HINSTANCE = GWLP_HINSTANCE,
+			INDEX_HWNDPARENT = GWLP_HWNDPARENT,
+			INDEX_ID = GWLP_ID,
+			INDEX_STYLE = GWL_STYLE,
+			INDEX_USERDATA = GWLP_USERDATA,
+			INDEX_WNDPROC = GWLP_WNDPROC,
+		};
+		enum HandleStyles : uLong {
+			STYLE_BORDER = WS_BORDER,
+			STYLE_CAPTION = WS_CAPTION,
+			STYLE_CHILD = WS_CHILD,
+			STYLE_CHILDWINDOW = WS_CHILDWINDOW,
+			STYLE_CLIPCHILDREN = WS_CLIPCHILDREN,
+			STYLE_CLIPSIBLINGS = WS_CLIPSIBLINGS,
+			STYLE_DISABLED = WS_DISABLED,
+			STYLE_DLGFRAME = WS_DLGFRAME,
+			STYLE_GROUP = WS_GROUP,
+			STYLE_HSCROLL = WS_HSCROLL,
+			STYLE_ICONIC = WS_ICONIC,
+			STYLE_MAXIMIZE = WS_MAXIMIZE,
+			STYLE_MAXIMIZEBOX = WS_MAXIMIZEBOX,
+			STYLE_MINIMIZE = WS_MINIMIZE,
+			STYLE_MINIMIZEBOX = WS_MINIMIZEBOX,
+			STYLE_OVERLAPPED = WS_OVERLAPPED,
+			STYLE_OVERLAPPEDWINDOW = WS_OVERLAPPEDWINDOW,
+			STYLE_POPUP = WS_POPUP,
+			STYLE_POPUPWINDOW = WS_POPUPWINDOW,
+			STYLE_SIZEBOX = WS_SIZEBOX,
+			STYLE_SYSMENU = WS_SYSMENU,
+			STYLE_TABSTOP = WS_TABSTOP,
+			STYLE_THICKFRAME = WS_THICKFRAME,
+			STYLE_TILED = WS_TILED,
+			STYLE_TILEDWINDOW = WS_TILEDWINDOW,
+			STYLE_VISIBLE = WS_VISIBLE,
+			STYLE_VSCROLL = WS_VSCROLL,
+		};
 
 	public:
 		NT_API HandleWindow() noexcept;
@@ -131,32 +169,21 @@ namespace Nt {
 
 		NT_API Int2D ScreenToClient(const Int2D& cursorPosition) const noexcept;
 
-		NT_API void AddStyles(const DWord& styles) noexcept;
-		NT_API void RemoveStyles(const DWord& styles) noexcept;
-		NT_API void AddExStyles(const DWord& styles) noexcept;
-		NT_API void RemoveExStyles(const DWord& styles) noexcept;
+		NT_API virtual Long AddStyles(const DWord& styles) noexcept;
+		NT_API virtual Long RemoveStyles(const DWord& styles) noexcept;
+		NT_API virtual Long AddExStyles(const DWord& styles) noexcept;
+		NT_API virtual Long RemoveExStyles(const DWord& styles) noexcept;
 
 		NT_API void EnableMenu() noexcept;
 		NT_API void DisableMenu() noexcept;
 
 		NT_API void Destroy() noexcept;
 
-		virtual void SetBackgroundColor(const Byte3D& color) {
-			m_BackgroundColor = color;
-			if (m_hwnd) {
-				const HBRUSH hColor = CreateSolidBrush(m_BackgroundColor);
-				SetClassLongPtr(m_hwnd, GCLP_HBRBACKGROUND, (LONG_PTR)hColor);
-				InvalidateRect(m_hwnd, nullptr, TRUE);
-			}
-		}
-		void SetIcon(const HICON& hIcon) {
-			if (m_hwnd != nullptr)
-				SetClassLongPtr(m_hwnd, GCLP_HICON, reinterpret_cast<Long>(hIcon));
-		}
-		void SetIconSmall(const HICON& hIcon) {
-			if (m_hwnd != nullptr)
-				SetClassLongPtr(m_hwnd, GCLP_HICONSM, reinterpret_cast<Long>(hIcon));
-		}
+		NT_API Bool InvalidateRect(const IntRect* pRect, const Bool& isErased) noexcept;
+
+		NT_API virtual void SetBackgroundColor(const Byte3D& color);
+		NT_API void SetIcon(const HICON& hIcon);
+		NT_API void SetIconSmall(const HICON& hIcon);
 		NT_API void SetIcon(const String& iconPath);
 		NT_API void SetIconSmall(const String& iconPath);
 
@@ -164,8 +191,9 @@ namespace Nt {
 		NT_API void SetInstance(const HINSTANCE& hInstance) noexcept;
 		NT_API virtual void SetParentHandle(const HWND& hParent);
 #endif
-		NT_API void SetMenu(const Menu& menu) noexcept;
-		NT_API void SetID(const Int& newID) noexcept;
+		NT_API Long SetWindowInfo(const Index& index, const Long& data) noexcept;
+		NT_API Bool SetMenu(const Menu& menu) noexcept;
+		NT_API Long SetID(const Int& newID) noexcept;
 		NT_API virtual void SetParent(const HandleWindow& parentWindow);
 		NT_API Bool SetWindowPos(const IntRect& rect, const WindowPositionFlags& flags) noexcept;
 		NT_API Bool SetWindowPos(const ZOrder& order, const IntRect& rect, const WindowPositionFlags& flags) noexcept;
@@ -173,16 +201,17 @@ namespace Nt {
 		NT_API void SetSize(const Int2D& newSize) noexcept;
 		NT_API void SetWindowRect(const IntRect& newRect) noexcept;
 		NT_API void SetName(const String& name);
+		NT_API uInt SetStyles(const uInt& styles);
+		NT_API uInt SetExStyles(const uInt& exStyles);
 
 #ifdef _WINDEF_
 		NT_API HWND GetParentHandle() const noexcept;
 		NT_API HWND GetHandle() const noexcept;
 		NT_API HDC GetDC() const noexcept;
-		__inline HDC GetWindowDC() const noexcept {
-			return ::GetWindowDC(m_hwnd);
-		}
+		NT_API HDC GetWindowDC() const noexcept;
 		NT_API HINSTANCE GetInstance() const noexcept;
 #endif
+		NT_API Long GetWindowInfo(const Index& index) const noexcept;
 		NT_API Nt::String GetName() const;
 		NT_API Menu GetMenu() const noexcept;
 		NT_API IntRect GetClientRect() const noexcept;
@@ -192,15 +221,11 @@ namespace Nt {
 		NT_API Int GetID() const noexcept;
 		NT_API void* GetParamPtr() const noexcept;
 		NT_API Byte3D GetBackgroundColor() const noexcept;
-		__inline uInt GetStyles() const noexcept {
-			return m_Styles;
-		}
-		__inline uInt GetExStyles() const noexcept {
-			return m_ExStyles;
-		}
+		NT_API uInt GetStyles() const noexcept;
+		NT_API uInt GetExStyles() const noexcept;
 		NT_API Bool IsMenuEnabled() const noexcept;
 		NT_API Bool IsShowed() const noexcept;
-		NT_API Bool IsCreated() const noexcept;
+		_CONSTEXPR23 NT_API Bool IsCreated() const noexcept;
 
 	protected:
 		std::wstring m_Name;

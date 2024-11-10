@@ -8,40 +8,24 @@
 #include <Nt/Core/Input.h>
 
 namespace Nt {
-	//Bool Keyboard::IsKeyPressed(const Key& Key, const Bool& Once) noexcept {
-	//	Bool Result = false;
-	//	const Byte KeyCode = Byte(Key);
-	//	Byte Keyboard[256];
-	//	if (GetKeyboardState(Keyboard) && (Keyboard[KeyCode] & 0x80)) {
-	//		Result = true;
-	//		if (Once && (m_PressStampKeys[KeyCode] != m_PressStamp))
-	//			Result = (m_PressStampKeys[KeyCode] != m_PressStamp - 1);
-	//		m_PressStampKeys[KeyCode] = m_PressStamp;
-	//	}
-	//	return Result;
-	//}
-	Bool Keyboard::IsKeyPressed(const Key& Key, const Bool& Once) noexcept {
-		Bool Result = false;
-		const Byte KeyCode = Byte(Key);
-		if (GetAsyncKeyState(KeyCode) & 0x8000) {
-			Result = true;
-			if (Once && (m_PressStampKeys[KeyCode] != m_PressStamp))
-				Result = (m_PressStampKeys[KeyCode] != m_PressStamp - 1);
-			m_PressStampKeys[KeyCode] = m_PressStamp;
+	Bool Keyboard::IsKeyPressed(const Key& keyCode, const Bool& once) noexcept {
+		m_IsPresedKeyArray[keyCode] = (GetAsyncKeyState(keyCode) & 0x8000);
+		if (m_IsPresedKeyArray[keyCode]) {
+			if (once)
+				return (!m_IsPresedKeyPrevStateArray[keyCode]);
+			return true;
 		}
-		return Result;
+		return false;
 	}
 
-	Bool Mouse::IsButtonPressed(const Mouse::Button& Button, const Bool& Once) noexcept {
-		Bool Result = false;
-		const Byte ButtonCode = Byte(Button);
-		if (GetAsyncKeyState(ButtonCode) & 0x8000) {
-			Result = true;
-			if (Once && (m_PressStampButtons[ButtonCode] != m_PressStamp))
-				Result = (m_PressStampButtons[ButtonCode] != m_PressStamp - 1);
-			m_PressStampButtons[ButtonCode] = m_PressStamp;
+	Bool Mouse::IsButtonPressed(const Mouse::Button& buttonCode, const Bool& once) noexcept {
+		m_IsPresedButtonArray[buttonCode] = (GetAsyncKeyState(buttonCode) & 0x8000);
+		if (m_IsPresedButtonArray[buttonCode]) {
+			if (once)
+				return (!m_IsPresedButtonPrevStateArray[buttonCode]);
+			return true;
 		}
-		return Result;
+		return false;
 	}
 
 	Int2D Mouse::GetCursorPosition() noexcept {

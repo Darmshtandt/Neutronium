@@ -15,6 +15,7 @@
 #include <Nt/Graphics/Menu.h>
 #include <Nt/Graphics/HandleWindow.h>
 
+
 namespace Nt {
 	Int2D GetCursorPosition() noexcept {
 		Int2D CursorPosition;
@@ -113,33 +114,33 @@ namespace Nt {
 		if (!IsCreated())
 			Raise("Handle window is not created");
 
-		m_Styles &= ~WS_VISIBLE;
+		m_Styles &= ~STYLE_VISIBLE;
 		ShowWindow(m_hwnd, SW_HIDE);
 	}
 	void HandleWindow::Show() {
 		if (!IsCreated())
 			Raise("Handle window is not created");
 
-		m_Styles |= WS_VISIBLE;
+		m_Styles |= STYLE_VISIBLE;
 		ShowWindow(m_hwnd, SW_SHOW);
 	}
 	void HandleWindow::ShowMaximized() {
 		if (!IsCreated())
 			Raise("Handle window is not created");
 
-		m_Styles |= WS_VISIBLE;
+		m_Styles |= STYLE_VISIBLE;
 		ShowWindow(m_hwnd, SW_SHOWMAXIMIZED);
 	}
 
 	Bool HandleWindow::EnableWindow() noexcept {
 		m_IsWindowEnabled = true;
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			return ::EnableWindow(m_hwnd, TRUE);
 		return true;
 	}
 	Bool HandleWindow::DisableWindow() noexcept {
 		m_IsWindowEnabled = false;
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			return ::EnableWindow(m_hwnd, FALSE);
 		return true;
 	}
@@ -150,60 +151,89 @@ namespace Nt {
 		return point;
 	}
 
-	void HandleWindow::AddStyles(const DWord& styles) noexcept {
-		m_Styles |= styles;
-		if (m_hwnd)
-			SetWindowLongPtr(m_hwnd, GWL_STYLE, m_Styles);
+	Long HandleWindow::AddStyles(const DWord& styles) noexcept {
+		return SetStyles(m_Styles | styles);
 	}
-	void HandleWindow::RemoveStyles(const DWord& styles) noexcept {
-		m_Styles &= ~styles;
-		if (m_hwnd)
-			SetWindowLongPtr(m_hwnd, GWL_STYLE, m_Styles);
+	Long HandleWindow::RemoveStyles(const DWord& styles) noexcept {
+		return SetStyles(m_Styles & (~styles));
 	}
-	void HandleWindow::AddExStyles(const DWord& styles) noexcept {
-		m_ExStyles |= styles;
-		if (m_hwnd)
-			SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, m_ExStyles);
+	Long HandleWindow::AddExStyles(const DWord& exStyles) noexcept {
+		return SetExStyles(m_ExStyles | exStyles);
 	}
-	void HandleWindow::RemoveExStyles(const DWord& styles) noexcept {
-		m_ExStyles &= ~styles;
-		if (m_hwnd)
-			SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, m_ExStyles);
+	Long HandleWindow::RemoveExStyles(const DWord& exStyles) noexcept {
+		return SetExStyles(m_ExStyles & (!exStyles));
 	}
 
 	void HandleWindow::EnableMenu() noexcept {
 		m_IsMenuEnabled = true;
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			::SetMenu(m_hwnd, m_Menu.GetHandle());
 	}
 	void HandleWindow::DisableMenu() noexcept {
 		m_IsMenuEnabled = false;
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			::SetMenu(m_hwnd, nullptr);
 	}
 
 	void HandleWindow::Destroy() noexcept {
-		if (m_hwnd) {
+		if (m_hwnd != nullptr) {
 			DestroyWindow(m_hwnd);
 			m_hwnd = nullptr;
 			m_hParent = nullptr;
 		}
 	}
 
+	Bool HandleWindow::InvalidateRect(const IntRect* pRect, const Bool& isErased) noexcept {
+		if (m_hwnd == nullptr) {
+			Log::Warning("Handle window is not created");
+			return false;
+		}
+
+		if (pRect == nullptr)
+			return ::InvalidateRect(m_hwnd, nullptr, isErased);
+
+		const RECT winapiRect = (*pRect);
+		return ::InvalidateRect(m_hwnd, &winapiRect, isErased);
+	}
+
+	void HandleWindow::SetBackgroundColor(const Byte3D& color) {
+		m_BackgroundColor = color;
+		if (m_hwnd != nullptr) {
+			const HBRUSH hColor = CreateSolidBrush(m_BackgroundColor);
+			SetClassLongPtr(m_hwnd, GCLP_HBRBACKGROUND, (LONG_PTR)hColor);
+			InvalidateRect(nullptr, true);
+		}
+	}
+	void HandleWindow::SetIcon(const HICON& hIcon) {
+		if (m_hwnd != nullptr)
+			SetClassLongPtr(m_hwnd, GCLP_HICON, reinterpret_cast<Long>(hIcon));
+	}
+	void HandleWindow::SetIconSmall(const HICON& hIcon) {
+		if (m_hwnd != nullptr)
+			SetClassLongPtr(m_hwnd, GCLP_HICONSM, reinterpret_cast<Long>(hIcon));
+	}
 	void HandleWindow::SetIcon(const String& iconPath) {
 		const HICON hIcon = (HICON)LoadImageA(nullptr, iconPath.c_str(), IMAGE_ICON,
 			0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			SetClassLongPtr(m_hwnd, GCLP_HICON, reinterpret_cast<Long>(hIcon));
 	}
 	void HandleWindow::SetIconSmall(const String& iconPath) {
 		HICON hIcon = (HICON)LoadImageA(nullptr, iconPath.c_str(), IMAGE_ICON,
 			0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			SetClassLongPtr(m_hwnd, GCLP_HICONSM, reinterpret_cast<Long>(hIcon));
 	}
 
 #ifdef _WINDEF_
+	Long HandleWindow::SetWindowInfo(const Index& index, const Long& data) noexcept {
+		if (m_hwnd == nullptr) {
+			Log::Warning("Handle window is not created");
+			return 0;
+		}
+
+		return SetWindowLongPtr(m_hwnd, index, data);
+	}
 	void HandleWindow::SetInstance(const HINSTANCE& hInstance) noexcept {
 		if (!IsCreated())
 			m_hInstance = hInstance;
@@ -211,26 +241,30 @@ namespace Nt {
 			Log::Warning("hInstance cannot be changed because the window has already been created");
 	}
 	void HandleWindow::SetParentHandle(const HWND& hParent) {
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			::SetParent(m_hwnd, hParent);
 
 		if (hParent == nullptr)
-			RemoveStyles(WS_CHILD);
+			RemoveStyles(STYLE_CHILD);
 		else if (m_hParent == nullptr)
-			AddStyles(WS_CHILD);
+			AddStyles(STYLE_CHILD);
 
 		m_hParent = hParent;
 	}
 #endif
-	void HandleWindow::SetMenu(const Menu& menu) noexcept {
+	Bool HandleWindow::SetMenu(const Menu& menu) noexcept {
 		m_Menu = menu;
+
 		if (m_hwnd && m_IsMenuEnabled)
-			::SetMenu(m_hwnd, m_Menu.GetHandle());
+			return ::SetMenu(m_hwnd, m_Menu.GetHandle());
+		return 0;
 	}
-	void HandleWindow::SetID(const Int& newID) noexcept {
+	Long HandleWindow::SetID(const Int& newID) noexcept {
 		m_ID = newID;
-		if (m_hwnd)
-			SetWindowLongPtr(m_hwnd, m_ID, GWLP_ID);
+
+		if (m_hwnd != nullptr)
+			return SetWindowInfo(INDEX_ID, m_ID);
+		return 0;
 	}
 	void HandleWindow::SetParent(const HandleWindow& parentWindow) {
 		SetParentHandle(parentWindow.GetHandle());
@@ -244,14 +278,14 @@ namespace Nt {
 			m_ClientRect.RightBottom -= abs(m_ClientRect.LeftTop);
 			m_ClientRect.LeftTop = Int2D();
 
-			if (m_Styles & WS_BORDER)
+			if (m_Styles & STYLE_BORDER)
 				m_ClientRect.RightBottom -= Int2D(GetSystemMetrics(SM_CXDLGFRAME), GetSystemMetrics(SM_CYDLGFRAME));
 		}
 
 		if (flags & POSITIONFLAG_SHOWWINDOW)
-			m_Styles |= WS_VISIBLE;
+			m_Styles |= STYLE_VISIBLE;
 		else if (flags & POSITIONFLAG_HIDEWINDOW)
-			m_Styles &= ~WS_VISIBLE;
+			m_Styles &= ~STYLE_VISIBLE;
 		return result;
 	}
 	Bool HandleWindow::SetWindowPos(const ZOrder& order, const IntRect& rect, const WindowPositionFlags& flags) noexcept {
@@ -279,8 +313,22 @@ namespace Nt {
 	}
 	void HandleWindow::SetName(const String& name) {
 		m_Name = name;
-		if (m_hwnd)
+		if (m_hwnd != nullptr)
 			SetWindowText(m_hwnd, m_Name.c_str());
+	}
+	uInt HandleWindow::SetStyles(const uInt& styles) {
+		m_Styles = styles;
+
+		if (m_hwnd != nullptr)
+			return SetWindowInfo(INDEX_STYLE, m_Styles);
+		return 0;
+	}
+	uInt HandleWindow::SetExStyles(const uInt& exStyles) {
+		m_ExStyles = exStyles;
+
+		if (m_hwnd != nullptr)
+			return SetWindowInfo(INDEX_EXSTYLE, m_ExStyles);
+		return 0;
 	}
 
 #ifdef _WINDEF_
@@ -293,10 +341,21 @@ namespace Nt {
 	HDC HandleWindow::GetDC() const noexcept {
 		return m_hdc;
 	}
+	HDC HandleWindow::GetWindowDC() const noexcept {
+		return ::GetWindowDC(m_hwnd);
+	}
 	HINSTANCE HandleWindow::GetInstance() const noexcept {
 		return m_hInstance;
 	}
 #endif
+	Long HandleWindow::GetWindowInfo(const Index& index) const noexcept {
+		if (m_hwnd == nullptr) {
+			Log::Warning("Handle window is not created");
+			return 0;
+		}
+
+		return GetWindowLongPtr(m_hwnd, index);
+	}
 	Nt::String HandleWindow::GetName() const {
 		return m_Name;
 	}
@@ -324,13 +383,19 @@ namespace Nt {
 	Byte3D HandleWindow::GetBackgroundColor() const noexcept {
 		return m_BackgroundColor;
 	}
+	uInt HandleWindow::GetStyles() const noexcept {
+		return m_Styles;
+	}
+	uInt HandleWindow::GetExStyles() const noexcept {
+		return m_ExStyles;
+	}
 	Bool HandleWindow::IsMenuEnabled() const noexcept {
 		return m_IsMenuEnabled;
 	}
 	Bool HandleWindow::IsShowed() const noexcept {
-		return (m_Styles & WS_VISIBLE);
+		return (m_Styles & STYLE_VISIBLE);
 	}
-	Bool HandleWindow::IsCreated() const noexcept {
+	_CONSTEXPR23 Bool HandleWindow::IsCreated() const noexcept {
 		return (m_hwnd != nullptr);
 	}
 
@@ -359,21 +424,10 @@ namespace Nt {
 			else if (classNameUpperCase == String(WC_TREEVIEW).ToUpper())
 				windowType = "TreeVew";
 
-
-			String errorMsg = "Failed to create ";
-			errorMsg += windowType;
-			errorMsg += ".\nError code: ";
-			errorMsg += GetLastError();
-			Raise(errorMsg.c_str());
+			Raise("Failed to create " + windowType);
 		}
 
-		m_ClientRect = Nt::AdjustedWindowRectEx(m_hwnd, m_Styles, m_ExStyles, m_IsMenuEnabled);
-		m_ClientRect.RightBottom -= abs(m_ClientRect.LeftTop);
-		m_ClientRect.LeftTop = Int2D();
-
-		if (m_Styles & WS_BORDER)
-			m_ClientRect.RightBottom -= Int2D(GetSystemMetrics(SM_CXDLGFRAME), GetSystemMetrics(SM_CYDLGFRAME)) - 1;
-
+		m_ClientRect = Nt::GetClientRect(m_hwnd);
 		m_WindowRect = Nt::GetWindowRect(m_hwnd);
 		m_WindowRect.RightBottom -= m_WindowRect.LeftTop;
 
@@ -410,7 +464,7 @@ namespace Nt {
 
 			hResult = pFileDialog->Show(nullptr);
 			if (SUCCEEDED(hResult)) {
-				IShellItem* pItem = nullptr;
+				pItem = nullptr;
 				hResult = pFileDialog->GetResult(&pItem);
 				if (SUCCEEDED(hResult)) {
 					wChar* pszFolderPath = nullptr;

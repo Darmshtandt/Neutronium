@@ -156,7 +156,7 @@ namespace Nt {
 			const Int extraPixels = contentSize % Int(m_LayoutSize);
 			const Int cellSize = (m_IsVertical) ? m_Cells[index].GetRect().Bottom : m_Cells[index].GetRect().Right;
 
-			if (index < extraPixels)
+			if (Int(index) < extraPixels)
 				return cellSize - 1;
 			return cellSize;
 		}
@@ -278,7 +278,7 @@ namespace Nt {
 		Bool m_IsVertical;
 
 	private:
-		virtual void _WMPaint(HDC& hdc, PAINTSTRUCT& paint) {
+		virtual void _WMPaint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
 			if (IsVisibleDebugGrid) {
 				constexpr uInt lineWeight = 1;
 

@@ -1,5 +1,6 @@
 .vs/
 Bin/
+Debug/
 
 NeutroniumCore/Debug/
 NeutroniumCore/Release/
@@ -12,5 +13,7 @@ NeutroniumGraphics/x64/
 NeutroniumPhysics/Debug/
 NeutroniumPhysics/Release/
 NeutroniumPhysics/x64/
+
+Project1/
 
 Нейтронат калия кальция.txt

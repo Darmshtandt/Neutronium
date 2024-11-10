@@ -45,7 +45,7 @@ namespace Nt {
 				imageRect.RightBottom = image.GetSize();
 
 				Nt::uIntRect scaleRect;
-				scaleRect.RightBottom = GetClientRect().RightBottom;
+				scaleRect.RightBottom = GetClientRect().RightBottom - 4;
 				if (imageRect.Right > imageRect.Bottom) {
 					scaleRect.Top = imageRect.Right - imageRect.Bottom;
 					scaleRect.Top /= imageRect.Right / GetClientRect().Right * 2;
@@ -62,7 +62,7 @@ namespace Nt {
 
 				SendMessage(m_hwnd, BM_SETIMAGE,
 					IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBitmap));
-				InvalidateRect(m_hwnd, NULL, TRUE);
+				InvalidateRect(nullptr, true);
 			}
 		}
 		void RemoveImage() {
@@ -83,7 +83,7 @@ namespace Nt {
 
 	private:
 		static LRESULT CALLBACK _ButtonProc(HWND hwnd, uInt uMsg, WPARAM wParam,
-			LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData) 
+			LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData)
 		{
 			Button* pThis = reinterpret_cast<Button*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			if (pThis != nullptr) {

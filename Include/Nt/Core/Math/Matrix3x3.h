@@ -66,13 +66,13 @@ namespace Nt {
 		}
 
 		constexpr Float Det() const noexcept {
-			Float Result = Matrix2D[0][0] * Matrix2D[1][1] * Matrix2D[2][2];
-			Result += Matrix2D[1][0] * Matrix2D[2][1] * Matrix2D[0][2];
-			Result += Matrix2D[2][0] * Matrix2D[0][1] * Matrix2D[1][2];
+			Float Result = _11 * _22 * _33;
+			Result += _21 * _32 * _13;
+			Result += _31 * _12 * _23;
 
-			Result -= Matrix2D[0][2] * Matrix2D[1][1] * Matrix2D[2][0];
-			Result -= Matrix2D[0][0] * Matrix2D[1][2] * Matrix2D[2][1];
-			Result -= Matrix2D[0][1] * Matrix2D[1][0] * Matrix2D[2][2];
+			Result -= _13 * _22 * _31;
+			Result -= _11 * _23 * _32;
+			Result -= _12 * _21 * _33;
 			return Result;
 		}
 

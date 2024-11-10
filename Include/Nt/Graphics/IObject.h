@@ -29,8 +29,8 @@ namespace Nt {
 		void Translate(const Float3D& Offset) {
 			SetPosition(m_Position + Offset);
 		}
-		void Resize(const Float3D& Size) {
-			SetSize(m_Size + Size);
+		void Scale(const Float3D& scale) {
+			SetSize(m_Size + scale);
 		}
 		void Rotate(const Float3D& Angle) {
 			SetAngle(m_Angle + Angle);

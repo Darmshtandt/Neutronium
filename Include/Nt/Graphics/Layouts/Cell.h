@@ -22,9 +22,9 @@ namespace Nt {
 
 		switch (unitTo) {
 		case UnitType::UNIT_PERCENTAGE:
-			return (value / maxValue);
+			return _Ty(_U(value) / maxValue);
 		case UnitType::UNIT_PIXEL:
-			return (value * maxValue);
+			return _Ty(_U(value) * maxValue);
 		}
 
 		Log::Warning("Unknown unit type");
@@ -59,10 +59,6 @@ namespace Nt {
 			m_IsClampToEdge(isClampToEdge),
 			m_pText(nullptr)
 		{
-		}
-		~Cell() {
-			if (m_pHandle != nullptr)
-				m_pHandle->SetParentHandle(nullptr);
 		}
 
 		void ToggleClampToEdge(const Bool& isClampToEdge) {

@@ -35,10 +35,10 @@ namespace Nt {
 		}
 
 		constexpr _Ty Length() const noexcept {
-			return sqrt(x * x + y * y + z * z);
+			return _Ty(sqrt(Double(x * x + y * y + z * z)));
 		}
 		constexpr _Ty LengthSquare() const noexcept {
-			return x * x + y * y + z * z;
+			return (x * x + y * y + z * z);
 		}
 		constexpr _Ty GetDistance(const Vector4D<_Ty>& Vec) const noexcept {
 			return ((*this) - Vec).Length();

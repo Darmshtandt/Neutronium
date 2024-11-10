@@ -163,7 +163,7 @@ namespace Nt {
 			Create(windowRect, "");
 		}
 		void Create(const IntRect& windowRect, const String& name) override {
-			m_Name = L"";
+			m_Name = name;
 			m_ClassName = WC_TREEVIEW;
 			m_WindowRect = windowRect;
 			m_Styles |= (TVS_HASLINES | WS_CHILD);
@@ -236,10 +236,12 @@ namespace Nt {
 		}
 
 		HRESULT AddTreeExStyles(const ExtendStyles& styles) noexcept {
-			return SetExtendedStyle(m_TreeExStyles, m_TreeExStyles);
+			const ExtendStyles updatedStyles = ExtendStyles(m_TreeExStyles | styles);
+			return SetExtendedStyle(updatedStyles, updatedStyles);
 		}
-		HRESULT RemodeTreeExStyles(const ExtendStyles& styles) noexcept {
-			return SetExtendedStyle(styles, m_TreeExStyles);
+		HRESULT RemoreTreeExStyles(const ExtendStyles& styles) noexcept {
+			const ExtendStyles updatedStyles = ExtendStyles(m_TreeExStyles & (~styles));
+			return SetExtendedStyle(updatedStyles, updatedStyles);
 		}
 
 		HitTestInfo HitTest(const Int2D& point) {
@@ -430,7 +432,7 @@ namespace Nt {
 		}
 		std::wstring GetSearchString() const {
 			const uInt length = _SendMessage(TVM_GETISEARCHSTRING, 0, 0);
-			std::wstring searchString(L'\0', length);
+			std::wstring searchString(L"\0", length);
 			TreeView_GetISearchString(m_hwnd, searchString.data());
 			return searchString;
 		}
@@ -483,7 +485,7 @@ namespace Nt {
 			if (m_BackgroundColor == color)
 				return;
 
-			if (m_hwnd) {
+			if (m_hwnd != nullptr) {
 				m_BackgroundColor = ColorRefToVector(TreeView_SetBkColor(m_hwnd, VectorToColorRef(color)));
 				if (m_BackgroundColor != color)
 					Log::Warning("Failed to change background color");

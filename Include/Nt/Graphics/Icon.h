@@ -171,10 +171,10 @@ namespace Nt {
 			return ExtractIcon(GetModuleHandle(nullptr), const_cast<wChar*>(exeFilePath.c_str()), index);
 		}
 		static ExtractedIcons& ExtractEx(const std::wstring& exeFilePath, const Int& startIndex, const uInt& iconsCount) {
-			const uInt maxIconsCount = GetIconsCount(exeFilePath);
+			const Int maxIconsCount = GetIconsCount(exeFilePath);
 			if (startIndex > maxIconsCount)
 				Log::Warning("Start index out of range");
-			else if (startIndex + iconsCount > maxIconsCount)
+			else if (startIndex + Int(iconsCount) > maxIconsCount)
 				Log::Warning("IconsCout argument with given start index is out of range");
 
 			HICON* hSmallIconsArray = new HICON[iconsCount];

@@ -14,7 +14,7 @@ namespace Nt::GDI {
 
 		HBITMAP compabilleBitmap = ::CreateCompatibleBitmap(hdc, size.x, size.y);
 		if (compabilleBitmap == nullptr)
-			Raise(String("Failed to create compabile handle bitmap.\nError code:") + String(GetLastError()));
+			Log::Warning(String("Failed to create compabile handle bitmap.\nError code:") + String(GetLastError()));
 		return compabilleBitmap;
 	}
 
@@ -24,7 +24,7 @@ namespace Nt::GDI {
 
 		HDC compabilleDC = ::CreateCompatibleDC(hdc);
 		if (compabilleDC == nullptr)
-			Raise(String("Failed to create compabile HDC.\nError code:") + String(GetLastError()));
+			Log::Warning(String("Failed to create compabile HDC.\nError code:") + String(GetLastError()));
 		return compabilleDC;
 	}
 	__inline HGDIOBJ SelectObject(const HDC& hdc, const HGDIOBJ& hObject) {
@@ -35,7 +35,7 @@ namespace Nt::GDI {
 
 		HGDIOBJ hGDIObj = ::SelectObject(hdc, hObject);
 		if (hGDIObj == nullptr)
-			Raise(String("Failed to select object.\nError code:") + String(GetLastError()));
+			Log::Warning(String("Failed to select object.\nError code:") + String(GetLastError()));
 		return hGDIObj;
 	}
 	__inline void GetDIBits(const HDC& hdc, const HBITMAP& hBitmap, const uInt& start, 
@@ -51,16 +51,16 @@ namespace Nt::GDI {
 
 		const Bool result = ::GetDIBits(hdc, hBitmap, start, height, pBits, pBmpInfo, usage);
 		if (!result)
-			Raise(String("Failed to get bitmap bits.\nError code: ") + String(GetLastError()));
+			Log::Warning(String("Failed to get bitmap bits.\nError code: ") + String(GetLastError()));
 	}
 
 	__inline Int SetStretchBltMode(const HDC& hdc, const Int& mode) {
 		if (hdc == nullptr)
 			Raise("HDC is nullptr");
 
-		const Int result = ::SetStretchBltMode(hdc, HALFTONE);
+		const Int result = ::SetStretchBltMode(hdc, mode);
 		if (result == 0)
-			Raise(String("Failed to set StretchBlt mode.\nError code: ") + String(GetLastError()));
+			Log::Warning(String("Failed to set StretchBlt mode.\nError code: ") + String(GetLastError()));
 		return result;
 	}
 	__inline Bool StretchBlt(const HDC& hdcDest, const IntRect& rectDest, 
@@ -89,7 +89,7 @@ namespace Nt::GDI {
 			rectDest.Right, rectDest.Bottom, hdcSrc, 
 			rectSrc.Left, rectSrc.Top, rectSrc.Right, rectSrc.Bottom, rop);
 		if (result && GetLastError() > 0)
-			Raise(String("Failed to draw bitmap.\nError code: ") + String(GetLastError()));
+			Log::Warning(String("Failed to draw bitmap.\nError code: ") + String(GetLastError()));
 		return result;
 	}
 
@@ -117,7 +117,6 @@ namespace Nt::GDI {
 		::SelectObject(hdcDest, hOldBitmapDest);
 		DeleteDC(hdcDest);
 		return hBitmapDest;
-
 	}
 
 	__inline void RenderHBitmap(HDC hdc, HBITMAP hBitmap, const IntRect& scaleRect = { }) {

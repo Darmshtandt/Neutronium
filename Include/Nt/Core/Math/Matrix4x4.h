@@ -98,16 +98,26 @@ namespace Nt {
 			return angle;
 		}
 
+		constexpr Float Det() const noexcept {
+			Float result = 0.f;
+			result += _11 * Minor(0, 0).Det();
+			result -= _21 * Minor(1, 0).Det();
+			result += _31 * Minor(2, 0).Det();
+			result -= _41 * Minor(3, 0).Det();
+			return result;
+		}
+
 		// Indexing starts at 0
 		constexpr Matrix3x3 Minor(const Float& x, const Float& y) const noexcept {
 			Matrix3x3 Result;
 			uInt k = 0;
 			for (uInt i = 0; i < 4; ++i) {
+				if (i == y)
+					continue;
+
 				for (uInt j = 0; j < 4; ++j) {
-					if (j == y)
+					if (j == x)
 						continue;
-					else if (i == x)
-						break;
 
 					Result.Matrix[k] = Matrix2D[i][j];
 					++k;

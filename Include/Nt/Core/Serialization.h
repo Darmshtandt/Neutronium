@@ -7,7 +7,7 @@ namespace Nt {
 		virtual constexpr uInt Sizeof() const noexcept = 0;
 		virtual constexpr uInt ClassType() const noexcept = 0;
 
-		static ISerialization* New(const uInt& ClassType) {
+		static ISerialization* New([[maybe_unused]] const uInt& ClassType) {
 			return nullptr; 
 		}
 	};

@@ -34,6 +34,11 @@ namespace Nt {
 			return sizeof(*this);
 		}
 
+		NT_API void Create(const uInt& channelsCount, const uInt2D& size, const void* pData);
+		NT_API void Delete();
+
+		NT_API void GenerateMipmap() const;
+
 		NT_API void FlipVerticaly();
 		NT_API void Rotate_90_Degrees(const Bool& toRight);
 
@@ -44,15 +49,16 @@ namespace Nt {
 		NT_API void SetWrapS(const Wrap& wrap) const noexcept;
 		NT_API void SetWrapT(const Wrap& wrap) const noexcept;
 
-		NT_API void Set() const;
+		NT_API void Bind() const;
 
 		NT_API uInt GetID() const noexcept;
+		NT_API Bool IsCreated() const noexcept;
 
 	private:
 		uInt m_ID;
+		uInt m_ColorComponent;
 
 	private:
-		NT_API void _Create();
 		NT_API void _LoadFromFile() override;
 		NT_API void _Release() override;
 	};

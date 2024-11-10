@@ -43,6 +43,32 @@ namespace Nt {
 		constexpr Bool Intersect(const Rect<_Ty>& otherRect) const noexcept {
 			return (LeftTop < (otherRect.LeftTop + otherRect.RightBottom) && otherRect.LeftTop < (LeftTop + RightBottom));
 		}
+		constexpr Bool Intersect(const Vector2D<_Ty>& point) const noexcept {
+			return (point.x >= Left && point.x <= (Left + Right) && point.y >= Top && point.y <= (Top + Bottom));
+		}
+
+		constexpr Nt::Rect<_Ty> GetClamp(const _Ty& min, const _Ty& max) {
+			Nt::Rect<_Ty> rect = (*this);
+			for (uInt i = 0; i < 4; ++i) {
+				if (rect.PointArray[i] < min)
+					rect.PointArray[i] = min;
+				else if (rect.PointArray[i] > max)
+					rect.PointArray[i] = max;
+			}
+
+			return rect;
+		}
+		constexpr Nt::Rect<_Ty> GetClamp(const Vector2D<_Ty>& min, const Vector2D<_Ty>& max) {
+			Nt::Rect<_Ty> rect = (*this);
+			for (uInt i = 0; i < 4; ++i) {
+				if (rect.PointArray[i] < min.xy[i / 2])
+					rect.PointArray[i] = min.xy[i / 2];
+				else if (rect.PointArray[i] > max.xy[i / 2])
+					rect.PointArray[i] = max.xy[i / 2];
+			}
+
+			return rect;
+		}
 
 		constexpr Rect<_Ty>& operator += (const Rect<_Ty>& rect) noexcept {
 			LeftTop += rect.LeftTop;
@@ -183,7 +209,7 @@ namespace Nt {
 				_Ty Right;
 				_Ty Bottom;
 			};
-
+			_Ty PointArray[4];
 		};
 	};
 }

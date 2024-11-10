@@ -213,14 +213,15 @@ namespace Nt {
 		Keyboard() = default;
 
 		void Update() noexcept {
-			++m_PressStamp;
+			memcpy(m_IsPresedKeyPrevStateArray, m_IsPresedKeyArray, 256);
+			ZeroMemory(m_IsPresedKeyArray, 256);
 		}
 
-		NT_API Bool IsKeyPressed(const Key& Key, const Bool& Once = false) noexcept;
+		NT_API Bool IsKeyPressed(const Key& key, const Bool& once) noexcept;
 
 	private:
-		uInt m_PressStampKeys[256] = { };
-		uInt m_PressStamp = 0;
+		Bool m_IsPresedKeyArray[256] = { };
+		Bool m_IsPresedKeyPrevStateArray[256] = { };
 	};
 
 	class Mouse {
@@ -237,18 +238,18 @@ namespace Nt {
 		Mouse() = default;
 
 		void Update() noexcept {
-			++m_PressStamp;
+			memcpy(m_IsPresedButtonPrevStateArray, m_IsPresedButtonArray, 6);
+			ZeroMemory(m_IsPresedButtonArray, 6);
 		}
 
-		NT_API Bool IsButtonPressed(const Mouse::Button& Button, const Bool& Once = false) noexcept;
+		NT_API Bool IsButtonPressed(const Mouse::Button& button, const Bool& once) noexcept;
 
 		NT_API static Int2D GetCursorPosition() noexcept;
-		NT_API static void SetCursorPosition(const Int2D& Position) noexcept;
+		NT_API static void SetCursorPosition(const Int2D& position) noexcept;
 
 	private:
-		Int2D m_PrevCursorPosition;
-		uInt m_PressStampButtons[6] = { };
-		uInt m_PressStamp = 0;
+		Bool m_IsPresedButtonArray[6] = { };
+		Bool m_IsPresedButtonPrevStateArray[6] = { };
 	};
 
 #ifdef __NT__EXPEREMENTAL
