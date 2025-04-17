@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Nt/Core/MessageWindow.h>
+
 namespace Nt {
 	class ComboBox : public HandleWindow {
 	public:
@@ -26,7 +28,7 @@ namespace Nt {
 
 			auto findedElement = std::find(m_Elements.begin(), m_Elements.end(), element.wstr());
 			if (findedElement == m_Elements.end()) {
-				ErrorBoxA(("ComboBox::Remove: element \"" + element + "\" not found").c_str(), "Error");
+				MessageWindow(("ComboBox::Remove: element \"" + element + "\" not found").c_str(), "Error").Show(MessageIcon::ERROR);
 				return;
 			}
 
@@ -46,7 +48,7 @@ namespace Nt {
 			if (!IsCreated())
 				Raise("ComboBox is not created");
 			if (index >= m_Elements.size())
-				Raise("Out os range");
+				Raise("Out of range");
 
 			const LRESULT result = SendMessage(m_hwnd, CB_SETCURSEL, index, 0);
 			if (result == CB_ERR)

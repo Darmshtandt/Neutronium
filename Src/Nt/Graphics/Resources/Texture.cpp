@@ -1,3 +1,6 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include <windows.h>
 #include <GL\GLEW.h>
 #include <GL\GL.h>
@@ -8,18 +11,14 @@
 #include <list>
 #include <map>
 
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
 #include <Nt/Core/Utilities.h>
 #include <Nt/Core/Serialization.h>
 #include <Nt/Core/Log.h>
 
-#include <Nt/Core/Math/Vectors.h>
 #include <Nt/Core/Math/Rect.h>
 #include <Nt/Core/Colors.h>
 
-#include <Nt/Graphics/Geometry.h>
+#include <Nt/Graphics/Buffer.h>
 #include <Nt/Graphics/VertexArray.h>
 
 #include <Nt/Graphics/Resources/IResource.h>
@@ -30,106 +29,171 @@
 
 
 namespace Nt {
-	Texture::Texture() noexcept :
-		Image(IResource::TYPE_TEXTURE)
-	{
+	Texture::Texture(const String& FileName) {
+		Texture::LoadFromFile(FileName);
 	}
-	Texture::Texture(const Texture& newTexture) noexcept :
-		Image(newTexture)
+	Texture::Texture(const Texture& newTexture) : 
+		m_Image(newTexture.m_Image),
+		m_Parameters()
 	{
 		if (newTexture.m_ID != 0) {
-			Create(4, m_Size, m_pData);
-			GenerateMipmap();
-
-			if (m_pData == nullptr) {
-				newTexture.Bind();
-				m_pData = new Byte[m_Size.x * m_Size.y * 4];
-				glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_pData);
-				this->Bind();
-			}
+			Create();
+			SetParameters(newTexture.m_Parameters);
 		}
 	}
-	Texture::Texture(const String& FileName) :
-		Image(IResource::TYPE_TEXTURE) 
+	Texture::Texture(Texture&& otherTexture) noexcept :
+		m_Image(std::move(otherTexture.m_Image)),
+		m_Parameters(otherTexture.m_Parameters),
+		m_ID(otherTexture.m_ID),
+		m_ColorComponent(otherTexture.m_ColorComponent)
 	{
-		LoadFromFile(FileName);
+		m_ID = 0;
+		m_ColorComponent = 0;
 	}
 	Texture::~Texture() {
-		Release();
+		Texture::Release();
+	}
+
+	void Texture::Read(std::istream& Stream) {
+		m_Image.Read(Stream);
 	}
 
 	void Texture::FlipVerticaly() {
-		if (IsLoaded()) {
-			const uInt* ThisDataPtr = reinterpret_cast<const uInt*>(m_pData);
-			uInt* pFlipData = new uInt[m_Size.x * m_Size.y];
+		if (GetData() != nullptr) {
+			const uInt* thisDataPtr = reinterpret_cast<const uInt*>(GetData().get());
+			uInt* pFlipData = new uInt[GetSize().x * GetSize().y];
 
-			for (uInt y = 0; y < m_Size.y; ++y) {
-				const uInt FlipDataOffset = y * m_Size.x;
-				const uInt ThisDataOffset = (m_Size.y - y - 1) * m_Size.x;
-				memcpy(pFlipData + FlipDataOffset, ThisDataPtr + ThisDataOffset, sizeof(uInt) * m_Size.x);
+			for (uInt y = 0; y < GetSize().y; ++y) {
+				const uInt flipDataOffset = y * GetSize().x;
+				const uInt thisDataOffset = (GetSize().y - y - 1) * GetSize().x;
+				memcpy(pFlipData + flipDataOffset, thisDataPtr + thisDataOffset, sizeof(uInt) * GetSize().x);
 			}
 
-			if (m_pData != nullptr)
-				delete(m_pData);
-			m_pData = pFlipData;
+			std::unique_ptr<Byte[]> uniqueData;
+			uniqueData.reset(reinterpret_cast<Byte*>(pFlipData));
+			m_Image.SetData(std::move(uniqueData), GetSize(), GetChannelCount());
 
 			Delete();
-			Create(4, m_Size, m_pData);
-			GenerateMipmap();
+			Create();
 		}
 	}
 	void Texture::Rotate_90_Degrees(const Bool& toRight) {
-		if (IsLoaded()) {
-			uInt* pFlipData = new uInt[m_Size.x * m_Size.y];
+		if (GetData() != nullptr) {
+			const uInt* thisDataPtr = reinterpret_cast<const uInt*>(GetData().get());
+			uInt* pFlipData = new uInt[GetSize().x * GetSize().y];
 
-			for (uInt y = 0; y < m_Size.y; ++y) {
-				for (uInt x = 0; x < m_Size.x; ++x) {
+			for (uInt y = 0; y < GetSize().y; ++y) {
+				for (uInt x = 0; x < GetSize().x; ++x) {
 					if (toRight)
-						pFlipData[y * m_Size.x + x] = ((uInt*)m_pData)[x * m_Size.x + y];
+						pFlipData[y * GetSize().x + x] = thisDataPtr[x * GetSize().x + y];
 					else
-						pFlipData[(y + 1) * m_Size.x - x - 1] = ((uInt*)m_pData)[x * m_Size.x + y];
+						pFlipData[(y + 1) * GetSize().x - x - 1] = thisDataPtr[x * GetSize().x + y];
 				}
 			}
 
-			if (m_pData != nullptr)
-				delete(m_pData);
-			m_pData = pFlipData;
+			std::unique_ptr<Byte[]> uniqueData;
+			uniqueData.reset(reinterpret_cast<Byte*>(pFlipData));
+			m_Image.SetData(std::move(uniqueData), GetSize(), GetChannelCount());
 
 			Delete();
-			Create(4, m_Size, m_pData);
-			GenerateMipmap();
+			Create();
 		}
 	}
 
-	void Texture::SetMinFiler(const MinFilter& filer) const noexcept {
+	void Texture::SetParameters(const Parameters& parameters) {
+		m_Parameters = parameters;
+
 		Bind();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filer);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_Parameters.MinFilter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_Parameters.MagFilter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, m_Parameters.MinLOD);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, m_Parameters.MaxLOD);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_Parameters.S);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_Parameters.T);
 	}
-	void Texture::SetMagFiler(const MagFilter& filer) const noexcept {
+
+	void Texture::SetMinFiler(const MinFilter& filter) {
+		m_Parameters.MinFilter = filter;
+
 		Bind();
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filer);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
 	}
-	void Texture::SetMinLOD(const Int& value) const noexcept {
+	void Texture::SetMagFiler(const MagFilter& filter) {
+		m_Parameters.MagFilter = filter;
+
 		Bind();
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+	}
+	void Texture::SetMinLOD(const Int& value) {
+		m_Parameters.MinLOD = value;
+
+		Bind();
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_LOD, value);
 	}
-	void Texture::SetMaxLOD(const Int& value) const noexcept {
+	void Texture::SetMaxLOD(const Int& value) {
+		m_Parameters.MaxLOD = value;
+
 		Bind();
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LOD, value);
 	}
-	void Texture::SetWrapS(const Wrap& wrap) const noexcept {
+	void Texture::SetWrapS(const Wrap& wrap) {
+		m_Parameters.S = wrap;
+
 		Bind();
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
 	}
-	void Texture::SetWrapT(const Wrap& wrap) const noexcept {
+	void Texture::SetWrapT(const Wrap& wrap) {
+		m_Parameters.T = wrap;
+
 		Bind();
+
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
 	}
 
 	void Texture::Bind() const {
 		if (m_ID == 0)
-			Raise("Texture is not created");
+			Raise("Texture not created");
+
 		glBindTexture(GL_TEXTURE_2D, m_ID);
+	}
+
+	void Texture::BindUnit(const uInt& unitID) const {
+		if (glBindTextureUnit == nullptr)
+			Raise("GLEW not initialized");
+
+		if (m_ID == 0)
+			Raise("Texture not created");
+
+		glBindTextureUnit(unitID, m_ID);
+	}
+
+	std::type_index Texture::GetType() const {
+		return typeid(Texture);
+	}
+
+	String Texture::GetFilePath() const noexcept {
+		return m_Image.GetFilePath();
+	}
+
+	uInt2D Texture::GetSize() const noexcept {
+		return m_Image.GetSize();
+	}
+
+	const std::unique_ptr<Byte[]>& Texture::GetData() const noexcept {
+		return m_Image.GetData();
+	}
+	std::unique_ptr<Byte[]>& Texture::GetData() noexcept {
+		return m_Image.GetData();
+	}
+
+	uInt Texture::GetChannelCount() const noexcept {
+		return m_Image.GetChannelCount();
 	}
 
 	uInt Texture::GetID() const noexcept {
@@ -140,10 +204,13 @@ namespace Nt {
 		return (m_ID != 0);
 	}
 
-	void Texture::Create(const uInt& channelsCount, const uInt2D& size, const void* pData) {
-		if (m_Size != size)
-			m_Size = size;
+	void Texture::Create(const uInt& channelsCount, const uInt2D& size, std::unique_ptr<Byte[]>&& pData) {
+		m_Image.SetData(std::move(pData), size, channelsCount * 8);
 
+		Create();
+	}
+
+	void Texture::Create() {
 		if (m_ID != 0)
 			glDeleteTextures(1, &m_ID);
 
@@ -151,28 +218,32 @@ namespace Nt {
 		if (m_ID == 0)
 			_ThrowError("Failed to create texture");
 
-		switch (channelsCount) {
+		switch (m_Image.GetChannelCount()) {
 		case 1:
 			m_ColorComponent = GL_R;
 			break;
+
 		case 2:
 			m_ColorComponent = GL_RG;
 			break;
+
 		case 3:
 			m_ColorComponent = GL_RGB;
 			break;
+
 		case 4:
 			m_ColorComponent = GL_RGBA;
 			break;
+
 		default:
 			Raise("Incorrect number of channels");
 		}
 
 		glBindTexture(GL_TEXTURE_2D, m_ID);
-		if (pData != nullptr)
-			gluBuild2DMipmaps(GL_TEXTURE_2D, m_ColorComponent, size.x, size.y, m_ColorComponent, GL_UNSIGNED_BYTE, pData);
+		if (m_Image.GetData() != nullptr)
+			gluBuild2DMipmaps(GL_TEXTURE_2D, m_ColorComponent, m_Image.GetSize().x, m_Image.GetSize().y, m_ColorComponent, GL_UNSIGNED_BYTE, m_Image.GetData().get());
 		else
-			glTexImage2D(GL_TEXTURE_2D, 0, m_ColorComponent, size.x, size.y, 0, m_ColorComponent, GL_UNSIGNED_BYTE, nullptr);
+			glTexImage2D(GL_TEXTURE_2D, 0, m_ColorComponent, m_Image.GetSize().x, m_Image.GetSize().y, 0, m_ColorComponent, GL_UNSIGNED_BYTE, nullptr);
 
 		SetMinFiler(MIN_NEAREST);
 		SetMagFiler(MAG_NEAREST);
@@ -192,15 +263,14 @@ namespace Nt {
 			glGenerateTextureMipmap(m_ID);
 	}
 
-	void Texture::_LoadFromFile() {
-		Image::_LoadFromFile();
+	void Texture::LoadFromFile(const Nt::String& filePath) {
+		m_Image.LoadFromFile(filePath);
 
-		Create(4, m_Size, m_pData);
-		GenerateMipmap();
+		Create();
 	}
 
-	void Texture::_Release() {
-		Image::_Release();
+	void Texture::Release() {
+		m_Image.Release();
 		Delete();
 	}
 }

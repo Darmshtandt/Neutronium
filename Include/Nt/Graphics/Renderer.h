@@ -1,17 +1,24 @@
 #pragma once
 
+#include <Nt/Core/Math/Rect.h>
+#include <Nt/Core/Colors.h>
+#include <Nt/Core/Timer.h>
+
+#include <Nt/Graphics/Resources/Texture.h>
+#include <Nt/Graphics/Resources/Mesh.h>
+#include <Nt/Graphics/Shader.h>
 
 namespace Nt {
-	enum class CullFace : unsigned {
-		NONE,
-		FRONT = GL_FRONT,
-		BACK = GL_BACK,
-		FRONT_AND_BACK = GL_FRONT_AND_BACK
+	enum class CullFace : uInt {
+		NONE = 0x0000,
+		FRONT = 0x0404,
+		BACK = 0x0405,
+		FRONT_AND_BACK = 0x0408
 	};
 
 	class Renderer {
 	private:
-		enum class _ProjectionType {
+		enum class ProjectionType {
 			NONE,
 			ORTHO,
 			ORTHO2D,
@@ -19,14 +26,12 @@ namespace Nt {
 		};
 
 		struct _ProjectionConfig {
-			Float FOV = 60.f;
+			ProjectionType Type = ProjectionType::NONE;
+			FloatRect Rect = { };
 			Float Aspect = 0.f;
 			Float Near = 0.01f;
+			Float FOV = 60.f;
 			Float Far = 1000.f;
-
-			FloatRect Rect;
-
-			_ProjectionType Type = _ProjectionType::NONE;
 		};
 
 		struct _Matrices {
@@ -36,397 +41,133 @@ namespace Nt {
 		};
 
 	public:
-		enum class DrawingMode : unsigned {
-			POINTS = GL_POINTS,
-			LINE_STRIP = GL_LINE_STRIP,
-			LINE_LOOP = GL_LINE_LOOP,
-			LINES = GL_LINES,
-			LINE_STRIP_ADJACENCY = GL_LINE_STRIP_ADJACENCY,
-			LINES_ADJACENCY = GL_LINES_ADJACENCY,
-			TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
-			TRIANGLE_FAN = GL_TRIANGLE_FAN,
-			TRIANGLES = GL_TRIANGLES,
-			TRIANGLE_STRIP_ADJACENCY = GL_TRIANGLE_STRIP_ADJACENCY,
-			TRIANGLES_ADJACENCY = GL_TRIANGLES_ADJACENCY,
-			QUADS = GL_QUADS,
-			QUAD_STRIP = GL_QUAD_STRIP,
-			POLYGON = GL_POLYGON
+		enum class DrawingMode : uInt {
+			POINTS = 0x0000,
+			LINE_STRIP = 0x0003,
+			LINE_LOOP = 0x0002,
+			LINES = 0x0001,
+			LINE_STRIP_ADJACENCY = 0x000B,
+			LINES_ADJACENCY = 0x000A,
+			TRIANGLE_STRIP = 0x0005,
+			TRIANGLE_FAN = 0x0006,
+			TRIANGLES = 0x0004,
+			TRIANGLE_STRIP_ADJACENCY = 0x000D,
+			TRIANGLES_ADJACENCY = 0x000C,
+			QUADS = 0x0007,
+			QUAD_STRIP = 0x0008,
+			POLYGON = 0x0009
 		};
 
 	public:
-		Renderer(const Bool& isEnabled3D) noexcept :
-			m_IsEnabled3D(isEnabled3D),
-			m_Zoom(1.f),
-			m_FPSLimit(120),
-			m_FPSCounter(0),
-			m_FrameTime(0),
-			m_DrawingMode(DrawingMode::TRIANGLES),
-			m_Color(Colors::White),
-			m_IsInitialized(false),
-			m_ShaderPtr(nullptr),
-			m_hwnd(nullptr) {
-		}
+		NT_API Renderer(const Bool& isEnabled3D) noexcept;
 
-		void Resize() {
-			Resize(GetWindowRect(m_hwnd).RightBottom);
-		}
-		void Resize(const uInt2D& size) {
-			Resize(FloatRect(m_ProjectionConfig.Rect.LeftTop, Float2D(size)));
-		}
-		void Resize(FloatRect rect) {
-			SetViewport(rect);
+		NT_API void Resize();
+		NT_API void Resize(const uInt2D& size);
+		NT_API void Resize(FloatRect rect);
 
-			rect.Right /= m_Zoom;
-			rect.Bottom /= m_Zoom;
+		NT_API void SetClearColor(const Float4D& clearColor) const noexcept;
+		NT_API void Clear();
+		NT_API void Display();
 
-			switch (m_ProjectionConfig.Type) {
-			case _ProjectionType::NONE:
-				m_Matrices.Projection.MakeIdentity();
-				break;
-			case _ProjectionType::ORTHO:
-				SetOrthoProjection(rect, m_ProjectionConfig.Near, m_ProjectionConfig.Far);
-				break;
-			case _ProjectionType::ORTHO2D:
-				SetOrtho2DProjection(rect);
-				break;
-			case _ProjectionType::PERSPECTIVE:
-				SetPerspectiveProjection(
-					m_ProjectionConfig.FOV, rect.Right / rect.Bottom, m_ProjectionConfig.Near, m_ProjectionConfig.Far);
-				break;
-			}
-		}
+		NT_API void Render(const Mesh* pMesh) const;
+		NT_API void Render(const Mesh* pMesh, const uInt& offset, const uInt& verticesCount) const;
+		NT_API void RenderInstanced(const Mesh* pMesh, const uInt& count) const;
+		NT_API void RenderInstanced(const Mesh* pMesh, const uInt& offset, const uInt& verticesCount, const uInt& count) const;
 
-		void SetClearColor(const Float4D& clearColor) const noexcept {
-			glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-		}
-		void Clear() {
-			CheckInitialization();
+		NT_API void Translate(const Float3D& offset);
+		NT_API void Rotate(const Float3D& angles);
+		NT_API void Rotate2D(const Float& angle);
+		NT_API void Transform(const Float3D& offset, const Float3D& origin, const Float3D& angles, const Float3D& angleOrigin);
 
-			glClear(GL_COLOR_BUFFER_BIT);
-			if (m_IsEnabled3D)
-				glClear(GL_DEPTH_BUFFER_BIT);
-		}
-		void Display() {
-			CheckInitialization();
+		NT_API void RotateAroundOrigin(const Float3D& origin, const Float3D& angles);
+		NT_API void Rotate2DAroundOrigin(const Float3D& origin, const Float& angle);
 
-			m_FrameTime = uInt(m_LoopTimeStamp.GetElapsedTimeMs());
-			m_LoopTimeStamp.Restart();
+		NT_API void BindTexture(const Texture& texture);
+		NT_API void UnbindTexture();
+		NT_API void BindMesh(const Mesh& mesh);
+		NT_API void UnbindMesh();
 
-			const uInt delayTimeMs = (1000 / m_FPSLimit) - m_FrameTime;
-			if (Int(delayTimeMs) > 0)
-				Sleep(delayTimeMs);
-			else
-				Sleep(1);
+		NT_API void EnableDepthBuffer() const noexcept;
+		NT_API void DisableDepthBuffer() const noexcept;
 
-			++m_FPSCounter;
-			if (m_FPSTimer.GetElapsedTimeMs() > 1000ull) {
-				m_FPS = m_FPSCounter;
-				m_FPSCounter = 0;
-				m_FPSTimer.Restart();
-			}
+		NT_API void SetCullFace(const CullFace& mode) const noexcept;
+		NT_API void SetViewport(const Nt::IntRect& rect);
 
-			glFlush();
-		}
+		NT_API void MatricesPush() noexcept;
+		NT_API void MatrixWorldPush() noexcept;
+		NT_API void MatrixViewPush() noexcept;
+		NT_API void MatrixProjectionPush() noexcept;
 
-		void Render(const Mesh* pMesh) const {
-			if (!pMesh)
-				Raise("Mesh is nullptr");
-			RenderInstanced(pMesh, 1);
-		}
-		void RenderInstanced(const Mesh* pMesh, const GLsizei& Count) const {
-			CheckInitialization();
-			if (!pMesh)
-				Raise("Mesh is nullptr");
+		NT_API void MatricesPop() noexcept;
+		NT_API void MatrixWorldPop() noexcept;
+		NT_API void MatrixViewPop() noexcept;
+		NT_API void MatrixProjectionPop() noexcept;
 
-			pMesh->Set();
-			if (m_ShaderPtr)
-				m_ShaderPtr->Use();
+		NT_API void SetOrthoProjection(FloatRect rect, const Float& orthoNear, const Float& orthoFar);
+		NT_API void SetOrtho2DProjection(const FloatRect& rect);
+		NT_API void SetPerspectiveProjection(const Float& fov, const Float& aspect, const Float& _near, const Float& _far);
 
-			if (pMesh->IsUsedIndexBuffer())
-				glDrawElementsInstanced(uInt(m_DrawingMode), pMesh->GetIndices().size(), GL_UNSIGNED_SHORT, nullptr, Count);
-			else
-				glDrawArraysInstanced(uInt(m_DrawingMode), 0, pMesh->GetVertices().size(), Count);
-		}
-
-
-		void Translate(const Float3D& Offset) {
-			if (Offset != Float3D::Zero) {
-				m_Matrices.World.Translate(Offset);
-				if (m_ShaderPtr)
-					m_ShaderPtr->SetUniformMatrix4x4("World", GL_FLOAT, m_Matrices.World);
-				else
-					_SetGLMatrixModelView();
-			}
-		}
-		void Rotate(const Float3D& Angles) {
-			m_Matrices.World.Rotate(Angles);
-			_SetWorld();
-		}
-		void Rotate2D(const Float& Angle) {
-			m_Matrices.World.Rotate({ 0.f, 0.f, Angle });
-			_SetWorld();
-		}
-
-		void RotateAroundOrigin(const Float3D& Origin, const Float3D& Angles) {
-			Translate(Origin);
-			Rotate(Angles);
-			Translate(-Origin);
-			_SetWorld();
-		}
-		void Rotate2DAroundOrigin(const Float3D& Origin, const Float& Angle) {
-			Translate(Origin);
-			Rotate2D(Angle);
-			Translate(-Origin);
-			_SetWorld();
-		}
-
-		void EnableDepthBuffer() const noexcept {
-			glEnable(GL_DEPTH_TEST);
-		}
-		void DisableDepthBuffer() const noexcept {
-			glDisable(GL_DEPTH_TEST);
-		}
-
-		void SetCullFace(const CullFace& Mode) const noexcept {
-			if (Mode == CullFace::NONE) {
-				glDisable(GL_CULL_FACE);
-			}
-			else {
-				glEnable(GL_CULL_FACE);
-				glCullFace(uInt(Mode));
-			}
-		}
-		void SetViewport(const Nt::uIntRect& rect) {
-			m_ViewportRect = rect;
-			glViewport(rect.Left, rect.Top, rect.Right, rect.Bottom);
-		}
-
-		void MatricesPush() noexcept {
-			m_CachedMatrices = m_Matrices;
-		}
-		void MatrixWorldPush() noexcept {
-			m_CachedMatrices.World = m_Matrices.World;
-		}
-		void MatrixViewPush() noexcept {
-			m_CachedMatrices.View = m_Matrices.View;
-		}
-		void MatrixProjectionPush() noexcept {
-			m_CachedMatrices.Projection = m_Matrices.Projection;
-		}
-
-		void MatricesPop() noexcept {
-			m_Matrices = m_CachedMatrices;
-		}
-		void MatrixWorldPop() noexcept {
-			m_Matrices.World = m_CachedMatrices.World;
-		}
-		void MatrixViewPop() noexcept {
-			m_Matrices.View = m_CachedMatrices.View;
-		}
-		void MatrixProjectionPop() noexcept {
-			m_Matrices.Projection = m_CachedMatrices.Projection;
-		}
-
-
-		void SetOrthoProjection(FloatRect rect, const Float& orthoNear, const Float& orthoFar) {
-			if (rect.Left == rect.Right || rect.Top == rect.Bottom) {
-				Log::Warning("SetOrthoProjection: Invalid value");
-				return;
-			}
-
-			rect.LeftTop *= m_Zoom;
-			rect.RightBottom /= m_Zoom;
-
-			m_ProjectionConfig = { };
-			m_ProjectionConfig.Rect = rect;
-			m_ProjectionConfig.Near = orthoNear;
-			m_ProjectionConfig.Far = orthoFar;
-
-			if (orthoNear == -1.f && orthoFar == 1.f)
-				m_ProjectionConfig.Type = _ProjectionType::ORTHO2D;
-			else
-				m_ProjectionConfig.Type = _ProjectionType::ORTHO;
-
-			m_Matrices.Projection._11 = 2.f / (rect.Right - rect.Left);
-			m_Matrices.Projection._22 = 2.f / (rect.Top - rect.Bottom);
-			m_Matrices.Projection._33 = -2.f / (orthoFar - orthoNear);
-			m_Matrices.Projection._44 = 1.f;
-
-			m_Matrices.Projection._14 = -(rect.Right + rect.Left) / (rect.Right - rect.Left);
-			m_Matrices.Projection._24 = -(rect.Top + rect.Bottom) / (rect.Top - rect.Bottom);
-			m_Matrices.Projection._34 = -(orthoFar + orthoNear) / (orthoFar - orthoNear);
-
-			_SetProjection();
-		}
-		void SetOrtho2DProjection(const FloatRect& Rect) {
-			SetOrthoProjection(Rect, -1.f, 1.f);
-		}
-		void SetPerspectiveProjection(const Float& FOV, const Float& Aspect, const Float& Near, const Float& Far) {
-			m_ProjectionConfig.FOV = FOV;
-			m_ProjectionConfig.Aspect = Aspect;
-			m_ProjectionConfig.Near = Near;
-			m_ProjectionConfig.Far = Far;
-			m_ProjectionConfig.Type = _ProjectionType::PERSPECTIVE;
-
-			const Float tanFOV = tanf(FOV / 2.f * RADf);
-
-			m_Matrices.Projection.MakeIdentity();
-			m_Matrices.Projection._11 = 1.f / (tanFOV * Aspect * m_Zoom);
-			m_Matrices.Projection._22 = (1.f / tanFOV);
-			m_Matrices.Projection._33 = -(Far + Near) / (Far - Near);
-			m_Matrices.Projection._34 = -(2.f * Far * Near) / (Far - Near);
-			m_Matrices.Projection._43 = -1.f;
-			m_Matrices.Projection._44 = 0.f;
-
-			_SetProjection();
-		}
-
-		void SetLineWidth(const Float& Width) noexcept {
-			glLineWidth(Width);
-		}
+		NT_API void SetLineWidth(const Float& width) noexcept;
 
 		NT_API void CheckInitialization() const;
 
-		Shader* GetShaderPtr() const noexcept {
-			return m_ShaderPtr;
-		}
-		Matrix4x4 GetWorld() const noexcept {
-			return m_Matrices.World;
-		}
-		Matrix4x4 GetView() const noexcept {
-			return m_Matrices.View;
-		}
-		Matrix4x4 GetProjection() const noexcept {
-			return m_Matrices.Projection;
-		}
-		Float4D GetColor() const noexcept {
-			return m_Color;
-		}
-		uIntRect GetViewportRect() const noexcept {
-			return m_ViewportRect;
-		}
-		DrawingMode GetDrawingMode() const noexcept {
-			return m_DrawingMode;
-		}
-		uInt GetFPSLimit() const noexcept {
-			return m_FPSLimit;
-		}
-		uInt GetFPS() const noexcept {
-			return m_FPS;
-		}
-		uInt GetFrameTime() const noexcept {
-			return m_FrameTime;
-		}
-		Float GetZoom() const noexcept {
-			return m_Zoom;
-		}
-		Bool IsInitialized() const noexcept {
-			return m_IsInitialized;
-		}
-		Bool IsEnabled3D() const noexcept {
-			return m_IsEnabled3D;
-		}
+		NT_API Shader* GetShaderPtr() const noexcept;
+		NT_API Matrix4x4 GetWorld() const noexcept;
+		NT_API Matrix4x4 GetView() const noexcept;
+		NT_API Matrix4x4 GetProjection() const noexcept;
+		NT_API Float4D GetColor() const noexcept;
+		NT_API uIntRect GetViewportRect() const noexcept;
+		NT_API DrawingMode GetDrawingMode() const noexcept;
+		NT_API uInt GetFPSLimit() const noexcept;
+		NT_API uInt GetFPS() const noexcept;
+		NT_API uInt GetFrameTime() const noexcept;
+		NT_API Float GetZoom() const noexcept;
+		NT_API Bool IsInitialized() const noexcept;
+		NT_API Bool IsEnabled3D() const noexcept;
 
-		void SetFPSLimit(const uInt& FPSLimit) noexcept {
-			m_FPSLimit = FPSLimit;
-		}
-		void SetProjection(const Matrix4x4& Projection) {
-			m_Matrices.Projection = Projection;
-			_SetProjection();
-		}
-		void SetWorld(const Matrix4x4& World) {
-			m_Matrices.World = World;
-			_SetWorld();
-		}
-		void SetView(const Matrix4x4& View) {
-			m_Matrices.View = View;
-			_SetView();
-		}
-		void SetColor(const Float4D& Color) {
-			m_Color = Color;
-			if (m_ShaderPtr)
-				m_ShaderPtr->SetUniformVec4("RenderColor", GL_FLOAT, Color);
-			else
-				glColor4f(m_Color.r, m_Color.g, m_Color.b, m_Color.a);
-		}
-		void SetZoom(const Float& Zoom) noexcept {
-			m_Zoom = Zoom;
-		}
-		void SetDrawingMode(const DrawingMode& Mode) noexcept {
-			m_DrawingMode = Mode;
-		}
-		void SetCurrentShader(Shader* ShaderPtr) {
-			m_ShaderPtr = ShaderPtr;
-			if (m_ShaderPtr) {
-				m_ShaderPtr->Use();
-				m_ShaderPtr->SetUniformMatrix4x4("Projection", GL_FLOAT, m_Matrices.Projection);
-				m_ShaderPtr->SetUniformMatrix4x4("World", GL_FLOAT, m_Matrices.World);
-				m_ShaderPtr->SetUniformMatrix4x4("View", GL_FLOAT, m_Matrices.View);
-				m_ShaderPtr->SetUniformVec4("RenderColor", GL_FLOAT, m_Color);
-			}
-			else {
-				glUseProgram(0);
-				_SetGLMatrixProjection();
-				_SetGLMatrixModelView();
-			}
-		}
+		NT_API void SetFPSLimit(const uInt& fpsLimit) noexcept;
+		NT_API void SetProjection(const Matrix4x4& projection);
+		NT_API void SetWorld(const Matrix4x4& world);
+		NT_API void SetView(const Matrix4x4& view);
+		NT_API void SetColor(const Float4D& color);
+		NT_API void SetZoom(const Float& zoom) noexcept;
+		NT_API void SetDrawingMode(const DrawingMode& mode) noexcept;
+		NT_API void SetCurrentShader(Shader* pShader);
 
 	protected:
+#ifdef _WINDEF_
 		NT_API void _Initialize(HWND hwnd);
+#endif
 
 	private:
 		_Matrices m_Matrices;
 		_Matrices m_CachedMatrices;
 		_ProjectionConfig m_ProjectionConfig;
-		Float4D m_Color;
+		Float4D m_Color = Colors::White;
 
 		uIntRect m_ViewportRect;
-		Shader* m_ShaderPtr;
+		Shader* m_ShaderPtr = nullptr;
 
-		HWND m_hwnd;
-		DrawingMode m_DrawingMode;
+#ifdef _WINDEF_
+		HWND m_hwnd = nullptr;
+#endif
+		DrawingMode m_DrawingMode = DrawingMode::TRIANGLES;
 
-		uInt m_FPSLimit;
-		uInt m_FPSCounter;
-		uInt m_FPS;
-		uInt m_FrameTime;
+		Int m_FPSLimit = 120;
+		Int m_FPSCounter = 0;
+		Int m_FPS = 0;
+		Int m_FrameTime = 0;
 		Timer m_LoopTimeStamp;
 		Timer m_FPSTimer;
 
-		Float m_Zoom;
+		Float m_Zoom = 1.f;
 		Bool m_IsEnabled3D;
-		Bool m_IsInitialized;
+		Bool m_IsInitialized = false;
 
 	private:
-		void _SetProjection() const {
-			if (m_ShaderPtr) {
-				m_ShaderPtr->SetUniformMatrix4x4("Projection", GL_FLOAT, m_Matrices.Projection);
-			}
-			else {
-				_SetGLMatrixProjection();
-				glMatrixMode(GL_MODELVIEW);
-			}
-		}
-		void _SetWorld() const {
-			if (m_ShaderPtr)
-				m_ShaderPtr->SetUniformMatrix4x4("World", GL_FLOAT, m_Matrices.World);
-			else
-				_SetGLMatrixModelView();
-		}
-		void _SetView() const {
-			if (m_ShaderPtr)
-				m_ShaderPtr->SetUniformMatrix4x4("View", GL_FLOAT, m_Matrices.View);
-			else
-				_SetGLMatrixModelView();
-		}
-
-		void _SetGLMatrixModelView() const noexcept {
-			glMatrixMode(GL_MODELVIEW);
-			glLoadMatrixf((m_Matrices.View * m_Matrices.World).Matrix);
-		}
-		void _SetGLMatrixProjection() const noexcept {
-			glMatrixMode(GL_PROJECTION);
-			glLoadMatrixf(m_Matrices.Projection.Matrix);
-		}
+		NT_API void _ApplyProjectionMatrix() const;
+		NT_API void _ApplyWorldMatrix() const;
+		NT_API void _ApplyViewMatrix() const;
+		NT_API void _ApplyRenderColor() const;
 	};
 }

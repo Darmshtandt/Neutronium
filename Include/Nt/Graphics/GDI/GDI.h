@@ -2,9 +2,6 @@
 
 namespace Nt::GDI {
 	__inline HBITMAP CreateCompatibleBitmap(const HDC& hdc, const uInt2D& size) {
-		if (hdc == nullptr)
-			Raise("HDC is nullptr");
-
 		if (size.x == 0 && size.y == 0)
 			Log::Warning("Size = 0");
 		else if (size.x == 0)
@@ -12,42 +9,73 @@ namespace Nt::GDI {
 		else if (size.y == 0)
 			Log::Warning("Height = 0");
 
-		HBITMAP compabilleBitmap = ::CreateCompatibleBitmap(hdc, size.x, size.y);
+		HBITMAP compabilleBitmap = ::CreateCompatibleBitmap(RequireNotNull(hdc), size.x, size.y);
 		if (compabilleBitmap == nullptr)
-			Log::Warning(String("Failed to create compabile handle bitmap.\nError code:") + String(GetLastError()));
+			Log::Warning(String("Failed to create compatible handle bitmap.\nError code:") + String(GetLastError()));
 		return compabilleBitmap;
+	}
+	__inline HBITMAP CopyHandleBitmap(const HBITMAP& hBitmap) {
+		BITMAP bitmap;
+		if (GetObject(hBitmap, sizeof(bitmap), &bitmap) == 0)
+			Raise("Failed to get bitmap object");
+
+		HDC hdc = RequireNotNull(GetDC(nullptr));
+
+		HBITMAP hNewBitmap = ::CreateCompatibleBitmap(hdc, bitmap.bmWidth, bitmap.bmHeight);
+		if (hNewBitmap == nullptr) {
+			ReleaseDC(nullptr, hdc);
+
+			Raise("Failed to create new bitmap");
+		}
+
+		HDC hdcMem = ::CreateCompatibleDC(hdc);
+		if (hdcMem == nullptr) {
+			DeleteObject(hNewBitmap);
+			ReleaseDC(nullptr, hdc);
+
+			Raise("Failed to create compatible HDC");
+		}
+
+		HBITMAP hOldBitmap = (HBITMAP)::SelectObject(hdcMem, hNewBitmap);
+		if (!BitBlt(hdcMem, 0, 0, bitmap.bmWidth, bitmap.bmHeight, hdc, 0, 0, SRCCOPY)) {
+			::SelectObject(hdcMem, hOldBitmap);
+			DeleteObject(hdcMem);
+			DeleteObject(hNewBitmap);
+			ReleaseDC(nullptr, hdc);
+
+			Raise("Failed to copy bitmap");
+		}
+
+		::SelectObject(hdcMem, hOldBitmap);
+
+		DeleteObject(hdcMem);
+		ReleaseDC(nullptr, hdc);
+
+		return hNewBitmap;
 	}
 
 	__inline HDC CreateCompatibleDC(const HDC& hdc) {
-		if (hdc == nullptr)
-			Raise("HDC is nullptr");
-
-		HDC compabilleDC = ::CreateCompatibleDC(hdc);
+		HDC compabilleDC = ::CreateCompatibleDC(RequireNotNull(hdc));
 		if (compabilleDC == nullptr)
-			Log::Warning(String("Failed to create compabile HDC.\nError code:") + String(GetLastError()));
+			Log::Warning(String("Failed to create compatible HDC.\nError code:") + String(GetLastError()));
 		return compabilleDC;
 	}
 	__inline HGDIOBJ SelectObject(const HDC& hdc, const HGDIOBJ& hObject) {
-		if (hdc == nullptr)
-			Raise("HDC is nullptr");
-		if (hObject == nullptr)
-			Raise("hObject is nullptr");
-
-		HGDIOBJ hGDIObj = ::SelectObject(hdc, hObject);
+		HGDIOBJ hGDIObj = ::SelectObject(RequireNotNull(hdc), RequireNotNull(hObject));
 		if (hGDIObj == nullptr)
 			Log::Warning(String("Failed to select object.\nError code:") + String(GetLastError()));
 		return hGDIObj;
 	}
 	__inline void GetDIBits(const HDC& hdc, const HBITMAP& hBitmap, const uInt& start, 
 			const uInt& height, void* pBits, BITMAPINFO* pBmpInfo, const uInt& usage) {
-		if (hdc == nullptr)
-			Raise("HDC is nullptr");
-		if (pBits == nullptr)
-			Raise("pBits is nullptr");
-		if (pBmpInfo == nullptr)
-			Raise("pBmpInfo is nullptr");
-		if (height == 0)
+		RequireNotNull(hdc);
+		RequireNotNull(pBits);
+		RequireNotNull(pBmpInfo);
+
+		if (height == 0) {
 			Log::Warning("Height = 0");
+			return;
+		}
 
 		const Bool result = ::GetDIBits(hdc, hBitmap, start, height, pBits, pBmpInfo, usage);
 		if (!result)
@@ -55,27 +83,22 @@ namespace Nt::GDI {
 	}
 
 	__inline Int SetStretchBltMode(const HDC& hdc, const Int& mode) {
-		if (hdc == nullptr)
-			Raise("HDC is nullptr");
-
-		const Int result = ::SetStretchBltMode(hdc, mode);
+		const Int result = ::SetStretchBltMode(RequireNotNull(hdc), mode);
 		if (result == 0)
 			Log::Warning(String("Failed to set StretchBlt mode.\nError code: ") + String(GetLastError()));
 		return result;
 	}
 	__inline Bool StretchBlt(const HDC& hdcDest, const IntRect& rectDest, 
 			const HDC& hdcSrc, const IntRect& rectSrc, const DWord& rop) {
-		if (hdcDest == nullptr)
-			Raise("hdcDest is nullptr");
-		if (hdcSrc == nullptr)
-			Raise("hdcSrc is nullptr");
+		RequireNotNull(hdcDest);
+		RequireNotNull(hdcSrc);
 
 		if (rectDest.Right == 0 && rectDest.Bottom == 0)
-			Log::Warning("Dest size = 0");
+			Log::Warning("Destination size = 0");
 		else if (rectDest.Right == 0)
-			Log::Warning("Dest width = 0");
+			Log::Warning("Destination width = 0");
 		else if (rectDest.Bottom == 0)
-			Log::Warning("Dest height = 0");
+			Log::Warning("Destination height = 0");
 
 		if (rectSrc.Right == 0 && rectSrc.Bottom == 0)
 			Log::Warning("Source size = 0");
@@ -85,6 +108,7 @@ namespace Nt::GDI {
 			Log::Warning("Source height = 0");
 
 		SetLastError(0);
+
 		const Bool result = ::StretchBlt(hdcDest, rectDest.Left, rectDest.Top,
 			rectDest.Right, rectDest.Bottom, hdcSrc, 
 			rectSrc.Left, rectSrc.Top, rectSrc.Right, rectSrc.Bottom, rop);
@@ -95,10 +119,7 @@ namespace Nt::GDI {
 
 	__inline HBITMAP ScaleHBitmap(const HDC& hdc, const HBITMAP& hBitmap, 
 			const IntRect& bitmapRect, const IntRect& scaleRect) {
-		if (hdc == nullptr)
-			Raise("HDC is nullptr");
-
-		HDC hdcDest = GDI::CreateCompatibleDC(hdc);
+		HDC hdcDest = GDI::CreateCompatibleDC(RequireNotNull(hdc));
 		HBITMAP hBitmapDest =
 			GDI::CreateCompatibleBitmap(hdc, scaleRect.RightBottom);
 		HBITMAP hOldBitmapDest = (HBITMAP)GDI::SelectObject(hdcDest, hBitmapDest);

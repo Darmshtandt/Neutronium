@@ -87,10 +87,14 @@ namespace Nt::GDI {
 			m_ClipPrecision(CLIPPRECISION_DEFAULT),
 			m_Quality(QUALITY_DEFAULT),
 			m_Pitch(PITCH_DEFAULT),
+			m_Family(FAMILY_DONTCARE),
 			m_IsItalic(false),
 			m_IsUnderline(false),
-			m_IsStrikeOut(false)
-		{ }
+			m_IsStrikeOut(false),
+			m_Escapement(0),
+			m_Orientation(0)
+		{ 
+		}
 
 		void Create() {
 			if (m_hFont != nullptr) {
@@ -98,18 +102,16 @@ namespace Nt::GDI {
 				return;
 			}
 
-			if (m_Name == nullptr)
-				Raise("Font name is nullptr");
+			RequireNotNull(m_Name, "Font name pointer is null");
 
 			m_hFont = CreateFont(
 				m_Size.y, m_Size.x,
 				m_Escapement, m_Orientation, m_Weight,
 				m_IsItalic, m_IsUnderline, m_IsStrikeOut,
 				m_CharSet, m_OutPrecision, m_ClipPrecision, m_Quality,
-				(Byte)m_Pitch | m_Family, m_Name);
+				Byte(m_Pitch) | m_Family, m_Name);
 
-			if (m_hFont == nullptr)
-				Raise("Failed to create font");
+			RequireNotNull(m_hFont, "Failed to create font");
 		}
 		void Update() {
 			LOGFONT logFont = { };

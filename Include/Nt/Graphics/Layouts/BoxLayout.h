@@ -24,7 +24,7 @@ namespace Nt {
 			m_SavedClientRect = GetClientRect();
 			SetLayoutSize(layoutSize);
 		}
-		
+
 		void Create(const String& Name) override {
 			constexpr IntRect defaultWindowRect = 
 				{ CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT };
@@ -88,10 +88,10 @@ namespace Nt {
 			}
 		}
 		void ResetLayout() {
+			m_CellsSchematic.resize(m_LayoutSize, 1.f);
 			if (m_SavedClientRect.Right == 0 || m_SavedClientRect.Bottom == 0)
 				return;
 
-			m_CellsSchematic.resize(m_LayoutSize, 1);
 			UpdateContent();
 		}
 
@@ -193,7 +193,7 @@ namespace Nt {
 
 				m_Cells.resize(m_LayoutSize);
 				if (m_LayoutSize > 0)
-					ResetLayout();
+					BoxLayout::ResetLayout();
 			}
 		}
 		void SetGap(Int newGap, const UnitType& unit) {
@@ -273,12 +273,12 @@ namespace Nt {
 		std::vector<Float> m_CellsSchematic;
 		FloatRect m_PercentagePaddingRect;
 		IntRect m_SavedClientRect;
-		uInt m_LayoutSize;
-		Int m_Gap;
-		Bool m_IsVertical;
+		uInt m_LayoutSize = 0;
+		Int m_Gap = 0;
+		Bool m_IsVertical = false;
 
 	private:
-		virtual void _WMPaint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
+		virtual void _Paint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
 			if (IsVisibleDebugGrid) {
 				constexpr uInt lineWeight = 1;
 
@@ -296,11 +296,12 @@ namespace Nt {
 						DrawFrameRect(childHDC, IntRect(Int2D(), cell.GetRect().RightBottom), lineWeight, DebugGridColorConfig.FrameColor);
 					}
 
-					const Bool isLastCell = (cell.GetRect().LeftTop == (m_Cells.end() - 1)->GetRect().LeftTop);
+					const IntRect cellRect = cell.GetRect();
+					const Bool isLastCell = (cellRect.LeftTop == (m_Cells.end() - 1)->GetRect().LeftTop);
 					if (m_Gap > 0 && (!isLastCell) && (cellID % 2) == 0) {
-						Int drawGapPosition = (m_IsVertical) 
-							? cell.GetRect().Top + cell.GetRect().Bottom
-							: cell.GetRect().Left + cell.GetRect().Right;
+						const Int drawGapPosition = (m_IsVertical)
+							? cellRect.Top + cellRect.Bottom
+							: cellRect.Left + cellRect.Right;
 
 						_DrawGapRect(hdc, m_ClientRect, GetPaddingRect(), drawGapPosition, m_Gap, (!m_IsVertical));
 					}
@@ -313,7 +314,7 @@ namespace Nt {
 					cell.Draw(hdc);
 			}
 		}
-		virtual void _WMCommand(const Long& param_1, const Long& param_2) override {
+		virtual void _Command(const Long& param_1, const Long& param_2) override {
 			SendMessage(m_hParent, WM_COMMAND, param_1, param_2);
 		}
 

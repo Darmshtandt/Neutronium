@@ -29,7 +29,7 @@ namespace Nt {
 			return m_Points[index];
 		}
 		Simplex& operator = (std::initializer_list<Float3D> list) {
-			m_Size = min(4, list.size());
+			m_Size = std::min(4u, list.size());
 			for (uInt i = 0; i < m_Size; ++i)
 				m_Points[i] = *(list.begin() + i);
 			return *this;

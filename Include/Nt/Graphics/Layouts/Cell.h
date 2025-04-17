@@ -136,6 +136,9 @@ namespace Nt {
 
 	private:
 		void _UpdateContentRect() noexcept {
+			if (m_pHandle == nullptr)
+				return;
+
 			const IntRect padding = m_PercentagePaddingRect * Float2D(m_Rect.RightBottom);
 
 			IntRect newRect = m_Rect;
@@ -146,8 +149,7 @@ namespace Nt {
 			else
 				newRect.RightBottom = m_pHandle->GetWindowRect().RightBottom;
 
-			if (m_pHandle != nullptr)
-				m_pHandle->SetWindowRect(newRect);
+			m_pHandle->SetWindowRect(newRect);
 			if (m_pText != nullptr)
 				m_pText->SetRect(newRect);
 		}

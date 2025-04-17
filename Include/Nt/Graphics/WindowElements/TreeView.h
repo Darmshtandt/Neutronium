@@ -108,6 +108,7 @@ namespace Nt {
 			EXPAND_COLLAPSERESET = TVE_COLLAPSERESET,
 		};
 		enum ExtendStyles {
+			EX_STYLE_NONE = 0,
 			EX_STYLE_MULTISELECT = TVS_EX_MULTISELECT,
 			EX_STYLE_DOUBLEBUFFER = TVS_EX_DOUBLEBUFFER,
 			EX_STYLE_NOINDENTSTATE = TVS_EX_NOINDENTSTATE,
@@ -152,10 +153,15 @@ namespace Nt {
 
 	public:
 		TreeView() noexcept :
+			m_hImageList(nullptr),
+			m_TreeExStyles(EX_STYLE_NONE),
 			m_TextWeight(400)
 		{
 		}
-		TreeView(const IntRect& windowRect) : m_TextWeight(400) {
+		TreeView(const IntRect& windowRect) :
+			m_TreeExStyles(EX_STYLE_NONE),
+			m_TextWeight(400) 
+		{
 			Create(windowRect, "");
 		}
 
@@ -169,8 +175,7 @@ namespace Nt {
 			m_Styles |= (TVS_HASLINES | WS_CHILD);
 			m_pParam = this;
 
-			if (m_hParent == nullptr)
-				Raise("Missing parent window");
+			RequireNotNull(m_hParent, "Missing parent window");
 
 			InitializeCommonControls();
 			_CreateWindow();
@@ -188,8 +193,6 @@ namespace Nt {
 		}
 
 		ItemID Add(const Item& item, const ItemID& parentItemID = RootID, const ItemID& afterItemID = RootID) {
-			const std::wstring wItem = item.Text;
-
 			TVINSERTSTRUCT tvInsert = { };
 			tvInsert.hInsertAfter = afterItemID;
 			tvInsert.hParent = parentItemID;
@@ -197,9 +200,7 @@ namespace Nt {
 
 			const Long lParam = reinterpret_cast<Long>(&tvInsert);
 			ItemID itemID = reinterpret_cast<ItemID>(_SendMessage(TVM_INSERTITEM, 0, lParam));
-			if (itemID == nullptr)
-				Raise("Failed to add item");
-			return itemID;
+			return RequireNotNull(itemID, "Failed to add item");
 		}
 		Bool Remove(const ItemID& itemID) {
 			return _SendMessage(TVM_DELETEITEM, 0, reinterpret_cast<Long>(itemID));
@@ -225,7 +226,7 @@ namespace Nt {
 		}
 		void DeselectAll() {
 			if (!IsCreated())
-				Raise("TreeView is not created");
+				Raise("TreeView not created");
 
 			ItemID itemID = reinterpret_cast<ItemID>(_SendMessage(TVM_GETNEXTITEM, TVGN_ROOT, 0));
 			while (itemID != nullptr) {
@@ -394,12 +395,12 @@ namespace Nt {
 			return reinterpret_cast<ItemID>(_SendMessage(TVM_GETNEXTITEM, TVGN_CARET, 0));
 		}
 		Bool GetItem(Item* pItem) const {
-			if (pItem == nullptr)
-				Raise("The item pointer passed is null");
+			TVITEM tvItem = RequireNotNull(pItem)->ToWinApiStruct();
 
-			TVITEM tvItem = pItem->ToWinApiStruct();
 			const Bool result = _SendMessage(TVM_GETITEM, 0, reinterpret_cast<Long>(&tvItem));
-			(*pItem) = tvItem;
+			if (result)
+				(*pItem) = tvItem;
+
 			return result;
 		}
 		IntRect GetItemRect(const ItemID& itemID, const Bool& isTextRect) const {
@@ -508,8 +509,7 @@ namespace Nt {
 			}
 		}
 		void SetItemState(const ItemID& itemID, const Item::States& state, const Item::States& stateMask) {
-			if (itemID == nullptr)
-				Raise("The ItemID passed is null");
+			RequireNotNull(itemID);
 
 			Item item;
 			item.Mask = Nt::TreeView::Item::Masks(Nt::TreeView::Item::MASK_STATE);
@@ -534,10 +534,7 @@ namespace Nt {
 			_SendMessage(TVM_SETITEM, 0, reinterpret_cast<Long>(&tvItem));
 		}
 		Bool SetItem(Item* pItem) {
-			if (pItem == nullptr)
-				Raise("The item pointer passed is null");
-			
-			TVITEM tvItem = pItem->ToWinApiStruct();
+			TVITEM tvItem = RequireNotNull(pItem)->ToWinApiStruct();
 			const Bool result = _SendMessage(TVM_SETITEM, 0, reinterpret_cast<Long>(&tvItem));
 			(*pItem) = tvItem;
 			return result;

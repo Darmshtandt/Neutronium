@@ -1,55 +1,38 @@
 #pragma once
 
+#include <Nt/Core/Math/Rect.h>
+#include <Nt/Core/Log.h>
+
+#include <Nt/Graphics/Menu.h>
+
 namespace Nt {
-	inline constexpr Int DEFAULT_VALUE = CW_USEDEFAULT;
+	inline constexpr Int DEFAULT_VALUE = ((Int)0x80000000);
 
 	NT_API Int2D GetCursorPosition() noexcept;
 	NT_API Int2D GetMonitorSize() noexcept;
 
-	NT_API IntRect GetClientRect(HWND hwnd) noexcept;
-	NT_API IntRect GetWindowRect(HWND hwnd) noexcept;
-
 	NT_API IntRect AdjustWindowRect(const IntRect& windowRect, const DWord& styles, const Bool& isHasMenu) noexcept;
 	NT_API IntRect AdjustWindowRectEx(const IntRect& windowRect, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept;
 
-	__inline IntRect AdjustedWindowRect(HWND hwnd, const DWord& styles, const Bool& isHasMenu) noexcept {
-		return AdjustWindowRect(GetWindowRect(hwnd), styles, isHasMenu);
-	}
-	__inline IntRect AdjustedWindowRectEx(HWND hwnd, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept {
-		return AdjustWindowRectEx(GetWindowRect(hwnd), styles, isHasMenu, exStyles);
-	}
+#ifdef _WINDEF_
+	NT_API IntRect GetClientRect(HWND hwnd) noexcept;
+	NT_API IntRect GetWindowRect(HWND hwnd) noexcept;
+
+	NT_API IntRect AdjustedWindowRect(HWND hwnd, const DWord& styles, const Bool& isHasMenu) noexcept;
+	NT_API IntRect AdjustedWindowRectEx(HWND hwnd, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept;
 
 	NT_API COLORREF VectorToColorRef(const Byte3D& color);
 	NT_API Byte3D ColorRefToVector(const COLORREF& color);
 
 	NT_API HBRUSH CreateSolidBrush(const Byte3D& color) noexcept;
 
-	__inline void DrawFrameRect(HDC hdc, const IntRect& rect, const Int& lineWeight, const Byte3D color) {
-		const RECT leftSide = { 
-			rect.Left, rect.Top, 
-			rect.Left + lineWeight, rect.Top + rect.Bottom 
-		};
-		const RECT topSide = { 
-			rect.Left, rect.Top, 
-			rect.Left + rect.Right, rect.Top + lineWeight 
-		};
-		const RECT rightSide = { 
-			rect.Left + rect.Right - lineWeight, rect.Top, 
-			rect.Left + rect.Right, rect.Top + rect.Bottom 
-		};
-		const RECT bottomSide = { 
-			rect.Left, rect.Top + rect.Bottom - lineWeight, 
-			rect.Left + rect.Right, rect.Top + rect.Bottom 
-		};
-
-		const HBRUSH hBrush = CreateSolidBrush(color);
-		FillRect(hdc, &leftSide, hBrush);
-		FillRect(hdc, &topSide, hBrush);
-		FillRect(hdc, &rightSide, hBrush);
-		FillRect(hdc, &bottomSide, hBrush);
-	}
+	NT_API void DrawFrameRect(HDC hdc, const IntRect& rect, const Int& lineWeight, const Byte3D& color);
 
 	using HandleWindowID = HWND;
+#else
+	using HandleWindowID = void*;
+#endif
+
 
 	class HandleWindow {
 	public:
@@ -61,104 +44,74 @@ namespace Nt {
 			ZORDER_BOTTOM = 1,
 		};
 		enum WindowPositionFlags {
-			POSITIONFLAG_NONE = 0,
-			POSITIONFLAG_ASYNC = SWP_ASYNCWINDOWPOS,
-			POSITIONFLAG_DEFERERASE = SWP_DEFERERASE,
-			POSITIONFLAG_DRAWFRAME = SWP_DRAWFRAME,
-			POSITIONFLAG_FRAMECHANGED = SWP_FRAMECHANGED,
-			POSITIONFLAG_HIDEWINDOW = SWP_HIDEWINDOW,
-			POSITIONFLAG_NOACTIVATE = SWP_NOACTIVATE,
-			POSITIONFLAG_NOCOPYBITS = SWP_NOCOPYBITS,
-			POSITIONFLAG_NOMOVE = SWP_NOMOVE,
-			POSITIONFLAG_NOOWNERZORDER = SWP_NOOWNERZORDER,
-			POSITIONFLAG_NOREDRAW = SWP_NOREDRAW,
-			POSITIONFLAG_NOREPOSITION = SWP_NOREPOSITION,
-			POSITIONFLAG_NOSENDCHANGING = SWP_NOSENDCHANGING,
-			POSITIONFLAG_NOSIZE = SWP_NOSIZE,
-			POSITIONFLAG_NOZORDER = SWP_NOZORDER,
-			POSITIONFLAG_SHOWWINDOW = SWP_SHOWWINDOW
+			POSITIONFLAG_NONE = 0x0000,
+			POSITIONFLAG_ASYNC = 0x4000,
+			POSITIONFLAG_DEFERERASE = 0x2000,
+			POSITIONFLAG_DRAWFRAME = 0x0020,
+			POSITIONFLAG_FRAMECHANGED = POSITIONFLAG_DRAWFRAME,
+			POSITIONFLAG_HIDEWINDOW = 0x0080,
+			POSITIONFLAG_NOACTIVATE = 0x0010,
+			POSITIONFLAG_NOCOPYBITS = 0x0100,
+			POSITIONFLAG_NOMOVE = 0x0002,
+			POSITIONFLAG_NOOWNERZORDER = 0x0200,
+			POSITIONFLAG_NOREDRAW = 0x0008,
+			POSITIONFLAG_NOREPOSITION = 0x0200,
+			POSITIONFLAG_NOSENDCHANGING = 0x0400,
+			POSITIONFLAG_NOSIZE = 0x0001,
+			POSITIONFLAG_NOZORDER = 0x0004,
+			POSITIONFLAG_SHOWWINDOW = 0x0040
 		};
 		enum Index {
-			INDEX_EXSTYLE = GWL_EXSTYLE,
-			INDEX_HINSTANCE = GWLP_HINSTANCE,
-			INDEX_HWNDPARENT = GWLP_HWNDPARENT,
-			INDEX_ID = GWLP_ID,
-			INDEX_STYLE = GWL_STYLE,
-			INDEX_USERDATA = GWLP_USERDATA,
-			INDEX_WNDPROC = GWLP_WNDPROC,
+			INDEX_EXSTYLE = (-20),
+			INDEX_HINSTANCE = (-6),
+			INDEX_HWNDPARENT = (-8),
+			INDEX_ID = (-12),
+			INDEX_STYLE = (-16),
+			INDEX_USERDATA = (-21),
+			INDEX_WNDPROC = (-4),
 		};
-		enum HandleStyles : uLong {
-			STYLE_BORDER = WS_BORDER,
-			STYLE_CAPTION = WS_CAPTION,
-			STYLE_CHILD = WS_CHILD,
-			STYLE_CHILDWINDOW = WS_CHILDWINDOW,
-			STYLE_CLIPCHILDREN = WS_CLIPCHILDREN,
-			STYLE_CLIPSIBLINGS = WS_CLIPSIBLINGS,
-			STYLE_DISABLED = WS_DISABLED,
-			STYLE_DLGFRAME = WS_DLGFRAME,
-			STYLE_GROUP = WS_GROUP,
-			STYLE_HSCROLL = WS_HSCROLL,
-			STYLE_ICONIC = WS_ICONIC,
-			STYLE_MAXIMIZE = WS_MAXIMIZE,
-			STYLE_MAXIMIZEBOX = WS_MAXIMIZEBOX,
-			STYLE_MINIMIZE = WS_MINIMIZE,
-			STYLE_MINIMIZEBOX = WS_MINIMIZEBOX,
-			STYLE_OVERLAPPED = WS_OVERLAPPED,
-			STYLE_OVERLAPPEDWINDOW = WS_OVERLAPPEDWINDOW,
-			STYLE_POPUP = WS_POPUP,
-			STYLE_POPUPWINDOW = WS_POPUPWINDOW,
-			STYLE_SIZEBOX = WS_SIZEBOX,
-			STYLE_SYSMENU = WS_SYSMENU,
-			STYLE_TABSTOP = WS_TABSTOP,
-			STYLE_THICKFRAME = WS_THICKFRAME,
-			STYLE_TILED = WS_TILED,
-			STYLE_TILEDWINDOW = WS_TILEDWINDOW,
-			STYLE_VISIBLE = WS_VISIBLE,
-			STYLE_VSCROLL = WS_VSCROLL,
+		enum Styles : uLong {
+			STYLE_NONE = 0x00000000L,
+
+			STYLE_BORDER = 0x00800000L,
+			STYLE_CAPTION = 0x00C00000L,
+			STYLE_CHILD = 0x40000000L,
+			STYLE_CLIPCHILDREN = 0x02000000L,
+			STYLE_CLIPSIBLINGS = 0x04000000L,
+			STYLE_DISABLED = 0x08000000L,
+			STYLE_DLGFRAME = 0x00400000L,
+			STYLE_GROUP = 0x00020000L,
+			STYLE_HSCROLL = 0x00100000L,
+			STYLE_ICONIC = 0x20000000L,
+			STYLE_MAXIMIZE = 0x01000000L,
+			STYLE_MAXIMIZEBOX = 0x00010000L,
+			STYLE_MINIMIZE = 0x20000000L,
+			STYLE_MINIMIZEBOX = 0x00020000L,
+			STYLE_OVERLAPPED = 0x00000000L,
+			STYLE_POPUP = 0x80000000L,
+			STYLE_SYSMENU = 0x00080000L,
+			STYLE_TABSTOP = 0x00010000L,
+			STYLE_THICKFRAME = 0x00040000L,
+			STYLE_VISIBLE = 0x10000000L,
+			STYLE_VSCROLL = 0x00200000L,
+
+			STYLE_CHILDWINDOW = STYLE_CHILD,
+			STYLE_SIZEBOX = STYLE_THICKFRAME,
+			STYLE_TILED = STYLE_OVERLAPPED,
+			STYLE_POPUPWINDOW = STYLE_POPUP | STYLE_BORDER | STYLE_SYSMENU,
+			STYLE_OVERLAPPEDWINDOW = STYLE_OVERLAPPED | STYLE_CAPTION | STYLE_SYSMENU | STYLE_THICKFRAME | STYLE_MINIMIZEBOX | STYLE_MAXIMIZEBOX,
+			STYLE_TILEDWINDOW = STYLE_OVERLAPPEDWINDOW,
 		};
 
 	public:
-		NT_API HandleWindow() noexcept;
-		explicit HandleWindow(const HWND& hwnd) {
-			m_hwnd = hwnd;
-			if (m_hwnd) {
-				const uInt nameLength = GetWindowTextLength(m_hwnd);
-				m_Name.resize(nameLength);
-				GetWindowText(m_hwnd, m_Name.data(), nameLength);
-
-				wChar className[MAX_PATH] = { };
-				GetClassName(m_hwnd, className, MAX_PATH);
-				m_ClassName = className;
-
-				WNDCLASS wndClass;
-				GetClassInfo(m_hInstance, m_ClassName.c_str(), &wndClass);
-
-				COLORREF colorRefBackground;
-				GetObject(wndClass.hbrBackground, sizeof(colorRefBackground), &colorRefBackground);
-				m_BackgroundColor = ColorRefToVector(colorRefBackground);
-
-				m_pParam = this;
-				SetWindowLongPtr(m_hwnd, GWLP_USERDATA, reinterpret_cast<Long>(m_pParam));
-
-				m_hdc = ::GetDC(m_hwnd);
-				m_hInstance = reinterpret_cast<HINSTANCE>(GetWindowLongPtr(m_hwnd, GWLP_HINSTANCE));
-				m_hParent = reinterpret_cast<HWND>(GetWindowLongPtr(m_hwnd, GWLP_HWNDPARENT));
-				m_Menu = ::GetMenu(m_hwnd);
-				m_ClientRect = Nt::GetClientRect(m_hwnd);
-				m_WindowRect = Nt::GetWindowRect(m_hwnd);
-				m_ID = GetWindowLongPtr(m_hwnd, GWLP_ID);;
-				m_Styles = GetWindowLongPtr(m_hwnd, GWL_STYLE);
-				m_ExStyles = GetWindowLongPtr(m_hwnd, GWL_EXSTYLE);
-				m_IsMenuEnabled = (m_Menu.GetHandle() != nullptr);
-				m_IsWindowEnabled = IsWindowEnabled(m_hwnd);
-			}
-		}
-		HandleWindow(const IntRect& rect, const String& name) {
-			Create(rect, name);
-		}
+		HandleWindow() noexcept = default;
+		NT_API HandleWindow(HandleWindow&& window);
+		NT_API HandleWindow(const IntRect& rect, const String& name);
+#ifdef _WINDEF_
+		NT_API HandleWindow(const HWND& hwnd);
+#endif
 
 		NT_API virtual void Create(const IntRect& windowRect, const String& name);
-		NT_API HandleWindow& CreateCopy() const;
 
 		NT_API void Hide();
 		NT_API void Show();
@@ -181,13 +134,16 @@ namespace Nt {
 
 		NT_API Bool InvalidateRect(const IntRect* pRect, const Bool& isErased) noexcept;
 
+		NT_API HandleWindow& operator = (HandleWindow&& window);
+
 		NT_API virtual void SetBackgroundColor(const Byte3D& color);
-		NT_API void SetIcon(const HICON& hIcon);
-		NT_API void SetIconSmall(const HICON& hIcon);
 		NT_API void SetIcon(const String& iconPath);
 		NT_API void SetIconSmall(const String& iconPath);
 
 #ifdef _WINDEF_
+		NT_API void SetIcon(const HICON& hIcon);
+		NT_API void SetIconSmall(const HICON& hIcon);
+
 		NT_API void SetInstance(const HINSTANCE& hInstance) noexcept;
 		NT_API virtual void SetParentHandle(const HWND& hParent);
 #endif
@@ -211,45 +167,51 @@ namespace Nt {
 		NT_API HDC GetWindowDC() const noexcept;
 		NT_API HINSTANCE GetInstance() const noexcept;
 #endif
-		NT_API Long GetWindowInfo(const Index& index) const noexcept;
-		NT_API Nt::String GetName() const;
-		NT_API Menu GetMenu() const noexcept;
-		NT_API IntRect GetClientRect() const noexcept;
-		NT_API IntRect GetWindowRect() const noexcept;
-		NT_API IntRect GetAdjustedWindowRect() const noexcept;
-		NT_API HandleWindow GetParent() const noexcept;
-		NT_API Int GetID() const noexcept;
-		NT_API void* GetParamPtr() const noexcept;
-		NT_API Byte3D GetBackgroundColor() const noexcept;
-		NT_API uInt GetStyles() const noexcept;
-		NT_API uInt GetExStyles() const noexcept;
-		NT_API Bool IsMenuEnabled() const noexcept;
-		NT_API Bool IsShowed() const noexcept;
-		_CONSTEXPR23 NT_API Bool IsCreated() const noexcept;
+		NT_API _NODISCARD Long GetWindowInfo(const Index& index) const noexcept;
+		NT_API _NODISCARD Nt::String GetName() const;
+		NT_API _NODISCARD Menu& GetMenu() noexcept;
+		NT_API _NODISCARD IntRect GetClientRect() const noexcept;
+		NT_API _NODISCARD IntRect GetWindowRect() const noexcept;
+		NT_API _NODISCARD IntRect GetAdjustedWindowRect() const noexcept;
+		NT_API _NODISCARD HandleWindow GetParent() const noexcept;
+		NT_API _NODISCARD Int GetID() const noexcept;
+		NT_API _NODISCARD void* GetParamPtr() const noexcept;
+		NT_API _NODISCARD Byte3D GetBackgroundColor() const noexcept;
+		NT_API _NODISCARD uInt GetStyles() const noexcept;
+		NT_API _NODISCARD uInt GetExStyles() const noexcept;
+		NT_API _NODISCARD Bool IsMenuEnabled() const noexcept;
+		NT_API _NODISCARD Bool IsShowed() const noexcept;
+		NT_API _NODISCARD Bool IsCreated() const noexcept;
 
 	protected:
 		std::wstring m_Name;
 		std::wstring m_ClassName;
 		Byte3D m_BackgroundColor;
-		HINSTANCE m_hInstance;
-		HWND m_hParent;
-		HWND m_hwnd;
-		HDC m_hdc;
+
+#ifdef _WINDEF_
+		HINSTANCE m_hInstance = GetModuleHandle(nullptr);
+		HWND m_hParent = nullptr;
+		HWND m_hwnd = nullptr;
+		HDC m_hdc = nullptr;
+#endif
+
 		Menu m_Menu;
-		void* m_pParam;
+		void* m_pParam = nullptr;
 		IntRect m_ClientRect;
 		IntRect m_WindowRect;
-		Int m_ID;
-		ZOrder m_ZOrder;
-		uInt m_Styles;
-		uInt m_ExStyles;
-		Bool m_IsMenuEnabled;
-		Bool m_IsWindowEnabled;
+		Int m_ID = 0;
+		ZOrder m_ZOrder = ZORDER_NOTOPMOST;
+		uInt m_Styles = STYLE_NONE;
+		uInt m_ExStyles = STYLE_NONE;
+		Bool m_IsMenuEnabled = false;
+		Bool m_IsWindowEnabled = true;
 
 	protected:
 		NT_API void _CreateWindow();
 		NT_API Long _SendMessage(const uInt& message, const uInt& wParam, const Long& lParam) const;
 	};
 
+#ifdef _WINDEF_
 	NT_API String OpenFileDialog(const String& startPath, const _FILEOPENDIALOGOPTIONS& options);
+#endif
 }

@@ -463,11 +463,11 @@ namespace Nt {
 				ItemIndex(info.iItem)
 			{
 				if (info.cColumns > 0) {
-					if (info.puColumns == nullptr) {
+					if (info.puColumns != nullptr) {
 						ColumnsIndices.resize(info.cColumns);
 						memcpy(ColumnsIndices.data(), info.puColumns, info.cColumns * sizeof(uInt));
 					}
-					if (info.piColFmt == nullptr) {
+					if (info.piColFmt != nullptr) {
 						ColumnsFormats.resize(info.cColumns);
 						memcpy(ColumnsFormats.data(), info.piColFmt, info.cColumns * sizeof(Int));
 					}
@@ -588,21 +588,21 @@ namespace Nt {
 			return _SendMessage(LVM_UPDATE, itemIndex, 0);
 		}
 
-		Int FindItem(const FindFlags& flags, const std::wstring& searchText, const Long& searchData, const Int2D& position, const Keyboard::Key& key, const uInt& startIndex = -1) const {
-			const Bool keyIsLeftOrRightArrow = (key == Keyboard::KEY_LEFT || key == Keyboard::KEY_RIGHT);
-			const Bool keyIsUpOrDownArrow = (key == Keyboard::KEY_UP || key == Keyboard::KEY_DOWN);
-			const Bool keyIsHomeOrEnd = (key == Keyboard::KEY_HOME || key == Keyboard::KEY_END);
-			const Bool keyIsPriorOrNext = (key == Keyboard::KEY_PRIOR || key == Keyboard::KEY_NEXT);
+		Int FindItem(const FindFlags& flags, const std::wstring& searchText, const Long& searchData, const Int2D& position, const Key& key, const uInt& startIndex = -1) const {
+			const Bool keyIsLeftOrRightArrow = (key == Key::_LEFT || key == Key::_RIGHT);
+			const Bool keyIsUpOrDownArrow = (key == Key::_UP || key == Key::_DOWN);
+			const Bool keyIsHomeOrEnd = (key == Key::_HOME || key == Key::_END);
+			const Bool keyIsPriorOrNext = (key == Key::_PRIOR || key == Key::_NEXT);
 
 			if (!(keyIsLeftOrRightArrow || keyIsUpOrDownArrow || keyIsHomeOrEnd || keyIsPriorOrNext))
-				Log::Warning("This Key is not supported");
+				Log::Warning("This Key not supported");
 
 			LVFINDINFO findInfo;
 			findInfo.flags = flags;
 			findInfo.psz = searchText.c_str();
 			findInfo.lParam = searchData;
 			findInfo.pt = position;
-			findInfo.vkDirection = key;
+			findInfo.vkDirection = uInt(key);
 			return _SendMessage(LVM_FINDITEM, startIndex, reinterpret_cast<Long>(&findInfo));
 		}
 		Bool SortItems(const SortCompare& function, const Long& param) {
@@ -681,10 +681,7 @@ namespace Nt {
 			return _SendMessage(LVM_GETITEMCOUNT, 0, 0);
 		}
 		Bool GetItem(Item* pItem) const {
-			if (pItem == nullptr)
-				Raise("The item pointer passed is null");
-
-			LVITEM lvItem = pItem->ToWinApiStruct();
+			LVITEM lvItem = RequireNotNull(pItem)->ToWinApiStruct();
 			const Bool result = _SendMessage(LVM_GETITEM, 0, reinterpret_cast<Long>(&lvItem));
 
 			(*pItem) = lvItem;
@@ -715,7 +712,7 @@ namespace Nt {
 		}
 		String GetItemText(const uInt& itemIndex, const uInt& subItemIndex) const {
 			if (m_Styles & ListStyles::LISTSTYLE_OWNERDATA) {
-				Log::Warning("ListView::GetItemText is not supported under the LISTSTYLE_OWNERDATA style");
+				Log::Warning("ListView::GetItemText not supported under the LISTSTYLE_OWNERDATA style");
 				return "";
 			}
 
@@ -893,7 +890,7 @@ namespace Nt {
 			return ImageList(handle);
 		}
 		std::wstring GetEmptyText() const {
-			wChar buffer[0x7FFF];
+			wChar buffer[0x7FFF] = { };
 			_SendMessage(LVM_GETEMPTYTEXT, 0x7FFF, reinterpret_cast<Long>(buffer));
 			return buffer;
 		}
@@ -931,13 +928,13 @@ namespace Nt {
 
 		void SetItemState(const Int& index, const uInt& styles, const uInt& mask) {
 			if (!IsCreated())
-				Raise("ListView is not created");
+				Raise("ListView not created");
 			ListView_SetItemState(m_hwnd, index, styles, mask);
 		}
 
 		void SortItems(const PFNLVCOMPARE& func, const Long& param) {
 			if (!IsCreated())
-				Raise("ListView is not created");
+				Raise("ListView not created");
 			ListView_SortItems(m_hwnd, func, param);
 		}
 
@@ -983,7 +980,7 @@ namespace Nt {
 		std::vector<Item> m_Items;
 		Byte3D m_TextBackgroundColor = { 255, 255, 255 };
 		Byte3D m_TextColor;
-		ExtendedStyles m_ExtendedStyles;
+		ExtendedStyles m_ExtendedStyles = EX_STYLE_NONE;
 		Bool m_EnabledTextBackground = true;
 	};
 }

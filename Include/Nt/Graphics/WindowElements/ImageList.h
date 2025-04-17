@@ -80,19 +80,18 @@ namespace Nt {
 			m_Handle(list)
 		{
 		}
-		ImageList(const ImageList& list) {
-			Copy(this, 0, 0, false);
-		}
 		~ImageList() {
 			Destroy();
 		}
 
 		void Create(const Int2D& imagesSize, const CreateFlags& flags, const uInt& initialCount, const uInt& growCount) {
 			m_Handle = ImageList_Create(imagesSize.x, imagesSize.y, flags, initialCount, growCount);
-			if (m_Handle == nullptr)
-				Raise("Failed to create image list");
+			RequireNotNull(m_Handle, "Failed to create image list");
 		}
 		Bool Destroy() {
+			if (m_Handle == nullptr)
+				return true;
+
 			const Bool result = ImageList_Destroy(m_Handle);
 			m_Handle = nullptr;
 			return result;
@@ -102,111 +101,91 @@ namespace Nt {
 			m_Handle = ImageList_LoadImage(
 				nullptr, resourceName.c_str(), imagesWidth, imagesCount, 
 				VectorToColorRef(colorMask), IMAGE_BITMAP, flags);
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+
+			RequireNotNull(m_Handle, "Failed to create image list");
 		}
 		void LoadFromBitmap(const std::wstring& resourceName, const uInt& imagesWidth, const uInt& imagesCount, const Byte3D& colorMask) {
-			m_Handle = ImageList_LoadBitmap(nullptr, resourceName.c_str(), imagesWidth, imagesCount, VectorToColorRef(colorMask));
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			Destroy();
+
+			m_Handle = ImageList_LoadBitmap(
+				nullptr, resourceName.c_str(), imagesWidth, imagesCount, 
+				VectorToColorRef(colorMask));
+
+			RequireNotNull(m_Handle, "Failed to create image list");
 		}
 
 		Bool Copy(ImageList* pImageList, const Int& destImageIndex, const Int& sourceImageIndex, const Bool& isSwap) {
 			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			if (pImageList == nullptr)
-				Raise("The passed ImageList is null");
-			if (pImageList->m_Handle == nullptr)
-				Raise("The passed ImageList was not created");
+				return false;
+
+			RequireNotNull(RequireNotNull(pImageList)->m_Handle);			
 			return ImageList_Copy(m_Handle, destImageIndex, pImageList->m_Handle, sourceImageIndex, (isSwap) ? ILCF_SWAP : ILCF_MOVE);
 		}
 		ImageList Merge(const Int& imageIndex_1, ImageList* pImageList, const Int& imageIndex_2, const Int2D& offset) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			if (pImageList == nullptr)
-				Raise("The passed ImageList is null");
-			if (pImageList->m_Handle == nullptr)
-				Raise("The passed ImageList was not created");
+			RequireNotNull(m_Handle, "ImageList not created");
+			RequireNotNull(RequireNotNull(pImageList)->m_Handle);
 
 			HIMAGELIST hImageList = ImageList_Merge(
 				m_Handle, imageIndex_1, pImageList->m_Handle, imageIndex_2, offset.x, offset.y);
-			if (hImageList == nullptr)
-				Raise("Failed to merge ImageList");
-			return hImageList;
+
+			return RequireNotNull(hImageList, "Failed to merge ImageList");
 		}
 		ImageList Duplicate() const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 
-			HIMAGELIST hImageList = ImageList_Duplicate(m_Handle);
-			if (hImageList == nullptr)
-				Raise("Failed to duplicate ImageList");
-			return hImageList;
+			return RequireNotNull(ImageList_Duplicate(m_Handle), "Failed to duplicate ImageList");
 		}
 
 		Int Add(const GDI::Bitmap* pBitmap, const GDI::Bitmap* pBitmapMask = nullptr) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			if (pBitmap == nullptr)
-				Raise("The passed Bitmap is null");
+			RequireNotNull(m_Handle, "ImageList not created");
+			RequireNotNull(pBitmap);
 
-			if (pBitmapMask)
+			if (pBitmapMask != nullptr)
 				return ImageList_Add(m_Handle, pBitmap->GetHandle(), pBitmapMask->GetHandle());
 			return ImageList_Add(m_Handle, pBitmap->GetHandle(), nullptr);
 		}
 		Bool Remove(const Int& index) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			return ImageList_Remove(m_Handle, index);
+			return ImageList_Remove(RequireNotNull(m_Handle, "ImageList not created"), index);
 		}
 		Bool Clear() {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			return ImageList_RemoveAll(m_Handle);
+			return ImageList_RemoveAll(RequireNotNull(m_Handle, "ImageList not created"));
 		}
 		Bool Replace(const uInt& index, const GDI::Bitmap* pBitmap, const GDI::Bitmap* pBitmapMask = nullptr) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			if (pBitmap == nullptr)
-				Raise("The passed Bitmap is null");
-			if (pBitmapMask)
+			RequireNotNull(m_Handle, "ImageList not created");
+			RequireNotNull(pBitmap);
+
+			if (pBitmapMask != nullptr)
 				return ImageList_Replace(m_Handle, index, pBitmap->GetHandle(), pBitmapMask->GetHandle());
 			return ImageList_Replace(m_Handle, index, pBitmap->GetHandle(), nullptr);
 		}
 
 		Int AddIcon(const Icon& icon) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_AddIcon(m_Handle, icon.GetHandle());
 		}
 		Int ReplaceIcon(const Int& index, const Icon& icon) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_ReplaceIcon(m_Handle, index, icon.GetHandle());
 		}
 
 		Int AddMasked(const GDI::Bitmap& bitmap, const Byte3D& mask) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_AddMasked(m_Handle, bitmap.GetHandle(), VectorToColorRef(mask));
 		}
 
 		Bool Draw(const HandleWindow& window, const uInt& imageIndex, const Int2D& position, const DrawStyles& styles) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_Draw(m_Handle, imageIndex, window.GetDC(), position.x, position.y, styles);
 		}
 		Bool DrawEx(const HandleWindow& window, const uInt& imageIndex, const IntRect& rect, const Byte3D& background, const Byte3D& foreground, const DrawStyles& styles) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 
 			return ImageList_DrawEx(m_Handle, imageIndex, window.GetDC(),
 				rect.Left, rect.Top, rect.Right, rect.Bottom,
 				VectorToColorRef(background), VectorToColorRef(foreground), styles);
 		}
 		Bool DrawIndirect(const HandleWindow& window, const DrawParams& drawParams) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 
 			IMAGELISTDRAWPARAMS params;
 			params.cbSize = sizeof(params);
@@ -226,12 +205,12 @@ namespace Nt {
 			params.fState = drawParams.State;
 			params.Frame = drawParams.Alpha;
 			params.crEffect = drawParams.GlowAndShadowEffect;
+
 			return ImageList_DrawIndirect(&params);
 		}
 
 		Bool BeginDrag(const Int& imageIndex, const Int2D& hotspot) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_BeginDrag(m_Handle, imageIndex, hotspot.x, hotspot.y);
 		}
 		Bool DragEnter(const HandleWindow& window, const Int2D& position) const noexcept {
@@ -251,41 +230,43 @@ namespace Nt {
 		}
 
 		Int GetImageCount() const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
-			return ImageList_GetImageCount(m_Handle);
+			return ImageList_GetImageCount(RequireNotNull(m_Handle, "ImageList not created"));
 		}
 		Byte3D GetBackgroundColor() const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ColorRefToVector(ImageList_GetBkColor(m_Handle));
 		}
 		Icon GetIcon(const Int& index, const DrawFlags& flags) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_GetIcon(m_Handle, index, flags);
 		}
-		ImageList GetDragImage(const Int2D& dragPosition, const Int2D& hotspot) const noexcept {
+		ImageList GetDragImage(Int2D& dragPosition, Int2D& hotspot) const noexcept {
 			POINT dragPoint = dragPosition;
 			POINT hotspotPoint = hotspot;
-			return ImageList_GetDragImage(&dragPoint, &hotspotPoint);
+			
+			ImageList imageList = ImageList_GetDragImage(&dragPoint, &hotspotPoint);
+			dragPosition = dragPoint;
+			hotspot = hotspotPoint;
+
+			return imageList;
 		}
 		Bool GetIconSize(Int2D& size) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_GetIconSize(m_Handle, &size.x, &size.y);
 		}
-		Info& GetImageInfo(const Int& imageIndex) const {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+		Info GetImageInfo(const Int& imageIndex) const {
+			RequireNotNull(m_Handle, "ImageList not created");
 
 			IMAGEINFO imageInfo;
 			if (!ImageList_GetImageInfo(m_Handle, imageIndex, &imageInfo))
 				Raise("Failed to get info");
-			Info info;
-			info.Image = imageInfo.hbmImage;
-			info.Mask = imageInfo.hbmMask;
-			info.Rect = imageInfo.rcImage;
+
+			Info info = {
+				imageInfo.hbmImage,
+				imageInfo.hbmMask,
+				imageInfo.rcImage
+			};
+
 			return info;
 		}
 		HIMAGELIST GetHandle() const noexcept {
@@ -293,26 +274,22 @@ namespace Nt {
 		}
 
 		Bool SetImageCount(const uInt& newCount) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_SetImageCount(m_Handle, newCount);
 		}
 		Byte3D SetBackgroundColor(const Byte3D& newColor) {
 			return ColorRefToVector(ImageList_SetBkColor(m_Handle, VectorToColorRef(newColor)));
 		}
 		Bool SetOverlayImage(const Int& imageIndex, const Int& overlay) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_SetOverlayImage(m_Handle, imageIndex, overlay);
 		}
 		Bool SetDragCursorImage(const Int& imageIndex, const Int2D& hotspot) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_SetDragCursorImage(m_Handle, imageIndex, hotspot.x, hotspot.y);
 		}
 		Bool SetIconSize(const uInt2D& size) {
-			if (m_Handle == nullptr)
-				Raise("ImageList is not created");
+			RequireNotNull(m_Handle, "ImageList not created");
 			return ImageList_SetIconSize(m_Handle, size.x, size.y);
 		}
 

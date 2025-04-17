@@ -45,7 +45,7 @@ namespace Nt {
 				Text(info.lpszText),
 				Rect(info.rect),
 				Flags(DisplayFlags(info.uFlags)),
-				Parent(info.hwnd),
+				ParentHandle(info.hwnd),
 				ID(info.uId),
 				Param(info.lParam),
 				Reserved(info.lpReserved)
@@ -56,7 +56,7 @@ namespace Nt {
 				TTTOOLINFO info;
 				info.cbSize = sizeof(info);
 				info.uFlags = Flags;
-				info.hwnd = Parent.GetHandle();
+				info.hwnd = ParentHandle;
 				info.uId = ID;
 				info.rect = Rect;
 				info.hinst = GetModuleHandle(nullptr);
@@ -69,7 +69,7 @@ namespace Nt {
 			std::wstring Text;
 			IntRect Rect;
 			DisplayFlags Flags = FLAG_NULL;
-			HandleWindow Parent;
+			HWND ParentHandle = nullptr;
 			uInt ID = 0;
 			Long Param = 0;
 			void* Reserved = nullptr;
@@ -77,7 +77,7 @@ namespace Nt {
 		struct HitTestInfo {
 			HitTestInfo() = default;
 			HitTestInfo(const TTHITTESTINFO& info) :
-				Parent(info.hwnd),
+				ParentHandle(info.hwnd),
 				Point(info.pt),
 				ToolInfo(info.ti)
 			{
@@ -85,13 +85,13 @@ namespace Nt {
 
 			TTHITTESTINFO ToWinApiStruct() const noexcept {
 				TTHITTESTINFO hitInfo;
-				hitInfo.hwnd = Parent.GetHandle();
+				hitInfo.hwnd = ParentHandle;
 				hitInfo.pt = Point;
 				hitInfo.ti = ToolInfo.ToWinApiStruct();
 				return hitInfo;
 			}
 
-			HandleWindow Parent;
+			HWND ParentHandle;
 			Int2D Point;
 			Info ToolInfo;
 		};
@@ -131,20 +131,20 @@ namespace Nt {
 
 		void AddTool(const HandleWindow& parent, const DisplayFlags& flags, const uInt& id, const String& text) {
 			if (!parent.IsCreated())
-				Raise("The parent window passed is not created");
+				Raise("The parent window passed not created");
 
 			Info info = { };
 			info.Flags = flags;
 			info.ID = id;
 			info.Text = text;
-			info.Parent = parent;
+			info.ParentHandle = parent.GetHandle();
 
 			TTTOOLINFO winApiStruct = info.ToWinApiStruct();
 			_SendMessage(TTM_ADDTOOL, 0, reinterpret_cast<Long>(&winApiStruct));
 		}
 		void RemoveTool(const HandleWindow& parent, const uInt& ID) {
 			if (!parent.IsCreated())
-				Raise("The parent window passed is not created");
+				Raise("The parent window passed not created");
 
 			TTTOOLINFO winApiStruct;
 			winApiStruct.uId = ID;
@@ -153,8 +153,7 @@ namespace Nt {
 		}
 
 		Bool AdjustRect(const Bool& isTextRect, IntRect* pRect) const {
-			if (pRect == nullptr)
-				Raise("The rect pointer passed is null");
+			RequireNotNull(pRect);
 
 			RECT adjustableRect;
 			const Bool result = _SendMessage(TTM_ADJUSTRECT, isTextRect, 
@@ -186,7 +185,7 @@ namespace Nt {
 		}
 		void ToggleTrackActivate(const HandleWindow& parent, const uInt& id, const Bool& isActive) {
 			if (!parent.IsCreated())
-				Raise("The parent window passed is not created");
+				Raise("The parent window passed not created");
 
 			TTTOOLINFO info = { };
 			info.cbSize = sizeof(info);
@@ -199,10 +198,8 @@ namespace Nt {
 		}
 
 		Bool HitTest(HitTestInfo* pInfo) const {
-			if (pInfo == nullptr)
-				Raise("The pInfo passed in is null");
+			TTHITTESTINFO info = RequireNotNull(pInfo)->ToWinApiStruct();
 
-			TTHITTESTINFO info = pInfo->ToWinApiStruct();
 			const Bool result = _SendMessage(TTM_HITTEST, 0, 0);
 			if (result)
 				(*pInfo) = info;
@@ -221,22 +218,19 @@ namespace Nt {
 		}
 
 		Int2D GeSize(Info* pInfo) const {
-			if (pInfo == nullptr)
-				Raise("The pInfo passed in is null");
+			TOOLINFO toolInfo = RequireNotNull(pInfo)->ToWinApiStruct();
 
-			TOOLINFO toolInfo = pInfo->ToWinApiStruct();
 			const Long size = _SendMessage(TTM_GETBUBBLESIZE, 0, reinterpret_cast<Long>(&toolInfo));
 			(*pInfo) = toolInfo;
 
 			return Int2D(LOWORD(size), HIWORD(size));
 		}
 		Bool GetCurrentTool(Info* pInfo) const {
-			if (pInfo == nullptr)
-				Raise("The pInfo passed in is null");
+			TOOLINFO toolInfo = RequireNotNull(pInfo)->ToWinApiStruct();
 
-			TOOLINFO toolInfo = pInfo->ToWinApiStruct();
 			const Bool result = _SendMessage(TTM_GETCURRENTTOOL, 0, reinterpret_cast<Long>(&toolInfo));
-			(*pInfo) = toolInfo;
+			if (result)
+				(*pInfo) = toolInfo;
 
 			return result;
 		}
@@ -253,7 +247,7 @@ namespace Nt {
 		}
 		String GetText(const HandleWindow& parent, const uInt& id) const {
 			if (!parent.IsCreated())
-				Raise("The parent window passed is not created");
+				Raise("The parent window passed not created");
 
 			TOOLINFO info = { };
 			info.cbSize = sizeof(info);
@@ -289,7 +283,7 @@ namespace Nt {
 
 		Bool SetToolRect(const HandleWindow& parent, const uInt& id, const IntRect& newRect) {
 			if (!parent.IsCreated())
-				Raise("The parent window passed is not created");
+				Raise("The parent window passed not created");
 
 			TTTOOLINFO info = { };
 			info.cbSize = sizeof(info);
@@ -329,7 +323,7 @@ namespace Nt {
 		}
 		void SetTipText(const HandleWindow& parent, const uInt& id, const std::wstring& text) {
 			if (!parent.IsCreated())
-				Raise("The parent window passed is not created");
+				Raise("The parent window passed not created");
 
 			TTTOOLINFO info = { };
 			info.cbSize = sizeof(info);

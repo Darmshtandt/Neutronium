@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -31,7 +31,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{41eb0bee-9356-4cf2-b6c6-e6d039b53858}</ProjectGuid>
     <RootNamespace>Neutronium</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <ProjectName>NeutroniumGraphics</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,6 +138,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4100;4201;4715;4996</DisableSpecificWarnings>
+      <UndefinePreprocessorDefinitions>min;max;ZeroMemory</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -242,45 +243,74 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Src\Nt\Graphics\Buffer.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Camera.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Edge.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Face.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Plane.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Primitives.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Shape.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Vertex.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\HandleWindow.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\IObject.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Menu.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Model.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Renderer.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\RenderWindow.cpp" />
-    <ClCompile Include="..\Src\Nt\Graphics\Resources\ResourceMenager.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Image.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\IResource.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Mesh.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\ResourceManager.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Resources\Texture.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Shader.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Sprite.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\VertexArray.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Window.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\WindowElements\Button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Nt\Graphics.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Camera.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Buffer.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Font.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\FrameBuffer.h" />
     <ClInclude Include="..\Include\Nt\Graphics\GDI\Bitmap.h" />
     <ClInclude Include="..\Include\Nt\Graphics\GDI\Font.h" />
     <ClInclude Include="..\Include\Nt\Graphics\GDI\GDI.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Geometry.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Edge.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Face.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Plane.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Primitives.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\RayCast.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Shape.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Vertex.h" />
     <ClInclude Include="..\Include\Nt\Graphics\GUI.h" />
     <ClInclude Include="..\Include\Nt\Graphics\HandleDeviceContext.h" />
     <ClInclude Include="..\Include\Nt\Graphics\HandleWindow.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Icon.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\IObject.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\BoxLayout.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\Cell.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\GridLayout.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\ILayout.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Listeners\WindowListeners.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Menu.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Model.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Camera.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\IObject.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Model.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Sprite.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\RenderBuffer.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Renderer.h" />
     <ClInclude Include="..\Include\Nt\Graphics\RenderWindow.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Image.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ImageLoaders.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\IResource.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Mesh.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceMenager.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\MeshLoaders.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceManager.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Texture.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Shader.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Sprite.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Text.h" />
     <ClInclude Include="..\Include\Nt\Graphics\VertexArray.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Window.h" />

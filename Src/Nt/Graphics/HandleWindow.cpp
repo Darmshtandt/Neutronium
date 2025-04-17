@@ -1,18 +1,19 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
+#include <Nt/Core/WinMinimal.h>
+
+#undef NOUSER
+#undef NOGDI
+#undef NOWINOFFSETS
+#undef NOMSG
+
 #include <windows.h>
 #include <shobjidl.h>
 #include <shellapi.h>
 #include <commoncontrols.h>
 
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
-#include <Nt/Core/Utilities.h>
-#include <Nt/Core/Log.h>
 
-#include <Nt/Core/Math/Vectors.h>
-#include <Nt/Core/Math/Rect.h>
-
-#include <Nt/Graphics/Menu.h>
 #include <Nt/Graphics/HandleWindow.h>
 
 
@@ -69,21 +70,102 @@ namespace Nt {
 		return ::CreateSolidBrush(VectorToColorRef(color));
 	}
 
+	IntRect AdjustedWindowRect(HWND hwnd, const DWord& styles, const Bool& isHasMenu) noexcept {
+		return AdjustWindowRect(GetWindowRect(hwnd), styles, isHasMenu);
+	}
+	IntRect AdjustedWindowRectEx(HWND hwnd, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept {
+		return AdjustWindowRectEx(GetWindowRect(hwnd), styles, isHasMenu, exStyles);
+	}
 
-	HandleWindow::HandleWindow() noexcept :
-		m_Styles(0),
-		m_ExStyles(0),
-		m_hwnd(nullptr),
-		m_hParent(nullptr),
-		m_hdc(nullptr),
-		m_ID(0),
-		m_ZOrder(ZORDER_TOP),
-		m_hInstance(GetModuleHandle(nullptr)),
-		m_pParam(nullptr),
-		m_BackgroundColor(255, 255, 255),
-		m_IsMenuEnabled(false),
-		m_IsWindowEnabled(true)
-	{ 
+	void DrawFrameRect(HDC hdc, const IntRect& rect, const Int& lineWeight, const Byte3D& color) {
+		const RECT leftSide = {
+			rect.Left, rect.Top,
+			rect.Left + lineWeight, rect.Top + rect.Bottom
+		};
+		const RECT topSide = {
+			rect.Left, rect.Top,
+			rect.Left + rect.Right, rect.Top + lineWeight
+		};
+		const RECT rightSide = {
+			rect.Left + rect.Right - lineWeight, rect.Top,
+			rect.Left + rect.Right, rect.Top + rect.Bottom
+		};
+		const RECT bottomSide = {
+			rect.Left, rect.Top + rect.Bottom - lineWeight,
+			rect.Left + rect.Right, rect.Top + rect.Bottom
+		};
+
+		const HBRUSH hBrush = CreateSolidBrush(color);
+		FillRect(hdc, &leftSide, hBrush);
+		FillRect(hdc, &topSide, hBrush);
+		FillRect(hdc, &rightSide, hBrush);
+		FillRect(hdc, &bottomSide, hBrush);
+	}
+
+
+	HandleWindow::HandleWindow(HandleWindow&& window) :
+		m_Name(std::move(window.m_Name)),
+		m_ClassName(std::move(window.m_ClassName)),
+		m_BackgroundColor(window.m_BackgroundColor),
+		m_hInstance(window.m_hInstance),
+		m_hParent(window.m_hParent),
+		m_hwnd(window.m_hwnd),
+		m_hdc(window.m_hdc),
+		m_Menu(std::move(window.m_Menu)),
+		m_pParam(window.m_pParam),
+		m_ClientRect(window.m_ClientRect),
+		m_WindowRect(window.m_WindowRect),
+		m_ID(window.m_ID),
+		m_ZOrder(window.m_ZOrder),
+		m_Styles(window.m_Styles),
+		m_ExStyles(window.m_ExStyles),
+		m_IsMenuEnabled(window.m_IsMenuEnabled),
+		m_IsWindowEnabled(window.m_IsWindowEnabled)
+	{
+		window.m_hInstance = nullptr;
+		window.m_hParent = nullptr;
+		window.m_hwnd = nullptr;
+		window.m_hdc = nullptr;
+		window.m_pParam = nullptr;
+		window.m_ID = 0;
+	}
+	HandleWindow::HandleWindow(const HWND& hwnd) {
+		m_hwnd = hwnd;
+		if (m_hwnd != nullptr) {
+			const uInt nameLength = GetWindowTextLength(m_hwnd);
+			m_Name.resize(nameLength);
+			GetWindowText(m_hwnd, m_Name.data(), nameLength);
+
+			wChar className[MAX_PATH] = { };
+			GetClassName(m_hwnd, className, MAX_PATH);
+			m_ClassName = className;
+
+			WNDCLASS wndClass;
+			GetClassInfo(m_hInstance, m_ClassName.c_str(), &wndClass);
+
+			COLORREF colorRefBackground;
+			GetObject(wndClass.hbrBackground, sizeof(colorRefBackground), &colorRefBackground);
+			m_BackgroundColor = ColorRefToVector(colorRefBackground);
+
+			m_pParam = this;
+			SetWindowLongPtr(m_hwnd, GWLP_USERDATA, reinterpret_cast<Long>(m_pParam));
+
+			m_hdc = ::GetDC(m_hwnd);
+			m_hInstance = reinterpret_cast<HINSTANCE>(GetWindowLongPtr(m_hwnd, GWLP_HINSTANCE));
+			m_hParent = reinterpret_cast<HWND>(GetWindowLongPtr(m_hwnd, GWLP_HWNDPARENT));
+			m_Menu = std::move(Menu(::GetMenu(m_hwnd)));
+			m_ClientRect = Nt::GetClientRect(m_hwnd);
+			m_WindowRect = Nt::GetWindowRect(m_hwnd);
+			m_ID = GetWindowLongPtr(m_hwnd, GWLP_ID);;
+			m_Styles = GetWindowLongPtr(m_hwnd, GWL_STYLE);
+			m_ExStyles = GetWindowLongPtr(m_hwnd, GWL_EXSTYLE);
+			m_IsMenuEnabled = (m_Menu.GetHandle() != nullptr);
+			m_IsWindowEnabled = IsWindowEnabled(m_hwnd);
+			m_ZOrder = ZORDER_NOTOPMOST;
+		}
+	}
+	HandleWindow::HandleWindow(const IntRect& rect, const String& name) {
+		HandleWindow::Create(rect, name);
 	}
 
 	void HandleWindow::Create(const IntRect& windowRect, const String& name) {
@@ -91,42 +173,24 @@ namespace Nt {
 		m_Name = name;
 		_CreateWindow();
 	}
-	HandleWindow& HandleWindow::CreateCopy() const {
-		HandleWindow window;
-		window.m_hParent = m_hParent;
-		window.m_Menu = m_Menu;
-		window.m_ID = m_ID;
-		window.m_hInstance = m_hInstance;
-		window.m_pParam = m_pParam;
-		window.m_BackgroundColor = m_BackgroundColor;
-		window.m_Name = m_Name;
-		window.m_ClassName = m_ClassName;
-		window.m_ClientRect = m_ClientRect;
-		window.m_Styles = m_Styles;
-		window.m_ExStyles = m_ExStyles;
-		window.m_IsMenuEnabled = m_IsMenuEnabled;
-		window.m_IsWindowEnabled = m_IsWindowEnabled;
-		window._CreateWindow();
-		return window;
-	}
 
 	void HandleWindow::Hide() {
 		if (!IsCreated())
-			Raise("Handle window is not created");
+			Raise("Handle window not created");
 
 		m_Styles &= ~STYLE_VISIBLE;
 		ShowWindow(m_hwnd, SW_HIDE);
 	}
 	void HandleWindow::Show() {
 		if (!IsCreated())
-			Raise("Handle window is not created");
+			Raise("Handle window not created");
 
 		m_Styles |= STYLE_VISIBLE;
 		ShowWindow(m_hwnd, SW_SHOW);
 	}
 	void HandleWindow::ShowMaximized() {
 		if (!IsCreated())
-			Raise("Handle window is not created");
+			Raise("Handle window not created");
 
 		m_Styles |= STYLE_VISIBLE;
 		ShowWindow(m_hwnd, SW_SHOWMAXIMIZED);
@@ -185,7 +249,7 @@ namespace Nt {
 
 	Bool HandleWindow::InvalidateRect(const IntRect* pRect, const Bool& isErased) noexcept {
 		if (m_hwnd == nullptr) {
-			Log::Warning("Handle window is not created");
+			Log::Warning("Handle window not created");
 			return false;
 		}
 
@@ -194,6 +258,31 @@ namespace Nt {
 
 		const RECT winapiRect = (*pRect);
 		return ::InvalidateRect(m_hwnd, &winapiRect, isErased);
+	}
+
+	HandleWindow& HandleWindow::operator=(HandleWindow&& window) {
+		if (this == &window)
+			return *this;
+
+		m_Name = std::move(window.m_Name);
+		m_ClassName = std::move(window.m_ClassName);
+		m_BackgroundColor = window.m_BackgroundColor;
+		m_hInstance = window.m_hInstance;
+		m_hParent = window.m_hParent;
+		m_hwnd = window.m_hwnd;
+		m_hdc = window.m_hdc;
+		m_Menu = std::move(window.m_Menu);
+		m_pParam = window.m_pParam;
+		m_ClientRect = window.m_ClientRect;
+		m_WindowRect = window.m_WindowRect;
+		m_ID = window.m_ID;
+		m_ZOrder = window.m_ZOrder;
+		m_Styles = window.m_Styles;
+		m_ExStyles = window.m_ExStyles;
+		m_IsMenuEnabled = window.m_IsMenuEnabled;
+		m_IsWindowEnabled = window.m_IsWindowEnabled;
+
+		return *this;
 	}
 
 	void HandleWindow::SetBackgroundColor(const Byte3D& color) {
@@ -225,20 +314,21 @@ namespace Nt {
 			SetClassLongPtr(m_hwnd, GCLP_HICONSM, reinterpret_cast<Long>(hIcon));
 	}
 
-#ifdef _WINDEF_
 	Long HandleWindow::SetWindowInfo(const Index& index, const Long& data) noexcept {
 		if (m_hwnd == nullptr) {
-			Log::Warning("Handle window is not created");
+			Log::Warning("Handle window not created");
 			return 0;
 		}
 
 		return SetWindowLongPtr(m_hwnd, index, data);
 	}
 	void HandleWindow::SetInstance(const HINSTANCE& hInstance) noexcept {
-		if (!IsCreated())
-			m_hInstance = hInstance;
-		else
+		if (IsCreated()) {
 			Log::Warning("hInstance cannot be changed because the window has already been created");
+			return;
+		}
+
+		m_hInstance = hInstance;
 	}
 	void HandleWindow::SetParentHandle(const HWND& hParent) {
 		if (m_hwnd != nullptr)
@@ -251,13 +341,13 @@ namespace Nt {
 
 		m_hParent = hParent;
 	}
-#endif
+
 	Bool HandleWindow::SetMenu(const Menu& menu) noexcept {
 		m_Menu = menu;
 
-		if (m_hwnd && m_IsMenuEnabled)
+		if (m_hwnd != nullptr && m_IsMenuEnabled)
 			return ::SetMenu(m_hwnd, m_Menu.GetHandle());
-		return 0;
+		return false;
 	}
 	Long HandleWindow::SetID(const Int& newID) noexcept {
 		m_ID = newID;
@@ -275,7 +365,7 @@ namespace Nt {
 			m_WindowRect = rect;
 
 			m_ClientRect = Nt::AdjustWindowRectEx(m_WindowRect, m_Styles, m_ExStyles, m_IsMenuEnabled);
-			m_ClientRect.RightBottom -= abs(m_ClientRect.LeftTop);
+			m_ClientRect.RightBottom -= m_ClientRect.LeftTop.Abs();
 			m_ClientRect.LeftTop = Int2D();
 
 			if (m_Styles & STYLE_BORDER)
@@ -331,7 +421,6 @@ namespace Nt {
 		return 0;
 	}
 
-#ifdef _WINDEF_
 	HWND HandleWindow::GetParentHandle() const noexcept {
 		return m_hParent;
 	}
@@ -347,10 +436,10 @@ namespace Nt {
 	HINSTANCE HandleWindow::GetInstance() const noexcept {
 		return m_hInstance;
 	}
-#endif
+
 	Long HandleWindow::GetWindowInfo(const Index& index) const noexcept {
 		if (m_hwnd == nullptr) {
-			Log::Warning("Handle window is not created");
+			Log::Warning("Handle window not created");
 			return 0;
 		}
 
@@ -359,7 +448,7 @@ namespace Nt {
 	Nt::String HandleWindow::GetName() const {
 		return m_Name;
 	}
-	Menu HandleWindow::GetMenu() const noexcept {
+	Menu& HandleWindow::GetMenu() noexcept {
 		return m_Menu;
 	}
 	IntRect HandleWindow::GetClientRect() const noexcept {
@@ -395,7 +484,7 @@ namespace Nt {
 	Bool HandleWindow::IsShowed() const noexcept {
 		return (m_Styles & STYLE_VISIBLE);
 	}
-	_CONSTEXPR23 Bool HandleWindow::IsCreated() const noexcept {
+	Bool HandleWindow::IsCreated() const noexcept {
 		return (m_hwnd != nullptr);
 	}
 
@@ -437,10 +526,12 @@ namespace Nt {
 
 		if (!m_IsWindowEnabled)
 			::EnableWindow(m_hwnd, FALSE);
+
+		UpdateWindow(m_hwnd);
 	}
 	Long HandleWindow::_SendMessage(const uInt& message, const uInt& wParam, const Long& lParam) const {
 		if (!IsCreated())
-			Raise("Handle window is not created");
+			Raise("Handle window not created");
 		return SendMessage(m_hwnd, message, wParam, lParam);
 	}
 

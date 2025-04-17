@@ -19,20 +19,25 @@
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{b690f4ff-75e5-4c88-b8e0-69c81798d2b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{b8380d06-4f11-49df-b7bd-6c60930afc41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\JSON">
+      <UniqueIdentifier>{328d4e19-0d47-422d-8c72-f38faab75b98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\Nt\NtStdH.h" />
     <ClInclude Include="..\Include\Nt\Core.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\DataTypes.h">
+    <ClInclude Include="..\Include\Nt\Core\JSON\JSONData.h">
       <Filter>Header Files\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\JSON\Dict.h">
+    <ClInclude Include="..\Include\Nt\Core\JSON\JSONDict.h">
       <Filter>Header Files\JSON</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\JSON\JSON.h">
       <Filter>Header Files\JSON</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\JSON\LinkedList.h">
+    <ClInclude Include="..\Include\Nt\Core\JSON\JSONList.h">
       <Filter>Header Files\JSON</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\Math\Matrix3x3.h">
@@ -42,18 +47,6 @@
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\Math\Rect.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\Math\Vector2D.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\Math\Vector3D.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\Math\Vector4D.h">
-      <Filter>Header Files\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\Math\Vectors.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\SelfDeletingPtr.h">
@@ -86,17 +79,42 @@
     <ClInclude Include="..\Include\Nt\Core\NtTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\FlexibleList.h">
+    <ClInclude Include="..\Include\Nt\Core\Math\Matrix.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\Math\Vector.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\Math\VectorScalars.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\Math\VectorND.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\NtStdH.h" />
+    <ClInclude Include="..\Include\Nt\Core\WeakSafePtr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\IFlexibleContainer.h">
+    <ClInclude Include="..\Include\Nt\Core\JSON\JSONContainer.h">
+      <Filter>Header Files\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\Math\Math.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\NtError.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\Defines.h">
+    <ClInclude Include="..\Include\Nt\Core\MessageWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\TableSet.h">
+    <ClInclude Include="..\Include\Nt\Core\WinMinimal.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\KDTree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\Math\HiperVector.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,7 +140,30 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Nt\Core\JSON\JSON.cpp">
+      <Filter>Source Files\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Core\JSON\JSONLinkedList.cpp">
+      <Filter>Source Files\JSON</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Core\NtError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Nt\Core\MessageWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Core\KDTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Core\Math\HiperVector.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Include\Nt\Core\Math\Vector.inl">
+      <Filter>Header Files\Math</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include=".natvis" />
   </ItemGroup>
 </Project>

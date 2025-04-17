@@ -33,6 +33,7 @@
 #include <iostream>
 #include <sstream>
 #include <iterator>
+#include <array>
 #include <queue>
 #include <list>
 #include <set>
@@ -41,3 +42,16 @@
 #include <cmath>
 
 #pragma warning(disable : 4996)
+
+
+#ifdef min
+#	undef min
+#endif
+
+#ifdef max
+#	undef max
+#endif
+
+#ifdef ZeroMemory
+#	undef ZeroMemory
+#endif

@@ -4,7 +4,12 @@ namespace Nt {
 	__inline void InitializeCommonControls() {
 		static Bool once = true;
 		if (once) {
-			InitCommonControls();
+			INITCOMMONCONTROLSEX initCommonControl;
+			initCommonControl.dwSize = sizeof(INITCOMMONCONTROLSEX);
+			initCommonControl.dwICC = ICC_WIN95_CLASSES;
+
+			InitCommonControlsEx(&initCommonControl);
+
 			once = false;
 		}
 	}

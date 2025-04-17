@@ -32,7 +32,7 @@ namespace Nt {
 			GDI::Bitmap BitmapColor;
 		};
 		struct InfoEx : public Info {
-			uShort ResourceID;
+			uShort ResourceID = 0;
 			String ResourceName;
 			String ModuleName;
 		};
@@ -46,48 +46,49 @@ namespace Nt {
 		Icon(const HICON& hIcon) : m_Handle(hIcon)
 		{
 		}
-		Icon(const Icon& icon) : m_hInstance(icon.m_hInstance)
-		{
+		Icon(const Icon& icon) : m_hInstance(icon.m_hInstance) {
 			Icon copiedIcon = icon.Copy();
 			m_Handle = copiedIcon.m_Handle;
 			copiedIcon.m_Handle = nullptr;
+		}
+		Icon(Icon&& icon) noexcept : 
+			m_Handle(std::move(icon.m_Handle)),
+			m_hInstance(std::move(icon.m_hInstance))
+		{
 		}
 		~Icon() {
 			Destroy();
 		}
 
 		void Create(const uInt2D& size, const Byte& planes, const Byte& bitsPixel, const Byte* pAndBits, const Byte* pXorBits) {
-			if (m_Handle) {
+			if (m_Handle != nullptr) {
 				Log::Warning("Icon already created");
 				return;
 			}
 
 			m_Handle = CreateIcon(m_hInstance, size.x, size.y, planes, bitsPixel, pAndBits, pXorBits);
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+			RequireNotNull(m_Handle, "Failed to create Icon");
 		}
 		void CreateFromResource(Byte* pBuffer, const uInt& bufferSize, const uInt& version = 0x00030000) {
-			if (m_Handle) {
+			if (m_Handle != nullptr) {
 				Log::Warning("Icon already created");
 				return;
 			}
 
 			m_Handle = CreateIconFromResource(pBuffer, bufferSize, TRUE, version);
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+			RequireNotNull(m_Handle, "Failed to create Icon");
 		}
 		void CreateFromResourceEx(Byte* pBuffer, const uInt& bufferSize, const uInt2D& iconSize, const ResourceFlags& flags, const uInt& version = 0x00030000) {
-			if (m_Handle) {
+			if (m_Handle != nullptr) {
 				Log::Warning("Icon already created");
 				return;
 			}
 
 			m_Handle = CreateIconFromResourceEx(pBuffer, bufferSize, TRUE, version, iconSize.x, iconSize.y, flags);
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+			RequireNotNull(m_Handle, "Failed to create Icon");
 		}
 		void CreateIndirect(const Info& info) {
-			if (m_Handle) {
+			if (m_Handle != nullptr) {
 				Log::Warning("Icon already created");
 				return;
 			}
@@ -97,14 +98,13 @@ namespace Nt {
 			iconInfo.xHotspot = info.Hotstpot.x;
 			iconInfo.yHotspot = info.Hotstpot.y;
 			if (!info.BitmapColor.IsCreated())
-				Raise("Color bitmap pointer is null");
+				Raise("Color bitmap not created");
 
 			iconInfo.hbmColor = info.BitmapColor.GetHandle();
 			iconInfo.hbmMask = info.BitmapMask.GetHandle();
 
 			m_Handle = CreateIconIndirect(&iconInfo);
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+			RequireNotNull(m_Handle, "Failed to create Icon");
 		}
 		Bool Destroy() noexcept {
 			if (m_Handle == nullptr)
@@ -116,7 +116,7 @@ namespace Nt {
 		}
 
 		void LoadFromFile(const Nt::String& iconName) {
-			if (m_Handle) {
+			if (m_Handle != nullptr) {
 				Log::Warning("Icon already created");
 				return;
 			}
@@ -124,8 +124,7 @@ namespace Nt {
 			const std::wstring wIconName = iconName.wstr();
 
 			m_Handle = LoadIcon(m_hInstance, wIconName.c_str());
-			if (m_Handle == nullptr)
-				Raise("Failed to load Icon");
+			RequireNotNull(m_Handle, "Failed to load Icon");
 		}
 		Icon Copy() const noexcept {
 			return CopyIcon(m_Handle);
@@ -135,13 +134,11 @@ namespace Nt {
 		}
 
 		Bool Draw(const HandleWindow& window, const Int2D& position) const {
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+			RequireNotNull(m_Handle, "Icon not created");
 			return DrawIcon(window.GetDC(), position.x, position.y, m_Handle);
 		}
 		Bool DrawEx(const HandleWindow& window, const IntRect& rect, const Int& fameIndex, const Bool& enableBackground, const Byte3D& color, const DrawFlags& flags) const {
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+			RequireNotNull(m_Handle, "Icon not created");
 
 			if (enableBackground) {
 				return DrawIconEx(
@@ -149,6 +146,7 @@ namespace Nt {
 					rect.Right, rect.Bottom, fameIndex,
 					Nt::CreateSolidBrush(color), flags);
 			}
+
 			return DrawIconEx(
 				window.GetDC(), rect.Left, rect.Top, m_Handle,
 				rect.Right, rect.Bottom, fameIndex, nullptr, flags);
@@ -170,7 +168,7 @@ namespace Nt {
 		static Icon Extract(const std::wstring& exeFilePath, const Int& index) {
 			return ExtractIcon(GetModuleHandle(nullptr), const_cast<wChar*>(exeFilePath.c_str()), index);
 		}
-		static ExtractedIcons& ExtractEx(const std::wstring& exeFilePath, const Int& startIndex, const uInt& iconsCount) {
+		static ExtractedIcons ExtractEx(const std::wstring& exeFilePath, const Int& startIndex, const uInt& iconsCount) {
 			const Int maxIconsCount = GetIconsCount(exeFilePath);
 			if (startIndex > maxIconsCount)
 				Log::Warning("Start index out of range");
@@ -180,7 +178,7 @@ namespace Nt {
 			HICON* hSmallIconsArray = new HICON[iconsCount];
 			HICON* hLargeIconsArray = new HICON[iconsCount];
 
-			uInt result = ExtractIconEx(&exeFilePath.c_str()[0], startIndex, hLargeIconsArray, hSmallIconsArray, iconsCount);
+			const uInt result = ExtractIconEx(&exeFilePath.c_str()[0], startIndex, hLargeIconsArray, hSmallIconsArray, iconsCount);
 			if (result == UINT_MAX)
 				Raise("Failed to extract icon");
 
@@ -190,8 +188,8 @@ namespace Nt {
 				icons.LargeIcons.push_back(hLargeIconsArray[i]);
 			}
 
-			delete(hSmallIconsArray);
-			delete(hLargeIconsArray);
+			delete[](hSmallIconsArray);
+			delete[](hLargeIconsArray);
 
 			return icons;
 		}
@@ -199,23 +197,46 @@ namespace Nt {
 			return ExtractIconEx(&exeFilePath.c_str()[0], -1, nullptr, nullptr, 0);
 		}
 
-		Info& GetInfo() const {
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+		Icon& operator = (const Icon& icon) {
+			if (this == &icon)
+				return *this;
+
+			Destroy();
+
+			m_Handle = icon.m_Handle;
+			m_hInstance = icon.m_hInstance;
+
+			return *this;
+		}
+		Icon& operator = (Icon&& icon) noexcept {
+			if (this == &icon)
+				return *this;
+
+			Destroy();
+
+			m_Handle = std::move(icon.m_Handle);
+			m_hInstance = std::move(icon.m_hInstance);
+
+			return *this;
+		}
+
+		Info GetInfo() const {
+			RequireNotNull(m_Handle, "Icon not created");
 
 			ICONINFO iconInfo = { };
 			if (!GetIconInfo(m_Handle, &iconInfo))
 				Raise("Failed to get icon info");
 
-			Info info;
-			info.Hotstpot = { iconInfo.xHotspot, iconInfo.yHotspot };
-			info.BitmapColor = iconInfo.hbmColor;
-			info.BitmapMask = iconInfo.hbmMask;
+			Info info = {
+				uInt2D(iconInfo.xHotspot, iconInfo.yHotspot),
+				iconInfo.hbmMask,
+				iconInfo.hbmColor
+			};
+
 			return info;
 		}
-		InfoEx& GetInfoEx() const {
-			if (m_Handle == nullptr)
-				Raise("Failed to create Icon");
+		InfoEx GetInfoEx() const {
+			RequireNotNull(m_Handle, "Icon not created");
 
 			ICONINFOEX iconInfo = { };
 			if (!GetIconInfoEx(m_Handle, &iconInfo))

@@ -14,8 +14,7 @@ namespace Nt {
 		}
 
 		void Render(Renderer* pRenderer) const override {
-			if (!pRenderer)
-				Raise("Renderer is nullptr");
+			RequireNotNull(pRenderer);
 
 			if (m_Text != "") {
 				Float2D PrevSize = { 0.f, 0.f };
@@ -53,9 +52,7 @@ namespace Nt {
 			m_pMesh = std::make_unique<Mesh>();
 			SetSize(Float3D::Identity);
 
-			if (!m_FontPtr)
-				Raise("Font is nullptr");
-			if (!m_FontPtr->IsLoaded())
+			if (!RequireNotNull(m_FontPtr)->IsLoaded())
 				Raise("Font is unloaded");
 		}
 	};

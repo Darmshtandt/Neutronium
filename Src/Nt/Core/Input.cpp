@@ -1,18 +1,24 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
+#include <Nt/Core/WinMinimal.h>
+
+#undef NOUSER
+
 #include <windows.h>
 
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
 #include <Nt/Core/Utilities.h>
-#include <Nt/Core/Math/Vector2D.h>
 #include <Nt/Core/Input.h>
+
 
 namespace Nt {
 	Bool Keyboard::IsKeyPressed(const Key& keyCode, const Bool& once) noexcept {
-		m_IsPresedKeyArray[keyCode] = (GetAsyncKeyState(keyCode) & 0x8000);
-		if (m_IsPresedKeyArray[keyCode]) {
+		const Int& keyIntCode = Int(keyCode);
+
+		m_IsPresedKeyArray[keyIntCode] = (GetAsyncKeyState(keyIntCode) & 0x8000);
+		if (m_IsPresedKeyArray[keyIntCode]) {
 			if (once)
-				return (!m_IsPresedKeyPrevStateArray[keyCode]);
+				return (!m_IsPresedKeyPrevStateArray[keyIntCode]);
 			return true;
 		}
 		return false;
@@ -29,9 +35,10 @@ namespace Nt {
 	}
 
 	Int2D Mouse::GetCursorPosition() noexcept {
-		POINT CursorPosition;
-		GetCursorPos(&CursorPosition);
-		return CursorPosition;
+		POINT cursorPosition;
+		GetCursorPos(&cursorPosition);
+
+		return cursorPosition;
 	}
 
 	void Mouse::SetCursorPosition(const Int2D& Position) noexcept {

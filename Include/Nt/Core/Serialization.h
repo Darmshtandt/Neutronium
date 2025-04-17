@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#include <istream>
+#include <Nt/Core/Utilities.h>
+
 namespace Nt {
 	struct ISerialization {
 		virtual void Write(std::ostream& Stream) const = 0;

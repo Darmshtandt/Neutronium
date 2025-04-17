@@ -1,13 +1,19 @@
 #pragma once
 
+#include <Nt/Core/Math/Matrix3x3.h>
+
 namespace Nt {
 	struct Matrix4x4 {
 		constexpr Matrix4x4() noexcept {
 			MakeIdentity();
 		}
 		constexpr Matrix4x4(std::initializer_list<Float> List) noexcept {
-			for (uInt i = 0; i < min(List.size(), 16); ++i)
+			for (uInt i = 0; i < std::min(List.size(), 16u); ++i)
 				Matrix[i] = *(List.begin() + i);
+		}
+		constexpr Matrix4x4(const Matrix4x4& matrix) noexcept {
+			for (uInt i = 0; i < 16; ++i)
+				Matrix[i] = matrix.Matrix[i];
 		}
 
 		static constexpr Matrix4x4 GetIdentity() noexcept {
@@ -61,26 +67,33 @@ namespace Nt {
 					Matrix2D[i][j] = Float(i == j);
 		}
 
-		constexpr void Translate(const Float3D& Vec) noexcept {
-			Matrix2D[3][0] += Matrix2D[0][0] * Vec.x + Matrix2D[1][0] * Vec.y + Matrix2D[2][0] * Vec.z;
-			Matrix2D[3][1] += Matrix2D[0][1] * Vec.x + Matrix2D[1][1] * Vec.y + Matrix2D[2][1] * Vec.z;
-			Matrix2D[3][2] += Matrix2D[0][2] * Vec.x + Matrix2D[1][2] * Vec.y + Matrix2D[2][2] * Vec.z;
+		constexpr void Translate(const Float3D& vector) noexcept {
+			if (vector.LengthSquare() == 0.f)
+				return;
+
+			Matrix2D[3][0] += Matrix2D[0][0] * vector.x + Matrix2D[1][0] * vector.y + Matrix2D[2][0] * vector.z;
+			Matrix2D[3][1] += Matrix2D[0][1] * vector.x + Matrix2D[1][1] * vector.y + Matrix2D[2][1] * vector.z;
+			Matrix2D[3][2] += Matrix2D[0][2] * vector.x + Matrix2D[1][2] * vector.y + Matrix2D[2][2] * vector.z;
 		}
 		constexpr void Scale(const Float3D& Vec) noexcept {
 			(*this) *= GetScale(Vec);
 		}
 
-		constexpr void RotateX(const Float& Angle) noexcept {
-			(*this) *= GetRotateX(Angle);
+		constexpr void RotateX(const Float& angle) noexcept {
+			if (angle != 0.f)
+				(*this) *= GetRotateX(angle);
 		}
-		constexpr void RotateY(const Float& Angle) noexcept {
-			(*this) *= GetRotateY(Angle);
+		constexpr void RotateY(const Float& angle) noexcept {
+			if (angle != 0.f)
+				(*this) *= GetRotateY(angle);
 		}
-		constexpr void RotateZ(const Float& Angle) noexcept {
-			(*this) *= GetRotateZ(Angle);
+		constexpr void RotateZ(const Float& angle) noexcept {
+			if (angle != 0.f)
+				(*this) *= GetRotateZ(angle);
 		}
-		constexpr void Rotate(const Float3D& Angle) noexcept {
-			(*this) *= GetRotate(Angle);
+		constexpr void Rotate(const Float3D& angle) noexcept {
+			if (angle.LengthSquare() != 0.f)
+				(*this) *= GetRotate(angle);
 		}
 
 		constexpr Matrix4x4 Transposition() const noexcept {
@@ -136,7 +149,7 @@ namespace Nt {
 			Matrix4x4 MatA = { };
 			for (uInt i = 0; i < 4; ++i)
 				for (uInt j = 0; j < 4; ++j)
-					MatA[j][i] = AlgebraicComplement(uInt2D(i, j));
+					MatA[j][i] = AlgebraicComplement((Float2D)uInt2D(i, j));
 
 			Float MatADet = Matrix2D[0][0] * MatA[0][0];
 			MatADet += Matrix2D[0][1] * MatA[0][1];
@@ -163,17 +176,17 @@ namespace Nt {
 			return *this;
 		}
 		constexpr Matrix4x4 operator = (std::initializer_list<Float> List) noexcept {
-			for (uInt i = 0; i < min(List.size(), 16); ++i)
+			for (uInt i = 0; i < std::min(List.size(), 16u); ++i)
 				Matrix[i] = *(List.begin() + i);
 			return *this;
 		}
 
 		constexpr Float4D operator * (const Float4D& Vec) const noexcept {
-			Float4D Result = Float4D::Zero;
+			Float4D Result = { };
 			Matrix4x4 This = *this;
 			for (uInt i = 0; i < 4; ++i) {
 				This.Rows[i] *= Vec;
-				Result.xyzw[i] = This.Rows[i].x + This.Rows[i].y + This.Rows[i].z + This.Rows[i].w;
+				Result[i] = This.Rows[i].x + This.Rows[i].y + This.Rows[i].z + This.Rows[i].w;
 			}
 			return Result;
 		}
@@ -188,6 +201,20 @@ namespace Nt {
 			}
 			return Result;
 		}
+		constexpr Matrix4x4 operator + (const Matrix4x4& Mat) const noexcept {
+			Matrix4x4 Result = { };
+			for (uInt i = 0; i < 4; ++i)
+				Result.Rows[i] = this->Rows[i] + Mat.Rows[i];
+
+			return Result;
+		}
+		constexpr Matrix4x4 operator - (const Matrix4x4& Mat) const noexcept {
+			Matrix4x4 Result = { };
+			for (uInt i = 0; i < 4; ++i)
+				Result.Rows[i] = this->Rows[i] - Mat.Rows[i];
+
+			return Result;
+		}
 
 		constexpr Matrix4x4 operator * (const Float& Num) const noexcept {
 			Matrix4x4 Result = *this;
@@ -195,6 +222,19 @@ namespace Nt {
 				Result.Rows[i] *= Num;
 			return Result;
 		}
+		constexpr Matrix4x4 operator + (const Float& Num) const noexcept {
+			Matrix4x4 Result = *this;
+			for (uInt i = 0; i < 4; ++i)
+				Result.Rows[i] += Num;
+			return Result;
+		}
+		constexpr Matrix4x4 operator - (const Float& Num) const noexcept {
+			Matrix4x4 Result = *this;
+			for (uInt i = 0; i < 4; ++i)
+				Result.Rows[i] -= Num;
+			return Result;
+		}
+
 
 		constexpr Matrix4x4 operator *= (const Matrix4x4& Mat) noexcept {
 			(*this) = (*this) * Mat;
@@ -205,6 +245,25 @@ namespace Nt {
 			return (*this);
 		}
 
+		constexpr Matrix4x4 operator += (const Matrix4x4& Mat) noexcept {
+			(*this) = (*this) + Mat;
+			return (*this);
+		}
+		constexpr Matrix4x4 operator += (const Float& Num) noexcept {
+			(*this) = (*this) + Num;
+			return (*this);
+		}
+
+		constexpr Matrix4x4 operator -= (const Matrix4x4& Mat) noexcept {
+			(*this) = (*this) - Mat;
+			return (*this);
+		}
+		constexpr Matrix4x4 operator -= (const Float& Num) noexcept {
+			(*this) = (*this) - Num;
+			return (*this);
+		}
+
+
 		constexpr const Float4D& operator [] (const uInt& Index) const noexcept {
 			return Rows[Index];
 		}
@@ -213,7 +272,7 @@ namespace Nt {
 		}
 
 		operator Float4D() const noexcept {
-			return (*this) * Float4D::Identity;
+			return (*this) * Float4D().Fill(1.f);
 		}
 
 		union {
@@ -223,9 +282,10 @@ namespace Nt {
 				Float _13, _23, _33, _43;
 				Float _14, _24, _34, _44;
 			};
+
 			Float4D Rows[4];
 			Float Matrix2D[4][4];
-			Float Matrix[16];
+			Float Matrix[16] = { };
 		};
 	};
 }

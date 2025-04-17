@@ -1,102 +1,78 @@
 #pragma once
 
+#include <functional>
+
+#include <Nt/Graphics/HandleWindow.h>
+#include <Nt/Graphics/GDI/GDI.h>
+#include <Nt/Graphics/GDI/Bitmap.h>
+
 namespace Nt {
 	class Button : public HandleWindow {
 	public:
 		static const Int2D DefaultSize;
 
+		enum class Style {
+			CHECKBOX = 0x00000002L,
+			AUTOCHECKBOX = 0x00000003L,
+			RADIOBUTTON = 0x00000004L,
+			_3STATE = 0x00000005L,
+			AUTO3STATE = 0x00000006L,
+			AUTORADIOBUTTON = 0x00000009L,
+
+			ICON = 0x00000040L,
+			BITMAP = 0x00000080L,
+
+			LEFT = 0x00000100L,
+			RIGHT = 0x00000200L,
+			CENTER = 0x00000300L,
+			TOP = 0x00000400L,
+			BOTTOM = 0x00000800L,
+			VCENTER = 0x00000C00L,
+
+			TEXT = 0x00000000L,
+			LEFTTEXT = 0x00000020L,
+			MULTILINE = 0x00002000L,
+
+			PUSHBUTTON = 0x00000000L,
+			DEFPUSHBUTTON = 0x00000001L,
+			GROUPBOX = 0x00000007L,
+			USERBUTTON = 0x00000008L,
+			OWNERDRAW = 0x0000000BL,
+			SPLITBUTTON = 0x0000000CL,
+			DEFSPLITBUTTON = 0x0000000DL,
+			COMMANDLINK = 0x0000000EL,
+			DEFCOMMANDLINK = 0x0000000FL,
+			TYPEMASK = 0x0000000FL,
+			PUSHLIKE = 0x00001000L,
+			NOTIFY = 0x00004000L,
+			FLAT = 0x00008000L,
+		};
+
 	public:
 		Button() noexcept = default;
-		Button(HandleWindow& parent, const IntRect& rect, const uInt& id, const String& text) {
-			SetID(id);
-			SetParent(parent);
-			Create(rect, text);
-		}
+		NT_API Button(HandleWindow& parent, const IntRect& rect, const uInt& id, const String& text);
 
-		void Create(const String& text) {
-			if (m_WindowRect.Right == 0)
-				m_WindowRect.Right = DefaultSize.x;
+		NT_API void Create(const String& text);
+		NT_API void Create(const IntRect& rect, const String& text) override;
 
-			if (m_WindowRect.Bottom == 0)
-				m_WindowRect.Bottom = DefaultSize.y;
+		NT_API void OnClick();
 
-			Create(m_WindowRect, text);
-		}
-		void Create(const IntRect& rect, const String& text) override {
-			m_Name = text;
-			m_ClassName = WC_BUTTON;
-			m_WindowRect = rect;
-			m_Styles |= (BS_PUSHBUTTON | BS_TEXT | WS_TABSTOP);
-			m_ExStyles |= WS_EX_CLIENTEDGE;
+		NT_API void SetOnClick(std::function<void()> onClick);
 
-			_CreateWindow();
+		NT_API void SetImage(const GDI::Bitmap& image);
+		NT_API void RemoveImage();
 
-			SetWindowLongPtr(m_hwnd, GWLP_USERDATA, reinterpret_cast<Long>(this));
-			SetWindowSubclass(m_hwnd, _ButtonProc, 0, 0);
-		}
+		NT_API void SetCheck(const Bool& isChecked) noexcept;
 
-		void SetOnClick(std::function<void()> onClick) {
-			m_OnClick = onClick;
-		}
-
-		void SetImage(const GDI::Bitmap& image) {
-			if (m_hwnd && image.IsCreated()) {
-				Nt::uIntRect imageRect;
-				imageRect.RightBottom = image.GetSize();
-
-				Nt::uIntRect scaleRect;
-				scaleRect.RightBottom = GetClientRect().RightBottom - 4;
-				if (imageRect.Right > imageRect.Bottom) {
-					scaleRect.Top = imageRect.Right - imageRect.Bottom;
-					scaleRect.Top /= imageRect.Right / GetClientRect().Right * 2;
-					imageRect.Bottom = imageRect.Right;
-				}
-				else if (imageRect.Right < imageRect.Bottom) {
-					scaleRect.Left = imageRect.Bottom - imageRect.Right;
-					scaleRect.Left /= imageRect.Bottom / GetClientRect().Bottom * 2;
-					imageRect.Right = imageRect.Bottom;
-				}
-
-				HBITMAP hBitmap = GDI::ScaleHBitmap(m_hdc, image.GetHandle(),
-					imageRect, scaleRect);
-
-				SendMessage(m_hwnd, BM_SETIMAGE,
-					IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBitmap));
-				InvalidateRect(nullptr, true);
-			}
-		}
-		void RemoveImage() {
-			if (m_hwnd)
-				SendMessage(m_hwnd, BM_SETIMAGE, IMAGE_BITMAP, 0);
-		}
-
-		void SetCheck(const Bool& isChecked) noexcept {
-			Button_SetCheck(m_hwnd, isChecked);
-		}
-
-		Bool IsChecked() const noexcept {
-			return Button_GetCheck(m_hwnd);
-		}
+		NT_API Bool IsChecked() const noexcept;
 
 	private:
 		std::function<void()> m_OnClick;
 
 	private:
-		static LRESULT CALLBACK _ButtonProc(HWND hwnd, uInt uMsg, WPARAM wParam,
-			LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData)
-		{
-			Button* pThis = reinterpret_cast<Button*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-			if (pThis != nullptr) {
-				switch (uMsg) {
-				case BM_CLICK:
-					if (pThis->m_OnClick)
-						pThis->m_OnClick();
-					break;
-				}
-			}
-			return DefSubclassProc(hwnd, uMsg, wParam, lParam);
-		}
+#ifdef _WINDEF_
+		static NT_API LRESULT CALLBACK _ButtonProc(HWND hwnd, uInt uMsg, WPARAM wParam,
+			LPARAM lParam, [[maybe_unused]] UINT_PTR uIdSubclass, [[maybe_unused]] DWORD_PTR dwRefData);
+#endif
 	};
-
-	inline const Int2D Button::DefaultSize(GetSystemMetrics(SM_CXMENUCHECK), GetSystemMetrics(SM_CYMENUCHECK));
 }

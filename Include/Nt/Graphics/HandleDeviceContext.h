@@ -18,33 +18,28 @@ namespace Nt {
 		}
 
 		void Create(const String& driverName, const String& deviceName, const String& port, const DEVMODE* pDevMode) {
-			if (pDevMode == nullptr)
-				Raise("Dev mode pointer is null");
+			RequireNotNull(pDevMode);
 
 			const std::wstring wDriverName = driverName.wstr();
 			const std::wstring wDeviceName = deviceName.wstr();
 			const std::wstring wPort = port.wstr();
 
 			m_Handle = CreateDC(wDriverName.c_str(), wDeviceName.c_str(), wPort.c_str(), pDevMode);
-			if (m_Handle == nullptr)
-				Raise("Failed to create device context");
+			RequireNotNull(m_Handle, "Failed to create device context");
 		}
 		void CreateInfoContext(const String& driverName, const String& deviceName, const String& port, const DEVMODE* pDevMode) {
-			if (pDevMode == nullptr)
-				Raise("Dev mode pointer is null");
+			RequireNotNull(pDevMode);
 
 			const std::wstring wDriverName = driverName.wstr();
 			const std::wstring wDeviceName = deviceName.wstr();
 			const std::wstring wPort = port.wstr();
 
 			m_Handle = CreateIC(wDriverName.c_str(), wDeviceName.c_str(), wPort.c_str(), pDevMode);
-			if (m_Handle == nullptr)
-				Raise("Failed to create device context");
+			RequireNotNull(m_Handle, "Failed to create info device context");
 		}
 		void CreateCompatible(const HandleDeviceContext& context) {
 			m_Handle = CreateCompatibleDC(context.m_Handle);
-			if (m_Handle == nullptr)
-				Raise("Failed to create compatible device context");
+			RequireNotNull(m_Handle, "Failed to create compatible device context");
 		}
 
 		// void ChangeDisplaySettings();
@@ -60,22 +55,20 @@ namespace Nt {
 
 		Int DrawEscape(const Int& escapeFunctionID, const Int& inputDataSize, const Nt::String& inputData) const {
 			if (!IsCreated())
-				Raise("Context is not created");
+				Raise("Context not created");
 			return ::DrawEscape(m_Handle, escapeFunctionID, inputDataSize, inputData.c_str());
 		}
 
 		Int EnumObjects(const Bool& isUseBrush, const GOBJENUMPROC& function, const Long& param) {
 			if (!IsCreated())
-				Raise("Context is not created");
+				Raise("Context not created");
 
 			const Int objectType = (isUseBrush) ? OBJ_BRUSH : OBJ_PEN;
 			return ::EnumObjects(m_Handle, objectType, function, param);
 		}
 
 		static Bool DeleteObject(const HGDIOBJ& object) {
-			if (object == nullptr)
-				Raise("Object handle is null");
-			return ::DeleteObject(object);
+			return ::DeleteObject(RequireNotNull(object));
 		}
 		Bool Delete() noexcept {
 			const Bool result = DeleteDC(m_Handle);
@@ -85,26 +78,24 @@ namespace Nt {
 
 		HGDIOBJ GetCurrentObject(const GDIObjectTypes& objectType) const {
 			if (!IsCreated())
-				Raise("Context is not created");
+				Raise("Context not created");
 			return ::GetCurrentObject(m_Handle, objectType);
 		}
 		Byte3D GetBrushColor() const {
 			if (!IsCreated())
-				Raise("Context is not created");
+				Raise("Context not created");
 			return ColorRefToVector(::GetDCBrushColor(m_Handle));
 		}
 		Byte3D GetPenColor() const {
 			if (!IsCreated())
-				Raise("Context is not created");
+				Raise("Context not created");
 			return ColorRefToVector(GetDCPenColor(m_Handle));
 		}
 		Bool GetOrgEx(Int2D* pPoint) const {
 			if (!IsCreated())
-				Raise("Context is not created");
-			if (pPoint == nullptr)
-				Raise("Point pointer is null");
+				Raise("Context not created");
 
-			POINT point = (*pPoint);
+			POINT point = (*RequireNotNull(pPoint));
 			const Bool result = GetDCOrgEx(m_Handle, &point);
 			(*pPoint) = point;
 			return result;

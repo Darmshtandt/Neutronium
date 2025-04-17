@@ -237,9 +237,9 @@ namespace Nt {
 			return m_Gap2D;
 		}
 
-		void SetPadding(FloatRect paddingRect, const UnitType& unit) {
+		void SetPadding(const FloatRect& paddingRect, const UnitType& unit) {
 			if (unit == Nt::UnitType::UNIT_PIXEL && (!IsCreated()))
-				Raise("Layout is not created");
+				Raise("Layout not created");
 
 			FloatRect newPercentagePaddingRect = paddingRect;
 			if (unit != UnitType::UNIT_PERCENTAGE)
@@ -396,7 +396,7 @@ namespace Nt {
 		Int2D m_Gap2D;
 
 	private:
-		virtual void _WMPaint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
+		virtual void _Paint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
 			if (IsVisibleDebugGrid) {
 				constexpr uInt lineWeight = 1;
 
@@ -432,7 +432,7 @@ namespace Nt {
 				}
 			}
 		}
-		virtual void _WMCommand(const Long& param_1, const Long& param_2) override {
+		virtual void _Command(const Long& param_1, const Long& param_2) override {
 			SendMessage(m_hParent, WM_COMMAND, param_1, param_2);
 		}
 

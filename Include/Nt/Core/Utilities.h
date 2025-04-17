@@ -1,50 +1,46 @@
 #pragma once
 
-#include <windows.h>
+#ifndef NT_DLL
+#	define NT_API  __declspec(dllimport)
+#else
+#	define NT_API __declspec(dllexport)
+#endif
+
+#include <typeinfo>
 #include <string>
-#include <filesystem>
+#include <memory>
 
-#pragma warning(disable : 4002)
-#pragma warning(disable : 4003)
-#pragma warning(disable : 4005)
+#include <Nt/Core/NtTypes.h>
+#include <Nt/Core/String.h>
 
+#define SAFE_DELETE(p) do { if (*p) { delete(*p); (*p) = nullptr; } } while (false)
+#define SAFE_RELEASE(p) do { if (*p) { (*p)->Release(); delete(*p); (*p) = nullptr; } } while (false)
 
-#ifndef min
-#	define min(a, b) ((a < b) ? a : b)
+#ifndef DCX_USESTYLE
+#	define DCX_USESTYLE 0x00010000
 #endif
 
-#ifndef max
-#	define mac(a, b) ((a > b) ? a : b)
+#ifdef ZeroMemory
+#	undef ZeroMemory
 #endif
 
-#ifndef ZeroMemory
-#	define ZeroMemory(Dest, Size) memset(Dest, 0, Size)
+#ifdef PI
+#	undef PI
 #endif
 
-#define RaiseWithCaption(Msg, Caption) \
-	if (Nt::g_NtExcepts) \
-		throw Nt::Error(Msg, Caption, __FILE__, __LINE__, __FUNCTION__)
-#define RaiseWithoutCaption(Msg) \
-	if (Nt::g_NtExcepts) \
-		throw Nt::Error(Msg, "Error", __FILE__, __LINE__, __FUNCTION__)
-#define RaiseSelect(_1, _2, NAME, ...) NAME
-#define Raise(...) RaiseSelect(__VA_ARGS__, RaiseWithCaption, RaiseWithoutCaption)(__VA_ARGS__)
-#define Raise(Msg, Caption) RaiseWithCaption(Msg, Caption)
-#define Raise(Msg) RaiseWithoutCaption(Msg)
+#ifdef RAD
+#	undef RAD
+#endif
 
-#define AssertWithCaption(Expression, AssertMessage, AssertCaption) \
-	if (!Expression) \
-		RaiseWithCaption(AssertMessage, AssertCaption)
-#define AssertWithoutCaption(Expression, AssertMessage) \
-	if (!Expression) \
-		RaiseWithoutCaption(AssertMessage)
-#define AssertSelect(_1, _2, _3, NAME, ...) NAME
-#define Assert(...) AssertSelect(__VA_ARGS__, AssertWithCaption, AssertWithoutCaption)(__VA_ARGS__)
+#include <Nt/Core/NtError.h>
 
+constexpr Float PIf = 3.1415926535897932384636433832795f;
+constexpr Double PI = 3.1415926535897932384636433832795;
+
+constexpr Float RADf = (PIf / 180.f);
+constexpr Double RAD = (PI / 180.0);
 
 namespace Nt {
-	inline Bool g_NtExcepts = true;
-
 	template <template <typename ...> class, template <typename ...> class>
 	struct Is_Same_Template : std::false_type 
 	{
@@ -59,30 +55,52 @@ namespace Nt {
 	constexpr Bool Is_Same_Template_v = Is_Same_Template<_Ty, _U>::value;
 
 // ============================================================================
-//		Funcions
+//		Functions
 // ----------------------------------------------------------------------------
 	NT_API void _ShowCursor(const Bool& fShow) noexcept;
+
 	__inline void __nop() noexcept 
 	{
 	}
 
-	//NT_API String GetFileExtension(String Path);
+	__inline void* ZeroMemory(void* ptr, const uInt& size) {
+		return memset(ptr, 0, size);
+	}
 
-	struct Error : public std::exception {
-		NT_API Error(
-			const String& Message,
-			const String& Caption,
-			const String& FileName,
-			const String& Line,
-			const String& FunctionName = "") noexcept;
+	template <typename _Ty, typename = std::enable_if_t<std::is_arithmetic_v<_Ty>>>
+	_NODISCARD _CONSTEXPR20 _Ty Abs(const _Ty& value) noexcept {
+		return (value < 0) ? -value : value;
+	}
 
-		NT_API void Show() const noexcept;
+	template <class _Ty>
+	_Ty RequireNotNull(const _Ty& pointer, const std::string_view& message) {
+		if (pointer == nullptr)
+			Raise(message);
 
-		String Caption;
-		String FileName;
-		String Line;
-		String FunctionName;
-	};
+		return pointer;
+	}
 
-	using RunTimeError = std::runtime_error;
+	template <class _Ty>
+	_Ty* RequireNotNull(const std::unique_ptr<_Ty>& pointer) {
+		if (pointer == nullptr)
+			Raise(std::string(typeid(_Ty).name()) + " is null");
+
+		return pointer.get();
+	}
+
+	template <class _Ty>
+	_Ty* RequireNotNull(std::unique_ptr<_Ty>& pointer) {
+		if (pointer == nullptr)
+			Raise(std::string(typeid(_Ty).name()) + " is null");
+
+		return pointer.get();
+	}
+
+	template <class _Ty> requires std::is_pointer_v<_Ty>
+	_Ty RequireNotNull(_Ty pointer) {
+		if (pointer == nullptr)
+			Raise(std::string(typeid(_Ty).name()) + " is null");
+
+		return pointer;
+	}
 }

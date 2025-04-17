@@ -14,7 +14,7 @@ namespace Nt {
 
 		uInt AddItem(const String& text) {
 			if (!IsCreated())
-				Raise("ListBox is not created");
+				Raise("ListBox not created");
 
 			ListBox_AddString(m_hwnd, text.wstr().c_str());
 			InvalidateRect(nullptr, true);
@@ -25,8 +25,8 @@ namespace Nt {
 
 		void RemoveItem(const uInt& index) {
 			if (!IsCreated())
-				Raise("ListBox is not created");
-			else if (index >= m_ItemCount)
+				Raise("ListBox not created");
+			if (index >= m_ItemCount)
 				Raise("Out of range");
 
 			ListBox_DeleteString(m_hwnd, index);
@@ -35,23 +35,23 @@ namespace Nt {
 
 		void SetItemData(const uInt& index, const void* pData) {
 			if (!IsCreated())
-				Raise("ListBox is not created");
-			else if (index >= m_ItemCount)
+				Raise("ListBox not created");
+			if (index >= m_ItemCount)
 				Raise("Out of range");
 			ListBox_SetItemData(m_hwnd, index, pData);
 		}
 		void SetItemHeight(const uInt& index, const uInt& height) {
 			if (!IsCreated())
-				Raise("ListBox is not created");
-			else if (index >= m_ItemCount)
+				Raise("ListBox not created");
+			if (index >= m_ItemCount)
 				Raise("Out of range");
 			ListBox_SetItemHeight(m_hwnd, index, height);
 		}
 
 		String GetText(const uInt& index) const {
 			if (!IsCreated())
-				Raise("ListBox is not created");
-			else if (index >= m_ItemCount)
+				Raise("ListBox not created");
+			if (index >= m_ItemCount)
 				Raise("Out of range");
 
 			const uInt length = ListBox_GetTextLen(m_hwnd, index);
@@ -64,15 +64,16 @@ namespace Nt {
 		}
 		Int GetSelectionIndex() const {
 			if (!IsCreated())
-				Raise("ListBox is not created");
+				Raise("ListBox not created");
 			return ListBox_GetCurSel(m_hwnd);
 		}
-		void* GetItemData(const uInt& index) {
+		template <typename _Ty>
+		_Ty* GetItemData(const uInt& index) {
 			if (!IsCreated())
-				Raise("ListBox is not created");
-			else if (index >= m_ItemCount)
+				Raise("ListBox not created");
+			if (index >= m_ItemCount)
 				Raise("Out of range");
-			return reinterpret_cast<void*>(ListBox_GetItemData(m_hwnd, index));
+			return reinterpret_cast<_Ty*>(ListBox_GetItemData(m_hwnd, index));
 		}
 
 	private:

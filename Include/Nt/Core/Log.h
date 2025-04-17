@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Nt/Core/Utilities.h>
+
 namespace Nt {
 	class Log {
 	public:
@@ -7,7 +9,6 @@ namespace Nt {
 		NT_API static void Warning(const String& Message) noexcept;
 		NT_API static void Error(const String& Message) noexcept;
 		NT_API static void Message(const String& Message) noexcept;
-
 
 		static void EnableOutput() noexcept {
 			m_EnableOutput = true;

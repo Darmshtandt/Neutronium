@@ -19,12 +19,30 @@
     <Filter Include="Header Files\Layouts">
       <UniqueIdentifier>{d9659bb9-6e8e-4cc8-b871-f0a54fe8e9f4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Listeners">
+      <UniqueIdentifier>{4c9c505e-9212-462c-a984-be4addd3eaec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resources">
+      <UniqueIdentifier>{e6c3c4b5-65ef-43b8-9d58-88c4b27cb14d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WindowElements">
+      <UniqueIdentifier>{1d82a43d-89c6-4d94-bdac-bc66dd2e3269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{c7cc227b-a925-447a-a9f3-9668074226ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Geometry">
+      <UniqueIdentifier>{ea00b0a8-078a-48a0-88be-91910b926b67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Geometry">
+      <UniqueIdentifier>{9ec724e4-5713-4326-81dd-472c6ce7a0b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Src\Nt\Graphics\RenderWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Nt\Graphics\Resources\ResourceMenager.cpp">
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Src\Nt\Graphics\Window.cpp">
@@ -42,22 +60,67 @@
     <ClCompile Include="..\Src\Nt\Graphics\HandleWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Nt\Graphics\Resources\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Nt\Graphics\Shader.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Image.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\IResource.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Texture.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Mesh.cpp">
+      <Filter>Source Files\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Buffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\IObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\FrameBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\RenderBuffer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\WindowElements\Button.cpp">
+      <Filter>Source Files\WindowElements</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Plane.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Vertex.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Face.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Edge.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Shape.cpp">
+      <Filter>Source Files\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Primitives.cpp">
+      <Filter>Source Files\Geometry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Nt\Graphics.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Graphics\Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\Text.h">
@@ -69,22 +132,10 @@
     <ClInclude Include="..\Include\Nt\Graphics\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Graphics\Resources\Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Graphics\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Graphics\Geometry.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\GUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Graphics\IObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Image.h">
@@ -113,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\RenderWindow.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceMenager.h">
-      <Filter>Header Files\Resources</Filter>
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\Renderer.h">
       <Filter>Header Files</Filter>
@@ -170,6 +218,63 @@
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Graphics\HandleDeviceContext.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceManager.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\FrameBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\RenderBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ImageLoaders.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\MeshLoaders.h">
+      <Filter>Header Files\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Listeners\WindowListeners.h">
+      <Filter>Header Files\Listeners</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\IObject.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Model.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Sprite.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Camera.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Plane.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Shape.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Face.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Edge.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Vertex.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Primitives.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\RayCast.h">
+      <Filter>Header Files\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\Mesh.h">
+      <Filter>Header Files\Resources</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

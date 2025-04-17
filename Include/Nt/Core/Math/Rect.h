@@ -1,37 +1,34 @@
 #pragma once
 
+#include <Nt/Core/Math/Vector.h>
+
 namespace Nt {
 	template <typename _Ty>
 	struct Rect {
-		constexpr Rect() noexcept :
+		_CONSTEXPR20 Rect() noexcept :
 			LeftTop(), 
 			RightBottom() 
 		{
 		}
-		constexpr Rect(const _Ty& num) noexcept :
-			LeftTop(num),
-			RightBottom(num)
+		_CONSTEXPR20 Rect(const Vector2D<_Ty>& leftTop, const Vector2D<_Ty>& rightBottom) noexcept :
+			LeftTop(leftTop),
+			RightBottom(rightBottom) 
 		{
 		}
-		constexpr Rect(const Vector2D<_Ty>& vector) noexcept :
-			LeftTop(vector),
-			RightBottom(vector) 
+		_CONSTEXPR20 Rect(const _Ty& left, const _Ty& top, const _Ty& right, const _Ty& bottom) noexcept :
+			Left(left),
+			Top(top),
+			Right(right),
+			Bottom(bottom) 
 		{
 		}
-		constexpr Rect(const Vector2D<_Ty>& LeftTop, const Vector2D<_Ty>& RightBottom) noexcept :
-			LeftTop(LeftTop),
-			RightBottom(RightBottom) 
-		{
-		}
-		constexpr Rect(const _Ty& Left, const _Ty& Top, const _Ty& Right, const _Ty& Bottom) noexcept :
-			Left(Left),
-			Top(Top),
-			Right(Right),
-			Bottom(Bottom) 
+		_CONSTEXPR20 Rect(const Rect& rect) noexcept :
+			LeftTop(rect.LeftTop),
+			RightBottom(rect.RightBottom)
 		{
 		}
 #ifdef _WINDEF_
-		constexpr Rect(const RECT& rect) noexcept :
+		_CONSTEXPR20 Rect(const RECT& rect) noexcept :
 			Left(rect.left),
 			Top(rect.top),
 			Right(rect.right),
@@ -40,147 +37,199 @@ namespace Nt {
 		}
 #endif
 
-		constexpr Bool Intersect(const Rect<_Ty>& otherRect) const noexcept {
+		_CONSTEXPR20 Rect<_Ty> Copy() const noexcept {
+			return Rect<_Ty>(*this);
+		}
+
+		_CONSTEXPR20 void Fill(const _Ty& value) noexcept {
+			LeftTop.Fill(value);
+			RightBottom.Fill(value);
+		}
+		_CONSTEXPR20 void Fill(const Vector2D<_Ty>& vector) noexcept {
+			LeftTop = vector;
+			RightBottom = vector;
+		}
+
+		_CONSTEXPR20 Bool Intersect(const Rect<_Ty>& otherRect) const noexcept {
 			return (LeftTop < (otherRect.LeftTop + otherRect.RightBottom) && otherRect.LeftTop < (LeftTop + RightBottom));
 		}
-		constexpr Bool Intersect(const Vector2D<_Ty>& point) const noexcept {
+		_CONSTEXPR20 Bool Intersect(const Vector2D<_Ty>& point) const noexcept {
 			return (point.x >= Left && point.x <= (Left + Right) && point.y >= Top && point.y <= (Top + Bottom));
 		}
 
-		constexpr Nt::Rect<_Ty> GetClamp(const _Ty& min, const _Ty& max) {
+		_CONSTEXPR20 Nt::Rect<_Ty> GetClamp(const _Ty& min, const _Ty& max) {
 			Nt::Rect<_Ty> rect = (*this);
 			for (uInt i = 0; i < 4; ++i) {
-				if (rect.PointArray[i] < min)
-					rect.PointArray[i] = min;
-				else if (rect.PointArray[i] > max)
-					rect.PointArray[i] = max;
+				if (rect.Array[i] < min)
+					rect.Array[i] = min;
+				else if (rect.Array[i] > max)
+					rect.Array[i] = max;
 			}
 
 			return rect;
 		}
-		constexpr Nt::Rect<_Ty> GetClamp(const Vector2D<_Ty>& min, const Vector2D<_Ty>& max) {
-			Nt::Rect<_Ty> rect = (*this);
-			for (uInt i = 0; i < 4; ++i) {
-				if (rect.PointArray[i] < min.xy[i / 2])
-					rect.PointArray[i] = min.xy[i / 2];
-				else if (rect.PointArray[i] > max.xy[i / 2])
-					rect.PointArray[i] = max.xy[i / 2];
-			}
-
-			return rect;
+		_CONSTEXPR20 Nt::Rect<_Ty> GetClamp(const Vector2D<_Ty>& min, const Vector2D<_Ty>& max) {
+			return Nt::Rect<_Ty>(LeftTop.GetClamp(min.x, max.x), RightBottom.GetClamp(min.y, max.y));
 		}
 
-		constexpr Rect<_Ty>& operator += (const Rect<_Ty>& rect) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator += (const Rect<_Ty>& rect) noexcept {
 			LeftTop += rect.LeftTop;
 			RightBottom += rect.RightBottom;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator -= (const Rect<_Ty>& rect) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator -= (const Rect<_Ty>& rect) noexcept {
 			LeftTop -= rect.LeftTop;
 			RightBottom -= rect.RightBottom;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator *= (const Rect<_Ty>& rect) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator *= (const Rect<_Ty>& rect) noexcept {
 			LeftTop *= rect.LeftTop;
 			RightBottom *= rect.RightBottom;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator /= (const Rect<_Ty>& rect) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator /= (const Rect<_Ty>& rect) noexcept {
 			LeftTop /= rect.LeftTop;
 			RightBottom /= rect.RightBottom;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator %= (const Rect<_Ty>& rect) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator %= (const Rect<_Ty>& rect) noexcept {
 			LeftTop %= rect.LeftTop;
 			RightBottom %= rect.RightBottom;
 			return (*this);
 		}
 
-		constexpr Rect<_Ty> operator + (const Rect<_Ty>& rect) const noexcept {
-			return Rect(LeftTop + rect.LeftTop, RightBottom + rect.RightBottom);
+		_CONSTEXPR20 Rect<_Ty> operator + (const Rect<_Ty>& rect) const noexcept {
+			return Copy() += rect;
 		}
-		constexpr Rect<_Ty> operator - (const Rect<_Ty>& rect) const noexcept {
-			return Rect(LeftTop - rect.LeftTop, RightBottom - rect.RightBottom);
+		_CONSTEXPR20 Rect<_Ty> operator - (const Rect<_Ty>& rect) const noexcept {
+			return Copy() -= rect;
 		}
-		constexpr Rect<_Ty> operator * (const Rect<_Ty>& rect) const noexcept {
-			return Rect(LeftTop * rect.LeftTop, RightBottom * rect.RightBottom);
+		_CONSTEXPR20 Rect<_Ty> operator * (const Rect<_Ty>& rect) const noexcept {
+			return Copy() *= rect;
 		}
-		constexpr Rect<_Ty> operator / (const Rect<_Ty>& rect) const noexcept {
-			return Rect(LeftTop / rect.LeftTop, RightBottom / rect.RightBottom);
+		_CONSTEXPR20 Rect<_Ty> operator / (const Rect<_Ty>& rect) const noexcept {
+			return Copy() /= rect;
 		}
-		constexpr Rect<_Ty> operator % (const Rect<_Ty>& rect) const noexcept {
-			return Rect(LeftTop % rect.LeftTo, RightBottom % rect.RightBottom);
+		_CONSTEXPR20 Rect<_Ty> operator % (const Rect<_Ty>& rect) const noexcept {
+			return Copy() %= rect;
 		}
 
-		constexpr Bool operator == (const Rect<_Ty>& rect) const noexcept {
+		_CONSTEXPR20 Bool operator == (const Rect<_Ty>& rect) const noexcept {
 			return (LeftTop == rect.LeftTop && RightBottom == rect.RightBottom);
 		}
 
-		constexpr Rect<_Ty>& operator += (const _Ty& num) noexcept {
+
+		_CONSTEXPR20 Rect<_Ty>& operator += (const Vector2D<_Ty>& vector) noexcept {
+			LeftTop += vector;
+			RightBottom += vector;
+			return (*this);
+		}
+		_CONSTEXPR20 Rect<_Ty>& operator -= (const Vector2D<_Ty>& vector) noexcept {
+			LeftTop -= vector;
+			RightBottom -= vector;
+			return (*this);
+		}
+		_CONSTEXPR20 Rect<_Ty>& operator *= (const Vector2D<_Ty>& vector) noexcept {
+			LeftTop *= vector;
+			RightBottom *= vector;
+			return (*this);
+		}
+		_CONSTEXPR20 Rect<_Ty>& operator /= (const Vector2D<_Ty>& vector) noexcept {
+			LeftTop /= vector;
+			RightBottom /= vector;
+			return (*this);
+		}
+		_CONSTEXPR20 Rect<_Ty>& operator %= (const Vector2D<_Ty>& vector) noexcept {
+			LeftTop %= vector;
+			RightBottom %= vector;
+			return (*this);
+		}
+
+		_CONSTEXPR20 Rect<_Ty> operator + (const Vector2D<_Ty>& vector) const noexcept {
+			return Copy() += vector;
+		}
+		_CONSTEXPR20 Rect<_Ty> operator - (const Vector2D<_Ty>& vector) const noexcept {
+			return Copy() += vector;
+		}
+		_CONSTEXPR20 Rect<_Ty> operator * (const Vector2D<_Ty>& vector) const noexcept {
+			return Copy() += vector;
+		}
+		_CONSTEXPR20 Rect<_Ty> operator / (const Vector2D<_Ty>& vector) const noexcept {
+			return Copy() += vector;
+		}
+		_CONSTEXPR20 Rect<_Ty> operator % (const Vector2D<_Ty>& vector) const noexcept {
+			return Copy() += vector;
+		}
+
+
+		_CONSTEXPR20 Rect<_Ty>& operator += (const _Ty& num) noexcept {
 			LeftTop += num;
 			RightBottom += num;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator -= (const _Ty& num) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator -= (const _Ty& num) noexcept {
 			LeftTop -= num;
 			RightBottom -= num;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator *= (const _Ty& num) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator *= (const _Ty& num) noexcept {
 			LeftTop *= num;
 			RightBottom *= num;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator /= (const _Ty& num) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator /= (const _Ty& num) noexcept {
 			LeftTop /= num;
 			RightBottom /= num;
 			return (*this);
 		}
-		constexpr Rect<_Ty>& operator %= (const _Ty& num) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator %= (const _Ty& num) noexcept {
 			LeftTop %= num;
 			RightBottom %= num;
 			return (*this);
 		}
 
-		constexpr Rect<_Ty> operator + (const _Ty& num) const noexcept {
-			return Rect(LeftTop + num, RightBottom + num);
+		_CONSTEXPR20 Rect<_Ty> operator + (const _Ty& num) const noexcept {
+			return Copy() += num;
 		}
-		constexpr Rect<_Ty> operator - (const _Ty& num) const noexcept {
-			return Rect(LeftTop - num, RightBottom - num);
+		_CONSTEXPR20 Rect<_Ty> operator - (const _Ty& num) const noexcept {
+			return Copy() -= num;
 		}
-		constexpr Rect<_Ty> operator * (const _Ty& num) const noexcept {
-			return Rect(LeftTop * num, RightBottom * num);
+		_CONSTEXPR20 Rect<_Ty> operator * (const _Ty& num) const noexcept {
+			return Copy() *= num;
 		}
-		constexpr Rect<_Ty> operator / (const _Ty& num) const noexcept {
-			return Rect(LeftTop / num, RightBottom / num);
+		_CONSTEXPR20 Rect<_Ty> operator / (const _Ty& num) const noexcept {
+			return Copy() /= num;
 		}
-		constexpr Rect<_Ty> operator % (const _Ty& num) const noexcept {
-			return Rect(LeftTop % num, RightBottom % num);
+		_CONSTEXPR20 Rect<_Ty> operator % (const _Ty& num) const noexcept {
+			return Copy() %= num;
 		}
 
-		constexpr Bool operator == (const _Ty& num) const noexcept {
+		_CONSTEXPR20 Bool operator == (const _Ty& num) const noexcept {
 			return (LeftTop == num && RightBottom == num);
 		}
 
-		constexpr Rect<_Ty>& operator = (const Rect<_Ty>& rect) noexcept {
+		_CONSTEXPR20 Rect<_Ty>& operator = (const Rect<_Ty>& rect) noexcept {
 			LeftTop = rect.LeftTop;
 			RightBottom = rect.RightBottom;
+
 			return *this;
 		}
-		constexpr const _Ty& operator [] (const uInt& index) const {
+		_CONSTEXPR20 const _Ty& operator [] (const uInt& index) const {
 			if (index >= 4)
 				Raise("Out of range");
+
 			if (index < 2)
 				return LeftTop[index];
+
 			return RightBottom[index % 2];
 		}
-		constexpr _Ty& operator [] (const uInt& index) {
+		_CONSTEXPR20 _Ty& operator [] (const uInt& index) {
 			const Rect* pConstThis = this;
 			return const_cast<_Ty&>((*pConstThis)[index]);
 		}
 
 #ifdef _WINDEF_
-		constexpr operator RECT() const noexcept {
+		_CONSTEXPR20 operator RECT() const noexcept {
 			RECT rect;
 			rect.left = static_cast<Long>(Left);
 			rect.top = static_cast<Long>(Top);
@@ -191,7 +240,7 @@ namespace Nt {
 #endif
 
 		template <typename _U>
-		constexpr operator Rect<_U>() const noexcept {
+		_CONSTEXPR20 operator Rect<_U>() const noexcept {
 			return {
 				Vector2D<_U>(LeftTop),
 				Vector2D<_U>(RightBottom)
@@ -203,13 +252,54 @@ namespace Nt {
 				Vector2D<_Ty> LeftTop;
 				Vector2D<_Ty> RightBottom;
 			};
+
 			struct {
 				_Ty Left;
 				_Ty Top;
 				_Ty Right;
 				_Ty Bottom;
 			};
-			_Ty PointArray[4];
+
+			_Ty Array[4];
 		};
 	};
+
+	using FloatRect = Rect<Float>;
+	using DoubleRect = Rect<Double>;
+	using LDoubleRect = Rect<LDouble>;
+
+	using ByteRect = Rect<Byte>;
+	using WordRect = Rect<Word>;
+	using DWordRect = Rect<DWord>;
+	using QWordRect = Rect<QWord>;
+
+	using BoolRect = Rect<Bool>;
+	using CharRect = Rect<Char>;
+	using ShortRect = Rect<Short>;
+	using IntRect = Rect<Int>;
+	using LongRect = Rect<Long>;
+	using LLongRect = Rect<LLong>;
+
+	using uCharRect = Rect<uChar>;
+	using uShortRect = Rect<uShort>;
+	using uIntRect = Rect<uInt>;
+	using uLongRect = Rect<uLong>;
+	using uLLongRect = Rect<uLLong>;
+
+	using FloatPtrRect = Rect<Float*>;
+	using DoublePtrRect = Rect<Double*>;
+	using LDoublePtrRect = Rect<LDouble*>;
+
+	using BoolPtrRect = Rect<Bool*>;
+	using CharPtrRect = Rect<Char*>;
+	using ShortPtrRect = Rect<Short*>;
+	using IntPtrRect = Rect<Int*>;
+	using LongPtrRect = Rect<Long*>;
+	using LLongPtrRect = Rect<LLong*>;
+
+	using uCharPtrRect = Rect<uChar*>;
+	using uShortPtrRect = Rect<uShort*>;
+	using uIntPtrRect = Rect<uInt*>;
+	using uLongPtrRect = Rect<uLong*>;
+	using uLLongPtrRect = Rect<uLLong*>;
 }

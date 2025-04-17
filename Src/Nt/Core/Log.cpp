@@ -1,9 +1,9 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include <windows.h>
 #include <iostream>
 
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
 #include <Nt/Core/Log.h>
 
 namespace Nt {
@@ -30,7 +30,6 @@ namespace Nt {
 		if (m_EnableOutput && m_EnableOutputMessages)
 			std::cout << "[MESSAGE]: " << Message << std::endl;
 	}
-
 
 	Bool Log::m_EnableOutput = true;
 	Bool Log::m_EnableOutputSuccessfulls = true;

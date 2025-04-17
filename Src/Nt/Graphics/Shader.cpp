@@ -1,33 +1,37 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
+#include <Nt/Core/WinMinimal.h>
+
 #include <Windows.h>
-#include <GL\GLEW.h>
-#include <GL\GL.h>
+#include <GL/GLEW.h>
+#include <GL/GL.h>
 #include <fstream>
 
-// ============================================================================
-//	Neutronium
-// ----------------------------------------------------------------------------
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
-#include <Nt/Core/Utilities.h>
-#include <Nt/Core/Log.h>
-
-#include <Nt/Core/Math/Vectors.h>
-#include <Nt/Core/Math/Matrix3x3.h>
-#include <Nt/Core/Math/Matrix4x4.h>
-
 #include <Nt/Graphics/Shader.h>
-
 
 
 namespace Nt {
 	Shader::Shader() :
 		m_fStrict(true)
 	{
+		m_Shaders[Types::VERTEX] = 0;
+		m_Shaders[Types::COMPUTE] = 0;
+		m_Shaders[Types::TESS_CONTROL] = 0;
+		m_Shaders[Types::TESS_EVALUATION] = 0;
+		m_Shaders[Types::GEOMETRY] = 0;
+		m_Shaders[Types::FRAGMENT] = 0;
 	}
 	Shader::~Shader() noexcept {
-		if (glDeleteProgram != nullptr)
-			glDeleteProgram(m_Program);
+		if (glDeleteShader == nullptr)
+			return;
+
+		for (const std::pair<Shader::Types, uInt> shaders : m_Shaders) {
+			if (shaders.second != 0)
+				glDeleteShader(shaders.second);
+		}
+
+		glDeleteProgram(m_ProgramID);
 	}
 
 
@@ -35,92 +39,129 @@ namespace Nt {
 		if (glUniform1d == nullptr)
 			Raise("GLEW not initialized");
 
-		m_GLEW.Uniform1D = glUniform1d;
-		m_GLEW.Uniform1F = glUniform1f;
-		m_GLEW.Uniform1I = glUniform1i;
-		m_GLEW.Uniform1UI = glUniform1ui;
+		void* glUniforms[2][UNIFORM_TYPES_COUNT][UNIFORM_DIMENSIONS_COUNT] = {
+			{
+				{ glUniform1d, glUniform2d, glUniform3d, glUniform4d },
+				{ glUniform1f, glUniform2f, glUniform3f, glUniform4f },
+				{ glUniform1i, glUniform2i, glUniform3i, glUniform4i },
+				{ glUniform1ui, glUniform2ui, glUniform3ui, glUniform4ui },
+			},
+			{
+				{ glUniform1dv, glUniform2dv, glUniform3dv, glUniform4dv },
+				{ glUniform1fv, glUniform2fv, glUniform3fv, glUniform4fv },
+				{ glUniform1iv, glUniform2iv, glUniform3iv, glUniform4iv },
+				{ glUniform1uiv, glUniform2uiv, glUniform3uiv, glUniform4uiv },
+			},
+		};
 
-		m_GLEW.Uniform2D = glUniform2d;
-		m_GLEW.Uniform2F = glUniform2f;
-		m_GLEW.Uniform2I = glUniform2i;
-		m_GLEW.Uniform2UI = glUniform2ui;
+		memcpy(m_UniformFunctions, glUniforms, sizeof(Void*) * 2 * UNIFORM_TYPES_COUNT * UNIFORM_DIMENSIONS_COUNT);
 
-		m_GLEW.Uniform3D = glUniform3d;
-		m_GLEW.Uniform3F = glUniform3f;
-		m_GLEW.Uniform3I = glUniform3i;
-		m_GLEW.Uniform3UI = glUniform3ui;
 
-		m_GLEW.Uniform4D = glUniform4d;
-		m_GLEW.Uniform4F = glUniform4f;
-		m_GLEW.Uniform4I = glUniform4i;
-		m_GLEW.Uniform4UI = glUniform4ui;
+		//void* glUniformsMatrix[2][UNIFORM_MATRIX_COUNT] = {
+		//	{ glUniformMatrix2dv, glUniformMatrix2x3dv, glUniformMatrix2x4dv },
+		//	{ glUniformMatrix2fv, glUniformMatrix2x3fv, glUniformMatrix2x4fv }
+		//};
 
-		m_Program = glCreateProgram();
-		if (m_Program == 0)
+		//memcpy(m_UniformMatrixFunctions, glUniformsMatrix, sizeof(Void*) * 2 * UNIFORM_MATRIX_COUNT);
+	}
+	void Shader::Create() {
+		if (glCreateProgram == nullptr)
+			Raise("GLEW not initialized");
+
+		if (m_ProgramID != 0)
+			Raise("Shader already created");
+
+		m_ProgramID = glCreateProgram();
+		if (m_ProgramID == 0)
 			Raise(L"Failed to create program");
 	}
-	void Shader::CompileFromFile(const Shader::Types& ShaderType, const String& FileName) {
-		std::ifstream File(FileName);
-		if (!File.is_open())
-			Raise(String("Failed to open file: ") + FileName);
+	void Shader::CompileFromFile(const Shader::Types& shaderType, const String& fileName) {
+		if (m_ProgramID == 0)
+			Raise("Shader not created");
 
-		std::string Code(std::istreambuf_iterator<char>(File.rdbuf()), std::istreambuf_iterator<char>());
-		File.close();
+		if (m_Shaders[shaderType] != 0) {
+			glDetachShader(m_ProgramID, m_Shaders[shaderType]);
+			glDeleteShader(m_Shaders[shaderType]);
+		}
 
-		const uInt ShaderID = glCreateShader(uInt(ShaderType));
-		_CompileShader(ShaderID, Code.c_str());
-		_VarifyResult(ShaderID, ShaderType, FileName);
+		std::ifstream file(fileName);
+		if (!file.is_open())
+			Raise("Failed to open file: " + fileName);
 
-		glAttachShader(m_Program, ShaderID);
+		std::string code(std::istreambuf_iterator<char>(file.rdbuf()), std::istreambuf_iterator<char>());
+		file.close();
+
+		const uInt shaderID = glCreateShader(uInt(shaderType));
+		_CompileShader(shaderID, code.c_str());
+		_VarifyResult(shaderID, shaderType, fileName);
+
+		glAttachShader(m_ProgramID, shaderID);
 	}
 
-	void Shader::CompileCode(const Shader::Types& ShaderType, const std::string& Code) {
-		const uInt ShaderID = glCreateShader(uInt(ShaderType));
-		_CompileShader(ShaderID, Code.c_str());
-		_VarifyResult(ShaderID, ShaderType);
+	void Shader::CompileCode(const Shader::Types& shaderType, const std::string& code) {
+		const uInt shaderID = glCreateShader(uInt(shaderType));
 
-		glAttachShader(m_Program, ShaderID);
+		_CompileShader(shaderID, code.c_str());
+		_VarifyResult(shaderID, shaderType);
+
+		glAttachShader(m_ProgramID, shaderID);
 	}
 
 	void Shader::Link() {
-		glLinkProgram(m_Program);
+		glLinkProgram(m_ProgramID);
 
-		Int Result;
-		glGetProgramiv(m_Program, GL_LINK_STATUS, &Result);
-		if (Result == GL_FALSE) {
-			Int Length;
-			glGetProgramiv(m_Program, GL_INFO_LOG_LENGTH, &Length);
+		Int result;
+		glGetProgramiv(m_ProgramID, GL_LINK_STATUS, &result);
 
-			GLchar* LogMessage = new GLchar[Length];
-			glGetProgramInfoLog(m_Program, Length, &Length, LogMessage);
+		if (result == GL_FALSE) {
+			Int length;
+			glGetProgramiv(m_ProgramID, GL_INFO_LOG_LENGTH, &length);
 
-			Raise(LogMessage);
+			GLchar* logMessage = new GLchar[length];
+			glGetProgramInfoLog(m_ProgramID, length, &length, logMessage);
+
+			Raise(logMessage);
 		}
 	}
 
-	void Shader::SetUniformMatrix4x4(const String SemanticName, const uInt& Type, const Matrix4x4& Mat) const {
-		const Int Location = _GetUniformLocation(SemanticName);
-		switch (Type) {
-		case GL_FLOAT:
-			glUniformMatrix4fv(Location, 1, GL_FALSE, Mat.Matrix);
+	NT_API void Nt::Shader::SetUniformMatrix4x4(const String& semanticName, const uInt& type, const Matrix4x4& matrix) const {
+		const Int location = _GetUniformLocation(semanticName);
+
+		switch (type) {
+		case UNIFORM_FLOAT:
+			glUniformMatrix4fv(location, 1, GL_FALSE, matrix.Matrix);
 			break;
-		case GL_DOUBLE:
-		{
-			Double Matrix[16];
+
+		case UNIFORM_DOUBLE: {
+			Double array2D[16];
 			for (uInt i = 0; i < 16; ++i)
-				Matrix[i] = Mat.Matrix[i];
-			glUniformMatrix4dv(Location, 1, GL_FALSE, Matrix);
+				array2D[i] = Double(matrix.Matrix[i]);
+
+			glUniformMatrix4dv(location, 1, GL_FALSE, array2D);
 			break;
 		}
-		case GL_INT:
+		case UNIFORM_INT:
 			break;
-		case GL_UNSIGNED_INT:
+
+		case UNIFORM_UINT:
 			break;
 		}
 	}
 
 	void Shader::Use() const noexcept {
-		glUseProgram(m_Program);
+		glUseProgram(m_ProgramID);
+	}
+
+	void Shader::Delete() const {
+		if (glDeleteShader == nullptr)
+			Raise("GLEW not initialized");
+
+		for (const std::pair<Shader::Types, uInt> shaders : m_Shaders) {
+			if (shaders.second != 0)
+				glDeleteShader(shaders.second);
+		}
+
+		glDeleteProgram(m_ProgramID);
 	}
 
 	void Shader::EnableStrict() noexcept {
@@ -130,65 +171,89 @@ namespace Nt {
 		m_fStrict = false;
 	}
 
+	void Shader::UniformBlockBinding(const String& semanticName, const uInt& uniformBlockBinding) {
+		const Int location = _GetUniformLocation(semanticName);
+		glUniformBlockBinding(m_ProgramID, location, uniformBlockBinding);
+	}
+	void Shader::BindBufferBase(const Buffer& buffer, const uInt& index) {
+		glBindBufferBase(uInt(buffer.GetTarget()), index, buffer.GetID());
+	}
+
 	uInt Shader::_GetUniformLocation(const String& SemanticName) const {
-		const Int Location = glGetUniformLocation(m_Program, SemanticName.c_str());
-		if (Location == -1 && m_fStrict)
+		const Int location = glGetUniformLocation(m_ProgramID, SemanticName.c_str());
+		if (location == -1 && m_fStrict)
 			Raise("Failed to locate " + SemanticName);
-		return Location;
+
+		return location;
 	}
 
-	uInt Shader::_CompileShader(const uInt& ShaderID, LPCSTR Code) const {
-		glShaderSource(ShaderID, 1, &Code, nullptr);
-		glCompileShader(ShaderID);
-		return ShaderID;
+	uInt Shader::_CompileShader(const uInt& shaderID, const cString& code) const {
+		glShaderSource(shaderID, 1, &code, nullptr);
+		glCompileShader(shaderID);
+		return shaderID;
 	}
 
-	void Shader::_VarifyResult(const uInt& ShaderID, const Shader::Types& ShaderType, const cString& FileName) {
-		Int Result;
-		glGetShaderiv(ShaderID, GL_COMPILE_STATUS, &Result);
-		if (Result == GL_FALSE) {
-			String ErrorMsg;
-			if (FileName) {
-				ErrorMsg += "File name: ";
-				ErrorMsg += FileName;
+	void Shader::_VarifyResult(const uInt& shaderID, const Shader::Types& shaderType, const cString& fileName) {
+		Int result;
+		glGetShaderiv(shaderID, GL_COMPILE_STATUS, &result);
+
+		if (result == GL_FALSE) {
+			String errorMsg;
+			if (fileName != nullptr) {
+				errorMsg += "File name: ";
+				errorMsg += fileName;
 			}
 
-			ErrorMsg += "\nShader type: ";
-			switch (ShaderType) {
+			errorMsg += "\nShader type: ";
+
+			switch (shaderType) {
 			case Types::VERTEX:
-				ErrorMsg += "Vertex shader";
+				errorMsg += "Vertex shader";
 				break;
+
 			case Types::COMPUTE:
-				ErrorMsg += "Compute shader";
+				errorMsg += "Compute shader";
 				break;
+
 			case Types::TESS_CONTROL:
-				ErrorMsg += "Tess control shader";
+				errorMsg += "Tess control shader";
 				break;
+
 			case Types::TESS_EVALUATION:
-				ErrorMsg += "Tess evaluation shader";
+				errorMsg += "Tess evaluation shader";
 				break;
+
 			case Types::GEOMETRY:
-				ErrorMsg += "Geometry shader";
+				errorMsg += "Geometry shader";
 				break;
+
 			case Types::FRAGMENT:
-				ErrorMsg += "Fragment shader";
+				errorMsg += "Fragment shader";
 				break;
+
 			default:
-				ErrorMsg += "Unknown";
+				errorMsg += "Unknown";
 				break;
 			}
-			ErrorMsg += "\n\n";
 
-			Int Length;
-			glGetShaderiv(ShaderID, GL_INFO_LOG_LENGTH, &Length);
-			if (Length > 0) {
-				GLchar* Log = new GLchar[Length];
-				glGetShaderInfoLog(ShaderID, Length, &Length, Log);
+			errorMsg += "\n\n";
 
-				ErrorMsg += Log;
-				delete(Log);
+			Int length;
+			glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &length);
+
+			if (length > 0) {
+				GLchar* logData = new GLchar[length];
+				glGetShaderInfoLog(shaderID, length, &length, logData);
+
+				if (length > 0)
+					errorMsg += logData;
+
+				delete[](logData);
 			}
-			Raise(ErrorMsg);
+
+			Raise(errorMsg);
 		}
+
+		m_Shaders[shaderType] = shaderID;
 	}
 }

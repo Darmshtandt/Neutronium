@@ -33,9 +33,6 @@
     <ClInclude Include="..\Include\Nt\Physics\RigidBody.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Physics\RayCast.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\Nt\Physics\Simplex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
