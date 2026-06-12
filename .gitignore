@@ -1,6 +1,7 @@
 .vs/
 Bin/
 Debug/
+packages/
 
 NeutroniumCore/Debug/
 NeutroniumCore/Release/
