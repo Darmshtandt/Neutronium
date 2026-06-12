@@ -5,9 +5,9 @@
 #include <Nt/Graphics/Geometry/Primitives.h>
 
 namespace Nt::Primitive {
-	_CONSTEXPR20 Shape Quad(Float2D size, const Float4D& color, const FloatRect& textureRect) {
+	NT_CONSTEXPR Shape Quad(Float2D size, const Float4D& color, const FloatRect& textureRect) {
 		if (size.LengthSquare() == 0.f) {
-			Log::Warning("Quad is not created because size is 0");
+			Log::Instance().Warning("Quad not created because size is 0");
 			return { };
 		}
 
@@ -18,25 +18,25 @@ namespace Nt::Primitive {
 			Vertex {
 				Float3D(size.x, -size.y, 0.f),
 				Float3D(0.f, 0.f, 0.f),
-				Float2D(textureRect.Right, textureRect.Top),
+				Float3D(textureRect.Right, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, 0.f),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Top),
+				Float3D(textureRect.Left, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, size.y, 0.f),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Bottom),
+				Float3D(textureRect.Left, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(size.x, size.y, 0.f),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Right, textureRect.Bottom),
+				Float3D(textureRect.Right, textureRect.Bottom, 0.f),
 				color,
 			},
 		};
@@ -47,9 +47,9 @@ namespace Nt::Primitive {
 		return shapeQuad;
 	}
 
-	_CONSTEXPR20 Shape Cube(Float3D size, const Float4D& color, const FloatRect& textureRect) {
+	NT_CONSTEXPR Shape Cube(Float3D size, const Float4D& color, const FloatRect& textureRect) {
 		if (size.Length() == 0.f) {
-			Log::Warning("Quad is not created because size is 0");
+			Log::Instance().Warning("Quad not created because size is 0");
 			return { };
 		}
 		size /= 2.f;
@@ -59,50 +59,50 @@ namespace Nt::Primitive {
 			Vertex {
 				Float3D(size.x, -size.y, -size.z),
 				Float3D(0.f, 0.f, 0.f),
-				Float2D(textureRect.Right, textureRect.Top),
+				Float3D(textureRect.Right, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(size.x, size.y, -size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Right, textureRect.Bottom),
+				Float3D(textureRect.Right, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, size.y, -size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Bottom),
+				Float3D(textureRect.Left, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, -size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Top),
+				Float3D(textureRect.Left, textureRect.Top, 0.f),
 				color,
 			},
 
 			Vertex {
 				Float3D(size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, 0.f),
-				Float2D(textureRect.Right, textureRect.Top),
+				Float3D(textureRect.Right, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(size.x, size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Right, textureRect.Bottom),
+				Float3D(textureRect.Right, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Bottom),
+				Float3D(textureRect.Left, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Top),
+				Float3D(textureRect.Left, textureRect.Top, 0.f),
 				color,
 			},
 		};
@@ -146,9 +146,9 @@ namespace Nt::Primitive {
 		return shapeCube;
 	}
 
-	_CONSTEXPR20 Shape Pyramid(Float3D size, const Float4D& color, const FloatRect& textureRect) {
+	NT_CONSTEXPR Shape Pyramid(Float3D size, const Float4D& color, const FloatRect& textureRect) {
 		if (size.Length() == 0.f) {
-			Log::Warning("Quad is not created because size is 0");
+			Log::Instance().Warning("Quad not created because size is 0");
 			return { };
 		}
 		size /= 2.f;
@@ -158,76 +158,76 @@ namespace Nt::Primitive {
 			Vertex {
 				Float3D(size.x, -size.y, -size.z),
 				Float3D(0.f, 0.f, 0.f),
-				Float2D(textureRect.Right, textureRect.Top),
+				Float3D(textureRect.Right, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Right, textureRect.Top),
+				Float3D(textureRect.Right, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Top),
+				Float3D(textureRect.Left, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, -size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Top),
+				Float3D(textureRect.Left, textureRect.Top, 0.f),
 				color,
 			},
 
 			Vertex {
 				Float3D(0.f, size.y, 0.f),
 				Float3D(0.f, 0.f, 0.f),
-				Float2D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom),
+				Float3D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(0.f, size.y, 0.f),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom),
+				Float3D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(0.f, size.y, 0.f),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom),
+				Float3D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(0.f, size.y, 0.f),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom),
+				Float3D((textureRect.Left + textureRect.Right) / 2.f, textureRect.Bottom, 0.f),
 				color,
 			},
 
 			Vertex {
 				Float3D(size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Top),
+				Float3D(textureRect.Left, textureRect.Top, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Right, textureRect.Top),
+				Float3D(textureRect.Right, textureRect.Top, 0.f),
 				color,
 			},
 
 			Vertex {
 				Float3D(size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Right, textureRect.Bottom),
+				Float3D(textureRect.Right, textureRect.Bottom, 0.f),
 				color,
 			},
 			Vertex {
 				Float3D(-size.x, -size.y, size.z),
 				Float3D(0.f, 0.f, -1.f),
-				Float2D(textureRect.Left, textureRect.Bottom),
+				Float3D(textureRect.Left, textureRect.Bottom, 0.f),
 				color,
 			},
 		};
@@ -242,6 +242,20 @@ namespace Nt::Primitive {
 			6, 8, 0,
 			7, 3, 9,
 		};
+		return shapeCube;
+	}
+	NT_CONSTEXPR Shape Line(Float length, const Float4D& color) {
+		if (length == 0.f) {
+			Log::Instance().Warning("Line not created because size is 0");
+			return { };
+		}
+		length /= 2.f;
+
+		Shape shapeCube;
+		shapeCube.Vertices.emplace_back(Float3D(-length, 0.f, 0.f), Float3D(), Float3D(), color);
+		shapeCube.Vertices.emplace_back(Float3D(length, 0.f, 0.f), Float3D(), Float3D(), color);
+
+		shapeCube.Indices = { 0, 1 };
 		return shapeCube;
 	}
 }

@@ -13,33 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\JSON">
-      <UniqueIdentifier>{3c679345-3357-489a-b2c6-b36fca4cf159}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Math">
       <UniqueIdentifier>{b690f4ff-75e5-4c88-b8e0-69c81798d2b9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Math">
       <UniqueIdentifier>{b8380d06-4f11-49df-b7bd-6c60930afc41}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\JSON">
-      <UniqueIdentifier>{328d4e19-0d47-422d-8c72-f38faab75b98}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Nt\Core.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONData.h">
-      <Filter>Header Files\JSON</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONDict.h">
-      <Filter>Header Files\JSON</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSON.h">
-      <Filter>Header Files\JSON</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONList.h">
-      <Filter>Header Files\JSON</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\Math\Matrix3x3.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
@@ -95,9 +77,6 @@
     <ClInclude Include="..\Include\Nt\Core\WeakSafePtr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONContainer.h">
-      <Filter>Header Files\JSON</Filter>
-    </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\Math\Math.h">
       <Filter>Header Files\Math</Filter>
     </ClInclude>
@@ -115,6 +94,21 @@
     </ClInclude>
     <ClInclude Include="..\Include\Nt\Core\Math\HiperVector.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\NotNull.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\JSON.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\Math\Projections.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\NtDLL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\Nt\Core\EventBus.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -139,12 +133,6 @@
     <ClCompile Include="..\Src\Nt\Core\Console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Nt\Core\JSON\JSON.cpp">
-      <Filter>Source Files\JSON</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\Nt\Core\JSON\JSONLinkedList.cpp">
-      <Filter>Source Files\JSON</Filter>
-    </ClCompile>
     <ClCompile Include="..\Src\Nt\Core\NtError.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -157,11 +145,18 @@
     <ClCompile Include="..\Src\Nt\Core\Math\HiperVector.cpp">
       <Filter>Source Files\Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\Src\Nt\Core\Math\Projections.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Include\Nt\Core\Math\Vector.inl">
       <Filter>Header Files\Math</Filter>
     </None>
+    <None Include="..\Include\Nt\Core\Math\Rect.inl">
+      <Filter>Header Files\Math</Filter>
+    </None>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include=".natvis" />

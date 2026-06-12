@@ -18,6 +18,13 @@ namespace Nt {
 			delete(pData);
 	}
 
+	NT_FORCE_INLINE Bool KDTree::Neighbor::operator < (const Neighbor& other) const noexcept {
+		return SquareDistance < other.SquareDistance;
+	}
+	NT_FORCE_INLINE Bool KDTree::Neighbor::operator > (const Neighbor& other) const noexcept {
+		return SquareDistance > other.SquareDistance;
+	}
+
 
 	KDTree::KDTree(const KDTree& tree) :
 		m_pRoot(_CreateCopy(tree.m_pRoot))
@@ -74,10 +81,14 @@ namespace Nt {
 
 		_FindNearestSubTree(m_pRoot, target, pBestNode, minSquareDistance);
 
-		if (pBestNode == nullptr)
-			return nullptr;
+		return (pBestNode != nullptr) ? pBestNode->pData : nullptr;
+	}
+	KDTree::PriorityQueueData KDTree::FindKNearest(const HiperVector& target, const uInt& maxSize) const {
+		PriorityQueueData queue;
 
-		return pBestNode->pData;
+		_FindKNearestSubTree(m_pRoot, target, maxSize, queue);
+
+		return queue;
 	}
 
 	KDTree::Node* KDTree::_CreateCopy(Node* pRoot) {
@@ -153,6 +164,33 @@ namespace Nt {
 
 		if (targetToRoot * targetToRoot < minSquareDistance)
 			_FindNearestSubTree(pOpposite, target, pBestNode, minSquareDistance);
+	}
+	void KDTree::_FindKNearestSubTree(Node* pRoot, const HiperVector& target, const uInt& maxSize, PriorityQueueData& queue) const {
+		if (pRoot == nullptr || target.GetDimension() == 0)
+			return;
+
+		HiperVector*& pData = pRoot->pData;
+		const Float squareDistanceKD = pData->GetSquareDistance(target);
+
+		if (queue.size() < maxSize) {
+			queue.push({ pData, squareDistanceKD });
+		}
+		else if (squareDistanceKD < queue.top().SquareDistance) {
+			queue.pop();
+			queue.push({ pData, squareDistanceKD });
+		}
+
+		const Int axis = pRoot->Axis;
+		const Float targetToRoot = (target.GetCoord(axis) - pData->GetCoord(axis));
+		const Float targetToRootSquare = targetToRoot * targetToRoot;
+
+		Node* pNext = (targetToRoot < 0) ? pRoot->pLeft : pRoot->pRight;
+		Node* pOpposite = (targetToRoot < 0) ? pRoot->pRight : pRoot->pLeft;
+
+		_FindKNearestSubTree(pNext, target, maxSize, queue);
+
+		if (queue.size() < maxSize || targetToRootSquare < queue.top().SquareDistance)
+			_FindKNearestSubTree(pOpposite, target, maxSize, queue);
 	}
 	KDTree::Node* KDTree::_FindRoot(Node* pTarget, Node* pRoot) {
 		if (pTarget == nullptr || pRoot == nullptr || pTarget == pRoot)

@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include <Nt/Core/Utilities.h>
+#include <Nt/Core/NtDLL.h>
 
 namespace Nt {
 	enum class CharCodePage : uInt {
@@ -27,8 +27,8 @@ namespace Nt {
 #endif
 		Char16, Char32>;
 	
-	NT_API _NODISCARD std::string wStringToString(const  std::wstring& wStr, const CharCodePage& codePage = CharCodePage::ACP);
-	NT_API _NODISCARD std::wstring StringTowString(const std::string& mStr, const CharCodePage& codePage = CharCodePage::ACP);
+	NT_API NT_NODISCARD std::string wStringToString(const  std::wstring& wStr, const CharCodePage& codePage = CharCodePage::ACP);
+	NT_API NT_NODISCARD std::wstring StringToWString(const std::string& mStr, const CharCodePage& codePage = CharCodePage::ACP);
 
 	class String : public std::string {
 	public:
@@ -78,104 +78,96 @@ namespace Nt {
 		}
 		NT_API void Assign(const wChar& value);
 
-		NT_API _NODISCARD std::vector<String> Split(const Char& separator) const;
+		NT_API NT_NODISCARD std::vector<String> Split(const Char& separator) const;
 
-		NT_API _NODISCARD String ToLower() const noexcept;
-		NT_API _NODISCARD String ToUpper() const noexcept;
+		NT_API NT_NODISCARD String ToLower() const noexcept;
+		NT_API NT_NODISCARD String ToUpper() const noexcept;
 
-		NT_API _NODISCARD Bool IsLowers() const noexcept;
-		NT_API _NODISCARD Bool IsUppers() const noexcept;
-		NT_API _NODISCARD Bool IsAlphas() const noexcept;
-		NT_API _NODISCARD Bool IsAlnums() const noexcept;
-		NT_API _NODISCARD Bool IsPuncts() const noexcept;
-		NT_API _NODISCARD Bool IsGraphs() const noexcept;
-		NT_API _NODISCARD Bool IsBlanks() const noexcept;
-		NT_API _NODISCARD Bool IsCntrls() const noexcept;
-		NT_API _NODISCARD Bool IsPrints() const noexcept;
-		NT_API _NODISCARD Bool IsSpaces() const noexcept;
-		NT_API _NODISCARD Bool IsDigits() const noexcept;
-		NT_API _NODISCARD Bool IsxDigits() const noexcept;
-		NT_API _NODISCARD Bool IsIntegral() const noexcept;
-		NT_API _NODISCARD Bool IsFloat() const noexcept;
-
-		NT_API _NODISCARD std::wstring wstr() const noexcept;
-
-#	ifdef __NT__EXPEREMENTAL
-		_NODISCARD cwString cw_str() const noexcept {
-			return wstr().c_str();
-		}
-#	endif
+		NT_API NT_NODISCARD Bool IsLowers() const noexcept;
+		NT_API NT_NODISCARD Bool IsUppers() const noexcept;
+		NT_API NT_NODISCARD Bool IsAlphas() const noexcept;
+		NT_API NT_NODISCARD Bool IsAlnums() const noexcept;
+		NT_API NT_NODISCARD Bool IsPuncts() const noexcept;
+		NT_API NT_NODISCARD Bool IsGraphs() const noexcept;
+		NT_API NT_NODISCARD Bool IsBlanks() const noexcept;
+		NT_API NT_NODISCARD Bool IsCntrls() const noexcept;
+		NT_API NT_NODISCARD Bool IsPrints() const noexcept;
+		NT_API NT_NODISCARD Bool IsSpaces() const noexcept;
+		NT_API NT_NODISCARD Bool IsDigits() const noexcept;
+		NT_API NT_NODISCARD Bool IsxDigits() const noexcept;
+		NT_API NT_NODISCARD Bool IsIntegral() const noexcept;
+		NT_API NT_NODISCARD Bool IsFloat() const noexcept;
 
 		template <class _Ty> requires (std::is_arithmetic_v<_Ty> &&
 			(!std::is_same_v<_Ty, wChar>))
-		_NODISCARD Bool operator == (const _Ty& value) const {
+		NT_NODISCARD Bool operator == (const _Ty& value) const {
 			return (_Ty(*this) == value);
 		}
-		NT_API _NODISCARD Bool operator == (const wChar& wSymbol) const;
-		NT_API _NODISCARD Bool operator == (cwString wStr) const;
-		NT_API _NODISCARD Bool operator == (const std::wstring& str) const;
-		NT_API _NODISCARD Bool operator == (const std::wstring_view& str) const;
-		NT_API _NODISCARD Bool operator == (const std::string& str) const noexcept;
-		NT_API _NODISCARD Bool operator == (const Char& symbol) const noexcept;
-		NT_API _NODISCARD Bool operator == (cString Str) const noexcept;
-		NT_API _NODISCARD Bool operator == (const String& str) const noexcept;
+		NT_API NT_NODISCARD Bool operator == (const wChar& wSymbol) const;
+		NT_API NT_NODISCARD Bool operator == (cwString wStr) const;
+		NT_API NT_NODISCARD Bool operator == (const std::wstring& str) const;
+		NT_API NT_NODISCARD Bool operator == (const std::wstring_view& str) const;
+		NT_API NT_NODISCARD Bool operator == (const std::string& str) const noexcept;
+		NT_API NT_NODISCARD Bool operator == (const Char& symbol) const noexcept;
+		NT_API NT_NODISCARD Bool operator == (cString Str) const noexcept;
+		NT_API NT_NODISCARD Bool operator == (const String& str) const noexcept;
 
-		NT_API _NODISCARD String operator + (const Char& symbol) const;
-		NT_API _NODISCARD String operator + (cString str) const;
-		NT_API _NODISCARD String operator + (const wChar& symbol) const;
-		NT_API _NODISCARD String operator + (cwString str) const;
+		//NT_API NT_NODISCARD String operator + (const Char& symbol) const;
+		//NT_API NT_NODISCARD String operator + (cString str) const;
+		NT_API NT_NODISCARD String operator + (const wChar& symbol) const;
+		NT_API NT_NODISCARD String operator + (cwString str) const;
 
-		NT_API _NODISCARD String operator + (const std::string& str) const;
-		NT_API _NODISCARD String operator + (const String& str) const;
+		//NT_API NT_NODISCARD String operator + (const std::string& str) const;
+		//NT_API NT_NODISCARD String operator + (const String& str) const;
 
 		NT_API String& operator += (const String& str);
 		NT_API String& operator << (const String& str);
 		NT_API String& operator << (std::ios_base& (__cdecl* _Pfn)(std::ios_base&));
 
-		NT_API _NODISCARD Char& operator [] (const uInt& index);
+		NT_API NT_NODISCARD Char& operator [] (const uInt& index);
 
-		NT_API _NODISCARD Float ToFloat() const;
+		NT_API NT_NODISCARD Float ToFloat() const;
 
-		NT_API _NODISCARD operator std::wstring() const;
-		NT_API _NODISCARD operator cString() const;
-		NT_API _NODISCARD operator Char() const;
-		NT_API _NODISCARD operator Bool() const;
-		NT_API _NODISCARD operator Short() const;
-		NT_API _NODISCARD operator Int() const;
-		NT_API _NODISCARD operator Long() const;
-		NT_API _NODISCARD operator LLong() const;
-		NT_API _NODISCARD operator Byte() const;
-		NT_API _NODISCARD operator uShort() const;
-		NT_API _NODISCARD operator uInt() const;
-		NT_API _NODISCARD operator uLong() const;
-		NT_API _NODISCARD operator uLLong() const;
-		NT_API _NODISCARD operator Float() const;
-		NT_API _NODISCARD operator Double() const;
-		NT_API _NODISCARD operator LDouble() const;
-		NT_API _NODISCARD operator sChar() const;
+		NT_API NT_NODISCARD operator std::wstring() const;
+		NT_API NT_NODISCARD operator cString() const;
+		NT_API NT_NODISCARD operator Char() const;
+		NT_API NT_NODISCARD operator Bool() const;
+		NT_API NT_NODISCARD operator Short() const;
+		NT_API NT_NODISCARD operator Int() const;
+		NT_API NT_NODISCARD operator Long() const;
+		NT_API NT_NODISCARD operator LLong() const;
+		NT_API NT_NODISCARD operator Byte() const;
+		NT_API NT_NODISCARD operator uShort() const;
+		NT_API NT_NODISCARD operator uInt() const;
+		NT_API NT_NODISCARD operator uLong() const;
+		NT_API NT_NODISCARD operator uLLong() const;
+		NT_API NT_NODISCARD operator Float() const;
+		NT_API NT_NODISCARD operator Double() const;
+		NT_API NT_NODISCARD operator LDouble() const;
+		NT_API NT_NODISCARD operator sChar() const;
 
 #ifdef __cpp_char8_t
-		NT_API _NODISCARD operator Char8() const;
+		NT_API NT_NODISCARD operator Char8() const;
 #endif
-		NT_API _NODISCARD operator Char16() const;
-		NT_API _NODISCARD operator Char32() const;
+		NT_API NT_NODISCARD operator Char16() const;
+		NT_API NT_NODISCARD operator Char32() const;
 
 	private:
-		_NODISCARD Bool _AllMatch(Int(predicate)(Int)) const noexcept;
+		NT_NODISCARD Bool _AllMatch(Int(predicate)(Int)) const noexcept;
 
-		_NODISCARD std::wstring _ToString(const wChar& value) const {
+		NT_NODISCARD std::wstring _ToString(const wChar& value) const {
 			return std::wstring(1, value);
 		}
-		_NODISCARD std::string _ToString(const Char& value) const {
+		NT_NODISCARD std::string _ToString(const Char& value) const {
 			return std::string(1, value);
 		}
 
 		template <typename _Ty> requires Is_digit_v<_Ty>
-		_NODISCARD std::string _ToString(const _Ty& value) const {
+		NT_NODISCARD std::string _ToString(const _Ty& value) const {
 			return std::to_string(value);
 		}
 		template <typename _Ty> requires std::is_floating_point_v<_Ty>
-		_NODISCARD std::string _ToString(const _Ty& value) const {
+		NT_NODISCARD std::string _ToString(const _Ty& value) const {
 			std::string result = std::to_string(value);
 			std::string::iterator iterator = result.end() - 1;
 

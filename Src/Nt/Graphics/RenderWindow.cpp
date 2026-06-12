@@ -42,11 +42,9 @@ namespace Nt {
 		Window::Create(windowRect, name);
 	}
 
-	void RenderWindow::RenderWindow::Update() {
-		if (m_CameraPtr != nullptr && m_CameraPtr->IsChanged()) {
-			m_CameraPtr->Update();
-			Renderer::SetView(m_CameraPtr->GetView());
-		}
+	void RenderWindow::Update() {
+		if (m_CameraPtr != nullptr && m_CameraPtr->IsDirty())
+			SetView(m_CameraPtr->GetView());
 	}
 
 	void RenderWindow::Resize(const uInt2D& size) {
@@ -54,17 +52,29 @@ namespace Nt {
 		Window::SetSize(size);
 	}
 
+	Camera* RenderWindow::GetCamera() const noexcept {
+		return m_CameraPtr;
+	}
+
 	void RenderWindow::SetPerspectiveProjection(const Float& fov, const Float& _near, const Float& _far) {
 		const IntRect windowRect = Window::GetClientRect();
+		if (windowRect.Bottom == 0)
+			return;
+
 		const Float aspect = Float(windowRect.Right) / Float(windowRect.Bottom);
 
 		Renderer::SetPerspectiveProjection(fov, aspect, _near, _far);
 	}
 	void RenderWindow::SetOrthoProjection(const Float& _near, const Float& _far) {
-		const Float2D windowSize = Window::GetClientRect().RightBottom;
+		const Float2D windowSize = m_ClientRect.RightBottom;
 		const Float aspect = (windowSize.x / windowSize.y);
 
-		const Nt::FloatRect orthoRect = { 0.f, 0.f, aspect * windowSize.x, -windowSize.y };
+		const Nt::FloatRect orthoRect = {
+			-aspect * windowSize.x / 2.f,
+			windowSize.y / 2.f,
+			aspect * windowSize.x / 2.f,
+			-windowSize.y / 2.f
+		};
 		Renderer::SetOrthoProjection(orthoRect, _near, _far);
 	}
 	void RenderWindow::SetOrtho2DProjection(const FloatRect& rect) {
@@ -73,7 +83,7 @@ namespace Nt {
 	void RenderWindow::SetOrtho2DProjection() {
 		SetOrthoProjection(-1.f, 1.f);
 	}
-	void RenderWindow::SetCurrentCamera(Camera* pCamera) {
+	void RenderWindow::SetCamera(Camera* pCamera) noexcept {
 		m_CameraPtr = pCamera;
 	}
 
@@ -107,14 +117,18 @@ namespace Nt {
 					in vec3 VertexTexCoords;
 					in vec4 VertexColor;
 					uniform vec4 RenderColor;
+					uniform bool fTexture;
 
 					out vec4 Color;
 
 					uniform sampler2D ourTexture;
 
 					void main() {
-						vec4 TextureColor = texture(ourTexture, vec2(VertexTexCoords));
-						Color = TextureColor * RenderColor * VertexColor;
+						Color = RenderColor * VertexColor;
+						if (fTexture) {
+							vec4 TextureColor = texture(ourTexture, vec2(VertexTexCoords));
+							Color *= TextureColor;
+						}
 					}	
 				)";
 
@@ -126,7 +140,7 @@ namespace Nt {
 		m_DefaultShader->CompileCode(Shader::Types::FRAGMENT, fragmentShaderCode);
 		m_DefaultShader->Link();
 
-		Renderer::SetCurrentShader(m_DefaultShader);
+		Renderer::SetShader(m_DefaultShader);
 	}
 
 	void RenderWindow::_Creation([[maybe_unused]] const CREATESTRUCT* pWindowStruct) {

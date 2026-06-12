@@ -5,10 +5,31 @@
 #include <Nt/Graphics/Resources/Texture.h>
 
 namespace Nt {
-	enum class BufferBit {
+	enum class BufferBit : uShort {
 		COLOR = 0x00004000,
 		DEPTH = 0x00000100,
 		STENCIL = 0x00000400
+	};
+	enum class Attachment : uShort {
+		COLOR_0 = 0x8CE0,
+		COLOR_1 = 0x8CE1,
+		COLOR_2 = 0x8CE2,
+		COLOR_3 = 0x8CE3,
+		COLOR_4 = 0x8CE4,
+		COLOR_5 = 0x8CE5,
+		COLOR_6 = 0x8CE6,
+		COLOR_7 = 0x8CE7,
+		COLOR_8 = 0x8CE8,
+		COLOR_9 = 0x8CE9,
+		COLOR_10 = 0x8CEA,
+		COLOR_11 = 0x8CEB,
+		COLOR_12 = 0x8CEC,
+		COLOR_13 = 0x8CED,
+		COLOR_14 = 0x8CEE,
+		COLOR_15 = 0x8CEF,
+		DEPTH = 0x8D00,
+		STENCIL = 0x8D20,
+		DEPTH_STENCIL = 0x821A
 	};
 
 	class FrameBuffer {
@@ -43,12 +64,10 @@ namespace Nt {
 		NT_API void Unbind(const Type& type) const noexcept;
 
 		NT_API void Blit(const uIntRect& sourceRect, const uIntRect& destinationRect, const BufferBit& bufferBit, const MagFilter& filter) const noexcept;
-
 		NT_API void Invalidate(const Type& type, const uInt& attachment);
 
-		NT_API void SetRenderBuffer(const RenderBuffer& buffer, const uInt& attachment) const;
-
-		NT_API void SetTexture2D(const Texture* pTexture, const uInt& attachment, const uInt& level);
+		NT_API void SetRenderBuffer(const RenderBuffer& buffer, const Attachment& attachment) const;
+		NT_API void SetTexture2D(const Texture* pTexture, const Attachment& attachment, const uInt& level);
 
 		NT_API void Delete();
 

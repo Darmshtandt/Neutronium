@@ -84,7 +84,7 @@ namespace Nt {
 
 		constexpr bool operator == (const Matrix3x3& Mat) const noexcept {
 			for (uInt i = 0; i < 3; ++i)
-				if (this->Rows[i] != Mat.Rows[i])
+				if (this->Columns[i] != Mat.Columns[i])
 					return false;
 			return true;
 		}
@@ -108,8 +108,8 @@ namespace Nt {
 			Float3D Result = { };
 			Matrix3x3 This = *this;
 			for (uInt i = 0; i < 3; ++i) {
-				This.Rows[i] *= Vec;
-				Result.Array[i] = This.Rows[i].x + This.Rows[i].y + This.Rows[i].z;
+				This.Columns[i] *= Vec;
+				Result.Array[i] = This.Columns[i].x + This.Columns[i].y + This.Columns[i].z;
 			}
 			return Result;
 		}
@@ -117,9 +117,9 @@ namespace Nt {
 		constexpr Matrix3x3 operator * (const Matrix3x3& Mat) const noexcept {
 			Matrix3x3 Result = { };
 			for (uInt i = 0; i < 3; ++i) {
-				Result.Rows[i] = this->Rows[0] * Mat.Rows[i].x;
-				Result.Rows[i] += this->Rows[1] * Mat.Rows[i].y;
-				Result.Rows[i] += this->Rows[2] * Mat.Rows[i].z;
+				Result.Columns[i] = this->Columns[0] * Mat.Columns[i].x;
+				Result.Columns[i] += this->Columns[1] * Mat.Columns[i].y;
+				Result.Columns[i] += this->Columns[2] * Mat.Columns[i].z;
 			}
 			return Result;
 		}
@@ -127,7 +127,7 @@ namespace Nt {
 		constexpr Matrix3x3 operator * (const Float& Num) const noexcept {
 			Matrix3x3 Result = *this;
 			for (uInt i = 0; i < 3; ++i)
-				Result.Rows[i] *= Num;
+				Result.Columns[i] *= Num;
 			return Result;
 		}
 
@@ -149,12 +149,12 @@ namespace Nt {
 
 		union {
 			struct {
-				Float _11, _21, _31;
-				Float _12, _22, _32;
-				Float _13, _23, _33;
+				Float _11, _12, _13;
+				Float _21, _22, _23;
+				Float _31, _32, _33;
 			};
 
-			Float3D Rows[3];
+			Float3D Columns[3];
 			Float Matrix2D[3][3];
 			Float Matrix[9] = { };
 		};

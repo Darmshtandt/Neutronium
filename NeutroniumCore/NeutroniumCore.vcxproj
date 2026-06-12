@@ -31,12 +31,9 @@
     <ClInclude Include="..\Include\Nt\Core.h" />
     <ClInclude Include="..\Include\Nt\Core\Colors.h" />
     <ClInclude Include="..\Include\Nt\Core\Console.h" />
+    <ClInclude Include="..\Include\Nt\Core\EventBus.h" />
     <ClInclude Include="..\Include\Nt\Core\Input.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONContainer.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONData.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONDict.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSON.h" />
-    <ClInclude Include="..\Include\Nt\Core\JSON\JSONList.h" />
+    <ClInclude Include="..\Include\Nt\Core\JSON.h" />
     <ClInclude Include="..\Include\Nt\Core\KDTree.h" />
     <ClInclude Include="..\Include\Nt\Core\Log.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\HiperVector.h" />
@@ -44,11 +41,14 @@
     <ClInclude Include="..\Include\Nt\Core\Math\Matrix.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\Matrix3x3.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\Matrix4x4.h" />
+    <ClInclude Include="..\Include\Nt\Core\Math\Projections.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\Rect.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\Vector.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\VectorND.h" />
     <ClInclude Include="..\Include\Nt\Core\Math\VectorScalars.h" />
     <ClInclude Include="..\Include\Nt\Core\MessageWindow.h" />
+    <ClInclude Include="..\Include\Nt\Core\NotNull.h" />
+    <ClInclude Include="..\Include\Nt\Core\NtDLL.h" />
     <ClInclude Include="..\Include\Nt\Core\NtError.h" />
     <ClInclude Include="..\Include\Nt\Core\NtTypes.h" />
     <ClInclude Include="..\Include\Nt\Core\SelfDeletingPtr.h" />
@@ -66,17 +66,12 @@
     <ClCompile Include="..\Src\Nt\Core\Input.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\Src\Nt\Core\JSON\JSON.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="..\Src\Nt\Core\JSON\JSONLinkedList.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\Src\Nt\Core\KDTree.cpp" />
     <ClCompile Include="..\Src\Nt\Core\Log.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\Src\Nt\Core\Math\HiperVector.cpp" />
+    <ClCompile Include="..\Src\Nt\Core\Math\Projections.cpp" />
     <ClCompile Include="..\Src\Nt\Core\MessageWindow.cpp" />
     <ClCompile Include="..\Src\Nt\Core\NtError.cpp" />
     <ClCompile Include="..\Src\Nt\Core\Serialization.cpp">
@@ -93,7 +88,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Include\Nt\Core\Math\Rect.inl" />
     <None Include="..\Include\Nt\Core\Math\Vector.inl" />
+    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include=".natvis" />
@@ -112,6 +109,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Example|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -209,7 +207,7 @@
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4100;4201;4715;4996</DisableSpecificWarnings>
+      <DisableSpecificWarnings>4201;4996</DisableSpecificWarnings>
       <UndefinePreprocessorDefinitions>min;max;ZeroMemory</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -217,6 +215,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Example|Win32'">
     <ClCompile>
@@ -245,7 +247,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

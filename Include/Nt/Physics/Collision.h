@@ -1,6 +1,7 @@
 #pragma once
 
-#include <Nt/Graphics/Geometry/RayCast.h>
+#include <Nt/Core/Utilities.h>
+#include <Nt/Graphics/Geometry/Ray.h>
 #include <Nt/Graphics/Renderer.h>
 #include <Nt/Physics/Simplex.h>
 
@@ -24,10 +25,9 @@ namespace Nt {
 			m_pModel(nullptr)
 		{
 		}
-		virtual ~ICollider() = 0;
+		virtual ~ICollider() = default;
 
-		__inline void Render(Renderer* pRenderer) const {
-			RequireNotNull(pRenderer);
+		__inline void Render(NotNull<Renderer*> pRenderer) const {
 			if (m_pModel != nullptr) {
 				const Renderer::DrawingMode PrevDrawingMode = pRenderer->GetDrawingMode();
 				pRenderer->SetDrawingMode(Renderer::DrawingMode::LINE_STRIP);
@@ -40,12 +40,12 @@ namespace Nt {
 			}
 		}
 
-		virtual Bool IsCollide(const ICollider* pCollider) const = 0;
+		virtual Bool IsCollide(NotNull<ICollider*> pCollider) const = 0;
 
 		virtual ICollider* GetCopy() const = 0;
 
 		__inline void SetColor(const Float4D& Color) noexcept {
-			if (m_pModel)
+			if (m_pModel != nullptr)
 				m_pModel->SetColor(Color);
 		}
 
@@ -63,7 +63,7 @@ namespace Nt {
 			ICollider(TYPE_MESH) {
 		}
 
-		NT_API Bool IsCollide(const ICollider* pCollider) const override final;
+		NT_API Bool IsCollide(NotNull<ICollider*> pCollider) const override final;
 
 		[[nodiscard]]
 		Float3D FindFurthestPoint(const Float3D& direction) const {
@@ -71,7 +71,7 @@ namespace Nt {
 			Float maxDistance = -FLT_MAX;
 			//Vec3D transformedDirection = (invModel() * direction).normalized();
 
-			const Float3D transformedDirection = (m_LocalWorld * direction).GetNormalize().xyz;
+			const Float3D transformedDirection = (m_LocalWorld * Float4D(direction, 1.f)).GetNormalize().xyz;
 			for (const Float3D& point : m_Points) {
 				const Float pointLength = point.Dot(transformedDirection);
 				if (pointLength > maxDistance) {

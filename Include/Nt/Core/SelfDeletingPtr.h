@@ -18,11 +18,11 @@ namespace Nt {
 		}
 		_CONSTEXPR20 void MoveTo(SelfDeletingPtr<_Ty>& newPointer) {
 			if (newPointer.m_Ptr != nullptr) {
-				Raise(L"NewPointer is already taken by another pointer");
+				Raise("NewPointer is already taken by another pointer");
 				return;
 			}
 			if (m_Ptr == nullptr) {
-				Raise(L"This pointer is nullptr");
+				Raise("This pointer is nullptr");
 				return;
 			}
 
@@ -32,13 +32,13 @@ namespace Nt {
 		
 		_CONSTEXPR20 SelfDeletingPtr<_Ty>& operator = (_Ty* ptr) {
 			if (m_Ptr != nullptr) {
-				Raise(L"This pointer is already taken by another pointer");
-				return;
+				Raise("This pointer is already taken by another pointer");
+				return *this;
 			}
 
 			if (ptr == nullptr) {
-				Raise(L"Pointer is null");
-				return;
+				Raise("Pointer is null");
+				return *this;
 			}
 
 			m_Ptr = ptr;

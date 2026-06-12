@@ -2,6 +2,7 @@
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
 #include <Nt/Graphics/RenderBuffer.h>
+#include <Nt/Core/Log.h>
 
 #include <GL/GLEW.h>
 #include <GL/GL.h>
@@ -18,12 +19,13 @@ namespace Nt {
 	}
 
 	void RenderBuffer::Create() {
+		if (m_ID != 0) {
+			Log::Instance().Warning("Framebuffer already created");
+			return;
+		}
+
 		glGenRenderbuffers(1, &m_ID);
-
-		if (m_ID == 0)
-			Raise("Failed to create Render Buffer");
-
-		Bind();
+		Assert(m_ID != 0, "Failed to create");
 	}
 
 	void RenderBuffer::Delete() noexcept {

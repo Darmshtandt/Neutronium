@@ -13,14 +13,21 @@
 #include <GL/GL.h>
 #include <iostream>
 
-#include <Nt/Graphics/HandleWindow.h>
+#include <Nt/Graphics/System/HandleWindow.h>
 #include <Nt/Graphics/Renderer.h>
-
 
 namespace Nt {
 	Renderer::Renderer(const Bool& isEnabled3D) noexcept :
 		m_IsEnabled3D(isEnabled3D)
 	{
+	}
+
+	Renderer::~Renderer() {
+		if (m_hwnd != nullptr)
+			ReleaseDC(m_hwnd, m_hdc);
+
+		if (m_hContext != nullptr)
+			wglDeleteContext(m_hContext);
 	}
 
 	void Renderer::Resize() {
@@ -69,10 +76,13 @@ namespace Nt {
 	void Renderer::Display() {
 		CheckInitialization();
 
-		m_FrameTime = Int(m_LoopTimeStamp.GetElapsedTimeMs());
+		m_FrameTimeMs = Float(m_LoopTimeStamp.GetElapsedTimeMs());
+		if (m_FrameTimeMs == 0.f)
+			m_FrameTimeMs = FLT_EPSILON;
+
 		m_LoopTimeStamp.Restart();
 
-		const Int delayTimeMs = (1000 / m_FPSLimit) - m_FrameTime;
+		const Int delayTimeMs = (1000 / m_FPSLimit) - Int(m_FrameTimeMs);
 		if (delayTimeMs > 0)
 			Sleep(delayTimeMs);
 		else
@@ -85,36 +95,28 @@ namespace Nt {
 			m_FPSTimer.Restart();
 		}
 
-		SwapBuffers(GetDC(m_hwnd));
+		SwapBuffers(m_hdc);
 	}
-	void Renderer::Render(const Mesh* pMesh) const {
+	void Renderer::Render(NotNull<const Mesh*> pMesh) const {
 		RenderInstanced(pMesh, 1);
 	}
-	void Renderer::Render(const Mesh* pMesh, const uInt& offset, const uInt& verticesCount) const {
+	void Renderer::Render(NotNull<const Mesh*> pMesh, const uInt& offset, const uInt& verticesCount) const {
 		RenderInstanced(pMesh, offset, verticesCount, 1);
 	}
-	void Renderer::RenderInstanced(const Mesh* pMesh, const uInt& count) const {
-		if (pMesh == nullptr)
-			return;
-
-		if (pMesh->IsUsedIndexBuffer())
-			RenderInstanced(pMesh, 0, pMesh->GetIndices().size(), count);
-		else
-			RenderInstanced(pMesh, 0, pMesh->GetVertices().size(), count);
+	void Renderer::RenderInstanced(NotNull<const Mesh*> pMesh, const uInt& count) const {
+		RenderInstanced(pMesh, 0, pMesh->GetVerticesCount(), count);
 	}
-	void Renderer::RenderInstanced(const Mesh* pMesh, const uInt& offset, const uInt& verticesCount, const uInt& count) const {
+	void Renderer::RenderInstanced(NotNull<const Mesh*> pMesh, const uInt& offset, const uInt& verticesCount, const uInt& count) const {
 		CheckInitialization();
-		if (pMesh == nullptr)
-			return;
 
 		if (m_ShaderPtr != nullptr)
 			m_ShaderPtr->Use();
 
 		pMesh->Bind();
-		if (pMesh->IsUsedIndexBuffer())
-			glDrawElementsInstanced(uInt(m_DrawingMode), verticesCount, GL_UNSIGNED_INT, reinterpret_cast<void*>(offset * sizeof(Int)), count);
-		else
+		if (pMesh->GetIndices().empty())
 			glDrawArraysInstanced(uInt(m_DrawingMode), offset, verticesCount, count);
+		else
+			glDrawElementsInstanced(uInt(m_DrawingMode), verticesCount, GL_UNSIGNED_INT, reinterpret_cast<void*>(offset * sizeof(Int)), count);
 	}
 
 
@@ -123,6 +125,13 @@ namespace Nt {
 			return;
 
 		m_Matrices.World.Translate(offset);
+		_ApplyWorldMatrix();
+	}
+	void Renderer::Scale(const Float3D& size) {
+		if (size == 0.f)
+			return;
+
+		m_Matrices.World.Scale(size);
 		_ApplyWorldMatrix();
 	}
 	void Renderer::Rotate(const Float3D& angles) {
@@ -139,10 +148,8 @@ namespace Nt {
 		m_Matrices.World.Rotate({ 0.f, 0.f, angle });
 		_ApplyWorldMatrix();
 	}
-	void Renderer::Transform(const Float3D& offset, const Float3D& origin, const Float3D& angles, const Float3D& angleOrigin) {
-		if (offset == 0.f && origin == 0.f && angles == 0.f && angleOrigin == 0.f)
-			return;
 
+	void Renderer::Transform(const Float3D& offset, const Float3D& origin, const Float3D& angles, const Float3D& angleOrigin) {
 		m_Matrices.World.Translate(offset);
 		m_Matrices.World.Rotate(angleOrigin);
 		m_Matrices.World.Translate(origin);
@@ -165,17 +172,49 @@ namespace Nt {
 		_ApplyWorldMatrix();
 	}
 
-	void Renderer::BindTexture(const Texture& texture) {
-		texture.Bind();
+	void Renderer::BindTexture(const Texture* pTexture) {
+		if (pTexture != nullptr) {
+			pTexture->Bind();
+			m_IsBindedTexture = true;
+		}
+		else if (m_IsBindedTexture) {
+			glBindTexture(GL_TEXTURE_2D, 0);
+			m_IsBindedTexture = false;
+		}
+
+		if (m_ShaderPtr != nullptr)
+			m_ShaderPtr->SetUniform("fTexture", m_IsBindedTexture);
 	}
 	void Renderer::UnbindTexture() {
+		if (!m_IsBindedTexture)
+			return;
+
 		glBindTexture(GL_TEXTURE_2D, 0);
+		m_IsBindedTexture = false;
+
+		if (m_ShaderPtr != nullptr)
+			m_ShaderPtr->SetUniform("fTexture", m_IsBindedTexture);
 	}
-	void Renderer::BindMesh(const Mesh& mesh) {
-		mesh.Bind();
+	void Renderer::BindMesh(Mesh* pMesh) {
+		if (pMesh != nullptr)
+			pMesh->Bind();
+		else
+			glBindVertexArray(0);
 	}
 	void Renderer::UnbindMesh() {
 		glBindVertexArray(0);
+	}
+
+	void Renderer::Hint(const HintTarget& target, const HintMode& mode) const noexcept {
+		glHint(uInt(target), uInt(mode));
+	}
+
+	void Renderer::EnableMultisample() const noexcept {
+		glEnable(GL_MULTISAMPLE);
+	}
+
+	void Renderer::DisableMultisample() const noexcept {
+		glDisable(GL_MULTISAMPLE);
 	}
 
 	void Renderer::EnableDepthBuffer() const noexcept {
@@ -185,7 +224,19 @@ namespace Nt {
 		glDisable(GL_DEPTH_TEST);
 	}
 
-	void Renderer::SetCullFace(const CullFace& mode) const noexcept {
+	void Renderer::EnableDepthMask() const noexcept {
+		glDepthMask(GL_TRUE);
+	}
+
+	void Renderer::DisableDepthMask() const noexcept {
+		glDepthMask(GL_FALSE);
+	}
+
+	void Renderer::SetCullFace(const CullFace& mode) noexcept {
+		if (m_CullFace == mode)
+			return;
+
+		m_CullFace = mode;
 		if (mode == CullFace::NONE) {
 			glDisable(GL_CULL_FACE);
 		}
@@ -194,7 +245,7 @@ namespace Nt {
 			glCullFace(uInt(mode));
 		}
 	}
-	void Renderer::SetViewport(const Nt::IntRect& rect) {
+	void Renderer::SetViewport(const IntRect& rect) {
 		m_ViewportRect = rect;
 		glViewport(rect.Left, rect.Top, rect.Right, rect.Bottom);
 	}
@@ -234,7 +285,7 @@ namespace Nt {
 
 	void Renderer::SetOrthoProjection(FloatRect rect, const Float& orthoNear, const Float& orthoFar) {
 		if (rect.Left == rect.Right || rect.Top == rect.Bottom) {
-			Log::Warning("SetOrthoProjection: Invalid value");
+			Log::Instance().Warning("SetOrthoProjection: Invalid value");
 			return;
 		}
 
@@ -253,11 +304,11 @@ namespace Nt {
 
 		m_Matrices.Projection._11 = 2.f / (rect.Right - rect.Left);
 		m_Matrices.Projection._22 = 2.f / (rect.Top - rect.Bottom);
-		m_Matrices.Projection._33 = -2.f / (orthoFar - orthoNear);
+		m_Matrices.Projection._33 = 2.f / (orthoFar - orthoNear);
 		m_Matrices.Projection._44 = 1.f;
 
 		m_Matrices.Projection._14 = -(rect.Right + rect.Left) / (rect.Right - rect.Left);
-		m_Matrices.Projection._24 = (rect.Top + rect.Bottom) / (rect.Top - rect.Bottom);
+		m_Matrices.Projection._24 = -(rect.Top + rect.Bottom) / (rect.Top - rect.Bottom);
 		m_Matrices.Projection._34 = -(orthoFar + orthoNear) / (orthoFar - orthoNear);
 
 		_ApplyProjectionMatrix();
@@ -311,6 +362,12 @@ namespace Nt {
 	uIntRect Renderer::GetViewportRect() const noexcept {
 		return m_ViewportRect;
 	}
+	CullFace Renderer::GetCullFace() const noexcept {
+		return m_CullFace;
+	}
+	DepthMode Renderer::GetDepthMode() const noexcept {
+		return m_DepthMode;
+	}
 	Renderer::DrawingMode Renderer::GetDrawingMode() const noexcept {
 		return m_DrawingMode;
 	}
@@ -320,12 +377,22 @@ namespace Nt {
 	uInt Renderer::GetFPS() const noexcept {
 		return m_FPS;
 	}
-	uInt Renderer::GetFrameTime() const noexcept {
-		return m_FrameTime;
+	Float Renderer::GetFrameTimeMs() const noexcept {
+		return m_FrameTimeMs;
+	}
+	Float Renderer::GetFrameTimeSec() const noexcept {
+		if (m_FrameTimeMs == FLT_EPSILON)
+			return FLT_EPSILON;
+		return m_FrameTimeMs / 1000.f;
 	}
 	Float Renderer::GetZoom() const noexcept {
 		return m_Zoom;
 	}
+
+	Bool Renderer::IsBindedTexture() const noexcept {
+		return m_IsBindedTexture;
+	}
+
 	Bool Renderer::IsInitialized() const noexcept {
 		return m_IsInitialized;
 	}
@@ -355,10 +422,16 @@ namespace Nt {
 	void Renderer::SetZoom(const Float& zoom) noexcept {
 		m_Zoom = zoom;
 	}
+	void Renderer::SetDepthMode(const DepthMode& mode) noexcept {
+		if (m_DepthMode != mode) {
+			m_DepthMode = mode;
+			glDepthFunc(uInt(m_DepthMode));
+		}
+	}
 	void Renderer::SetDrawingMode(const DrawingMode& mode) noexcept {
 		m_DrawingMode = mode;
 	}
-	void Renderer::SetCurrentShader(Shader* pShader) {
+	void Renderer::SetShader(Shader* pShader) {
 		m_ShaderPtr = pShader;
 
 		if (m_ShaderPtr != nullptr)
@@ -370,66 +443,62 @@ namespace Nt {
 		_ApplyRenderColor();
 	}
 
-	void Renderer::_Initialize(HWND hwnd) {
-		if (wglGetCurrentContext() == nullptr) {
-			m_hwnd = hwnd;
-
-			PIXELFORMATDESCRIPTOR PFD = { };
-			PFD.nSize = sizeof(PFD);
-			PFD.nVersion = 1;
-			PFD.cAlphaBits = 8;
-			PFD.cAlphaShift = 8;
-			PFD.cColorBits = 32;
-			PFD.iLayerType = PFD_MAIN_PLANE;
-			PFD.iPixelType = PFD_TYPE_RGBA;
-			PFD.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
-
-			if (m_IsEnabled3D) {
-				PFD.cDepthBits = 24;
-				PFD.cStencilBits = 8;
-			}
-
-			const HDC hdc = GetDC(m_hwnd);
-			const Int pixelFormat = ChoosePixelFormat(hdc, &PFD);
-
-			try {
-				if (pixelFormat == 0)
-					Raise(L"Failed ChoosePixelFormat()");
-				if (!SetPixelFormat(hdc, pixelFormat, &PFD))
-					Raise(L"Failed SetPixelFormat()");
-				if (DescribePixelFormat(hdc, pixelFormat, sizeof(PFD), &PFD) == 0)
-					Raise(L"Failed DescribePixelFormat()");
-			}
-			catch (const Nt::Error& error) {
-				ReleaseDC(m_hwnd, hdc);
-				throw error;
-			}
-
-			HGLRC hContext = wglCreateContext(hdc);
-			wglMakeCurrent(hdc, hContext);
-
-			glEnable(GL_CULL_FACE);
-			glEnable(GL_TEXTURE_2D);
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-			if (m_IsEnabled3D)
-				EnableDepthBuffer();
-
-			m_Matrices.Projection.MakeIdentity();
-			m_Matrices.World.MakeIdentity();
-			m_Matrices.View.MakeIdentity();
-
-			RECT ClientRect;
-			GetWindowRect(m_hwnd, &ClientRect);
-			Resize(uInt2D(ClientRect.right, ClientRect.bottom));
-
-			glewExperimental = GL_TRUE;
-			if (glewInit() != GLEW_OK)
-				Raise(L"Failed to initialize GLEW");
-
-			m_IsInitialized = true;
+	void Renderer::_Initialize(WindowID hwnd) {
+		if (m_hContext != nullptr) {
+			Log::Instance().Warning("Context already created");
+			return;
 		}
+
+		m_hwnd = hwnd;
+		m_hdc = GetDC(m_hwnd);
+
+		PIXELFORMATDESCRIPTOR PFD = { };
+		PFD.nSize = sizeof(PFD);
+		PFD.nVersion = 1;
+		PFD.cAlphaBits = 8;
+		PFD.cAlphaShift = 8;
+		PFD.cColorBits = 32;
+		PFD.iLayerType = PFD_MAIN_PLANE;
+		PFD.iPixelType = PFD_TYPE_RGBA;
+		PFD.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;
+
+		if (m_IsEnabled3D) {
+			PFD.cDepthBits = 24;
+			PFD.cStencilBits = 8;
+		}
+
+		const Int pixelFormat = ChoosePixelFormat(m_hdc, &PFD);
+		if (pixelFormat == 0)
+			Raise("Failed ChoosePixelFormat()");
+		if (!SetPixelFormat(m_hdc, pixelFormat, &PFD))
+			Raise("Failed SetPixelFormat()");
+		if (DescribePixelFormat(m_hdc, pixelFormat, sizeof(PFD), &PFD) == 0)
+			Raise("Failed DescribePixelFormat()");
+
+		m_hContext = wglCreateContext(m_hdc);
+		wglMakeCurrent(m_hdc, m_hContext);
+
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		if (m_IsEnabled3D)
+			EnableDepthBuffer();
+
+		m_Matrices.Projection.MakeIdentity();
+		m_Matrices.World.MakeIdentity();
+		m_Matrices.View.MakeIdentity();
+
+		RECT ClientRect;
+		GetWindowRect(m_hwnd, &ClientRect);
+		Resize(uInt2D(ClientRect.right, ClientRect.bottom));
+
+		glewExperimental = GL_TRUE;
+		if (glewInit() != GLEW_OK)
+			Raise("Failed to initialize GLEW");
+
+		m_IsInitialized = true;
 	}
 	void Renderer::_ApplyProjectionMatrix() const {
 		if (m_ShaderPtr != nullptr) {
@@ -461,7 +530,7 @@ namespace Nt {
 	}
 	void Renderer::_ApplyRenderColor() const {
 		if (m_ShaderPtr != nullptr)
-			m_ShaderPtr->SetUniform4D("RenderColor", m_Color);
+			m_ShaderPtr->SetUniform<Float4D>("RenderColor", m_Color);
 		else
 			glColor4f(m_Color.r, m_Color.g, m_Color.b, m_Color.a);
 	}

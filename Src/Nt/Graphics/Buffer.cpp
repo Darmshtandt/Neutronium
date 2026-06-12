@@ -7,94 +7,95 @@
 #include <Nt/Graphics/Buffer.h>
 
 namespace Nt {
-	Buffer::~Buffer() {
-		Delete();
+	Buffer::Buffer(const Target& target) :
+		m_Target(target)
+	{
+		_Create();
+	}
+	Buffer::Buffer(const Buffer& other) :
+		m_pData(other.m_pData),
+		m_Target(other.m_Target),
+		m_Usage(other.m_Usage),
+		m_Size(other.m_Size)
+	{
+		_Create();
+		SetData(m_Size, m_pData, m_Usage);
+	}
+	Buffer::~Buffer() noexcept {
+		if (m_ID != 0)
+			glDeleteBuffers(1, &m_ID);
 	}
 
-	void Buffer::Create(const Target& target) {
-		if (m_ID != 0) {
-			Log::Warning("Buffer already created");
-			return;
-		}
-
-		m_Target = target;
-
-		glGenBuffers(1, &m_ID);
-		if (m_ID == 0)
-			Raise("Failed to created buffer");
-
-		Bind();
+	void Buffer::Clear() noexcept {
+		SetData(0, nullptr, m_Usage);
 	}
 
-	void Buffer::SetData(const uInt& size, const void* pData, const UsageDraw& usage) {
-		Assert(m_ID != 0, "Buffer not created");
+	void Buffer::SetData(const uInt& size, void* pData, const UsageDraw& usage) noexcept {
+		if (m_pData != pData)
+			m_pData = pData;
+		if (m_Size != size)
+			m_Size = size;
+		if (m_Usage != usage)
+			m_Usage = usage;
 
-		m_pData = pData;
-		m_DataSize = size;
-		m_Usage = usage;
-
-		Bind();
-		glBufferData(m_Target, m_DataSize, m_pData, m_Usage);
+		glBindBuffer(m_Target, m_ID);
+		glBufferData(m_Target, static_cast<Int>(m_Size), m_pData, m_Usage);
 	}
-	void Buffer::SetSubData(const uInt& offset, const uInt& size, const void* pData) {
-		Assert(m_ID != 0, "Buffer not created");
-		Assert((offset + size > m_DataSize), "Out of range");
+	void Buffer::SetSubData(const uInt& offset, const uInt& size, const void* pData) const {
+		Assert((offset + size <= m_Size), "Out of range");
 
-		Bind();
-		glBufferSubData(m_Target, offset, size, pData);
+		glBindBuffer(m_Target, m_ID);
+		glBufferSubData(m_Target, static_cast<Int>(offset), static_cast<Int>(size), pData);
 	}
 
-	void* Buffer::Map(const Access& access) const {
-		Assert(m_ID != 0, "Buffer not created");
-
-		Bind();
-		return glMapBuffer(m_Target, uInt(access));
+	void* Buffer::Map(const Access& access) const noexcept {
+		glBindBuffer(m_Target, m_ID);
+		return glMapBuffer(m_Target, static_cast<uInt>(access));
 	}
-	void Buffer::Unmap() const {
-		Assert(m_ID != 0, "Buffer not created");
-
-		Bind();
+	void Buffer::Unmap() const noexcept {
+		glBindBuffer(m_Target, m_ID);
 		glUnmapBuffer(m_Target);
 	}
 
-	void Buffer::Bind() const {
-		Assert(m_ID != 0, "Buffer not created");
-
+	void Buffer::Bind() const noexcept {
 		glBindBuffer(m_Target, m_ID);
 	}
 	void Buffer::Unbind() const noexcept {
 		glBindBuffer(m_Target, 0);
 	}
 
-	void Buffer::Delete() {
-		if (m_ID == 0) {
-			Log::Warning("Buffer not created");
-			return;
-		}
+	Buffer& Buffer::operator = (const Buffer& other) noexcept {
+		if (this == &other)
+			return *this;
 
-		glDeleteBuffers(1, &m_ID);
+		m_pData = other.m_pData;
+		m_Usage = other.m_Usage;
+		m_Size = other.m_Size;
 
-		m_ID = 0;
-		m_pData = nullptr;
-		m_DataSize = 0;
+		glBindBuffer(m_Target, m_ID);
+		glBufferData(m_Target, static_cast<Int>(m_Size), m_pData, m_Usage);
+
+		return *this;
 	}
 		
-	_NODISCARD UsageDraw Buffer::GetUsage() const noexcept {
+	UsageDraw Buffer::GetUsage() const noexcept {
 		return m_Usage;
 	}
-	_NODISCARD Buffer::Target Buffer::GetTarget() const noexcept {
+	Buffer::Target Buffer::GetTarget() const noexcept {
 		return m_Target;
 	}
-	_NODISCARD const Void* Buffer::GetDataPtr() const noexcept {
+	void* Buffer::GetDataPtr() const noexcept {
 		return m_pData;
 	}
-	_NODISCARD uInt Buffer::GetDataSize() const noexcept {
-		return m_DataSize;
+	uInt Buffer::GetSize() const noexcept {
+		return m_Size;
 	}
-	_NODISCARD uInt Buffer::GetID() const noexcept {
+	uInt Buffer::GetID() const noexcept {
 		return m_ID;
 	}
-	_NODISCARD Bool Buffer::IsCreated() const noexcept {
-		return (m_ID != 0);
+
+	void Buffer::_Create() {
+		glGenBuffers(1, &m_ID);
+		Assert(m_ID != 0, "Failed to created buffer");
 	}
 }

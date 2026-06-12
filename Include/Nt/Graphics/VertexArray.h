@@ -4,31 +4,35 @@
 #include <Nt/Graphics/Buffer.h>
 
 namespace Nt {
-	class VertexArray {
+	class NT_API VertexArray {
 	public:
-		NT_API VertexArray();
-		NT_API VertexArray(const VertexArray& Array) noexcept;
-		NT_API ~VertexArray() noexcept;
+		VertexArray();
+		VertexArray(const VertexArray& other);
+		VertexArray(VertexArray&& other) noexcept = default;
+		~VertexArray() noexcept;
 
-		NT_API void CopyTo(VertexArray* pVertexArray) const;
+		void Clear() noexcept;
 
-		NT_API void UpdateVBO(const uInt& NumVertices, Vertex* pData);
-		NT_API void UpdateEBO(const uInt& NumIndices, Vertex* pData);
+		void UpdateVBO(const uInt& numVertices, Vertex* pData) const;
+		void UpdateEBO(const uInt& numIndices, Vertex* pData) const;
 
-		NT_API void SetVBOData(const uInt& NumVertices, const Vertex* pData, const UsageDraw& Usage = USAGE_DYNAMICDRAW) noexcept;
-		NT_API void SetEBOData(const uInt& NumIndices, const Index_t* pData, const UsageDraw& Usage = USAGE_DYNAMICDRAW) noexcept;
+		void SetVBOData(const uInt& numVertices, Vertex* pData, const UsageDraw& usage = USAGE_DYNAMICDRAW) noexcept;
+		void SetEBOData(const uInt& numIndices, Index_t* pData, const UsageDraw& usage = USAGE_DYNAMICDRAW) noexcept;
 
-		NT_API void Bind() const noexcept;
+		void Bind() const noexcept;
 
-		NT_API const Buffer& GetVertexBuffer() const noexcept;
-		NT_API const Buffer& GetElementBuffer() const noexcept;
+		VertexArray& operator = (const VertexArray& other) noexcept;
+		VertexArray& operator = (VertexArray&& other) noexcept = default;
 
-		NT_API const Vertex* const GetVerticesData() const noexcept;
-		NT_API const Index_t* const GetIndicesData() const noexcept;
+		NT_NODISCARD const Buffer& GetVertexBuffer() const noexcept;
+		NT_NODISCARD const Buffer& GetElementBuffer() const noexcept;
 
-		NT_API uInt GetNumVertices() const noexcept;
-		NT_API uInt GetNumIndices() const noexcept;
-		NT_API uInt GetID() const noexcept;
+		NT_NODISCARD const Vertex* GetVerticesData() const noexcept;
+		NT_NODISCARD const Index_t* GetIndicesData() const noexcept;
+
+		NT_NODISCARD uInt GetNumVertices() const noexcept;
+		NT_NODISCARD uInt GetNumIndices() const noexcept;
+		NT_NODISCARD uInt GetID() const noexcept;
 
 	private:
 		Buffer m_VertexBuffer;
@@ -36,6 +40,6 @@ namespace Nt {
 		uInt m_ID;
 
 	private:
-		NT_API void _Create();
+		void _Create();
 	};
 }

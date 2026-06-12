@@ -6,25 +6,35 @@
 #pragma warning(disable : 4003)
 #pragma warning(disable : 4005)
 
-#define RaiseWithCaption(Msg, Caption) \
-	throw Nt::Error(Msg, Caption, __FILE__, __LINE__, __FUNCTION__, std::stacktrace::current())
+#ifdef _DEBUG
+#	define RaiseWithCaption(msg, caption) \
+	throw Nt::Error(msg, caption, __FILE__, __LINE__, __FUNCTION__, std::stacktrace::current())
 
-#define RaiseWithoutCaption(Msg) \
-	throw Nt::Error(Msg, "Error", __FILE__, __LINE__, __FUNCTION__, std::stacktrace::current())
+#	define RaiseWithoutCaption(msg) \
+	RaiseWithCaption(msg, "Error")
+#else
+#	include <Nt/Core/Log.h>
+
+#	define RaiseWithCaption(msg, caption) \
+	Nt::Log::Instance().Error(Nt::String('[') + caption + "]: " + msg)
+
+#	define RaiseWithoutCaption(msg) \
+	RaiseWithCaption(msg, "Error")
+#endif
 
 #define RaiseSelect(_1, _2, NAME, ...) NAME
-#define Raise(Msg, Caption) RaiseWithCaption(Msg, Caption)
-#define Raise(Msg) RaiseWithoutCaption(Msg)
+#define Raise(msg, caption) RaiseWithCaption(msg, caption)
+#define Raise(msg) RaiseWithoutCaption(msg)
 
-#define AssertWithCaption(Expression, AssertMessage, AssertCaption) \
-	if (!(Expression)) RaiseWithCaption(AssertMessage, AssertCaption)
+#define AssertWithCaption(expression, assertMessage, assertCaption) \
+	if (!(expression)) RaiseWithCaption(assertMessage, assertCaption)
 
-#define AssertWithoutCaption(Expression, AssertMessage) \
-	if (!(Expression)) RaiseWithoutCaption(AssertMessage)
+#define AssertWithoutCaption(expression, assertMessage) \
+	if (!(expression)) RaiseWithoutCaption(assertMessage)
 
 #define AssertSelect(_1, _2, _3, NAME, ...) NAME
-#define Assert(Expression, Msg, Caption) AssertWithCaption(Expression, Msg, Caption)
-#define Assert(Expression, Msg) AssertWithoutCaption(Expression, Msg)
+#define Assert(expression, msg, caption) AssertWithCaption(expression, msg, caption)
+#define Assert(expression, msg) AssertWithoutCaption(expression, msg)
 
 
 namespace Nt {

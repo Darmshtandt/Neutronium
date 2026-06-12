@@ -2,6 +2,7 @@
 
 #include <Nt/Core/Utilities.h>
 #include <Nt/Core/Math/HiperVector.h>
+#include <queue>
 
 namespace Nt {
 	class KDTree {
@@ -15,6 +16,17 @@ namespace Nt {
 			Node* pLeft = nullptr;
 			Node* pRight = nullptr;
 		};
+
+		struct Neighbor {
+			HiperVector* pData = nullptr;
+			Float SquareDistance = 0.f;
+
+			NT_API Bool operator < (const Neighbor& other) const noexcept;
+			NT_API Bool operator > (const Neighbor& other) const noexcept;
+		};
+
+		using PriorityQueueData = std::priority_queue<
+			Neighbor, std::vector<Neighbor>, std::less<>>;
 
 	public:
 		KDTree() noexcept = default;
@@ -45,6 +57,7 @@ namespace Nt {
 			return reinterpret_cast<Data*>(FindNearest(target));
 		}
 		NT_API HiperVector* FindNearest(const HiperVector& target) const;
+		NT_API PriorityQueueData FindKNearest(const HiperVector& target, const uInt& maxSize) const;
 
 		NT_API KDTree& operator = (const KDTree& tree);
 		NT_API KDTree& operator = (KDTree&& tree) noexcept;
@@ -56,9 +69,10 @@ namespace Nt {
 		NT_API void _Build(const std::vector<HiperVector*>& points);
 		NT_API Node* _CreateCopy(Node* pRoot);
 
-		NT_API _NODISCARD Node* _CreateSubTree(std::vector<HiperVector*> points, const Int& depth);
+		NT_API NT_NODISCARD Node* _CreateSubTree(std::vector<HiperVector*> points, const Int& depth);
 		NT_API void _DestroySubTree(Node*& pNode);
-		NT_API void _FindNearestSubTree(Node* pNode, const HiperVector& target, Node*& pBestNode, Float& minSquareDistance) const;
-		NT_API _NODISCARD Node* _FindRoot(Node* pTarget, Node* pRoot);
+		NT_API void _FindNearestSubTree(Node* pRoot, const HiperVector& target, Node*& pBestNode, Float& minSquareDistance) const;
+		NT_API void _FindKNearestSubTree(Node* pRoot, const HiperVector& target, const uInt& maxSize, PriorityQueueData& queue) const;
+		NT_API NT_NODISCARD Node* _FindRoot(Node* pTarget, Node* pRoot);
 	};
 }

@@ -1,156 +1,153 @@
 #pragma once
 
-#include <fstream>
-
+#include <cassert>
+#include <charconv>
 #include <Nt/Core/Colors.h>
 #include <Nt/Graphics/Geometry/Shape.h>
 
+#include <fstream>
+#include <mutex>
+#include <unordered_map>
+
 namespace Nt {
-	struct OBJ {
-		struct VertexData {
-			Float4D Position = { 0.f, 0.f, 0.f, 1.f };
-			Float3D Color;
+	struct OBJ final {
+		struct VertexKey final {
+			uInt v = -1;
+			uInt vt = -1;
+			uInt vn = -1;
+
+			Bool operator == (const VertexKey& other) const noexcept {
+				return v == other.v && vt == other.vt && vn == other.vn;
+			}
+		};
+
+		struct VertexKeyHash {
+			size_t operator()(const VertexKey& k) const {
+				return ((size_t)k.v * 73856093) ^
+					((size_t)k.vt * 19349663) ^
+					((size_t)k.vn * 83492791);
+			}
 		};
 
 
-		Shape* LoadFromFile(const String& filePath) {
-			FilePath = filePath;
+		void ParseVertex(const std::string& line) noexcept {
+			const Char* pLine = line.data() + 2;
+			const Char* pEnd = line.data() + line.length();
 
-			std::ifstream file(FilePath);
-			if (!file.is_open())
-				Raise("Failed to open: " + FilePath);
+			constexpr uInt maxArrSize = 7;
+			Float scalars[maxArrSize] = { };
+			uInt arraySize = 0;
 
-			LineNumber = 0;
-			Shape* pShape;
+			for (; arraySize < maxArrSize && pLine != pEnd; ++arraySize) {
+				while (pLine < pEnd && isspace(*pLine))
+					++pLine;
 
-			String line;
-			while (std::getline(file, line)) {
-				++LineNumber;
+				auto charResult = std::from_chars(pLine, pEnd, scalars[arraySize]);
+				if (charResult.ec != std::errc())
+					return;
+				pLine = charResult.ptr;
+			}
 
-				if (line == "" || line == "\r")
-					continue;
+			const Char type = line[1];
+			switch (type) {
+			case ' ':
+				Positions.emplace_back(scalars[0], scalars[1], scalars[2]);
+				if (arraySize == maxArrSize)
+					Colors.emplace_back(scalars[3], scalars[4], scalars[5], scalars[6]);
+				else if (arraySize > 3)
+					Colors.emplace_back(scalars[3], scalars[4], scalars[5], 1.f);
+				else
+					Colors.emplace_back(1.f, 1.f, 1.f, 1.f);
+				break;
 
-				std::vector<String> splitedString = line.Split(' ');
-				auto getNextData = [&]() {
-					if (splitedString.size() < 0)
-						Raise(_GetErrorMessage());
+			case 't':
+				TexCoords.emplace_back(scalars[0], scalars[1], scalars[2]);
+				break;
 
-					String& data = splitedString.front();
-					splitedString.erase(splitedString.begin());
-					return data;
-					};
+			case 'n':
+				Normals.emplace_back(scalars[0], scalars[1], scalars[2]);
+				break;
 
-				const std::string type = splitedString[0];
-				if (type == "#")
-					continue;
-				else if (type == "mtllib")
-					_LoadMTL();
-				else if (type == "usemtl")
-					continue;
+			default:
+				puts("Unknown type");
+				assert(0);
+			}
+		}
 
-				Float3D position;
-				Float3D color;
+		void ParseFace(Shape& shape, const std::string& line) {
+			const Char* pLine = line.data() + 2;
+			const Char* pEnd = line.data() + line.length();
 
-				if (type[0] != 'f') {
-					const uInt parametersCount = splitedString.size() - 1;
+			for (uInt i = 0; i < 3; ++i) {
+				VertexKey key = { };
+				key.v = std::strtol(pLine, (char**)&pLine, 10) - 1;
+				if (*pLine == '/' && *(++pLine) != '/')
+					key.vt = std::strtol(pLine, (char**)&pLine, 10) - 1;
+				if (*pLine == '/' && ++pLine != pEnd)
+					key.vn = std::strtol(pLine, (char**)&pLine, 10) - 1;
 
-					if (parametersCount == 0)
-						Raise(_GetErrorMessage());
+				if (!VertexMap.contains(key)) {
+					Vertex vert = { };
+					vert.Position = Float4D(Positions[key.v], 1.f);
+					vert.Color = Colors[key.v];
 
-					for (uInt i = 0; i < parametersCount; ++i) {
-						const String& parameter = splitedString[i + 1];
+					if (key.vt != -1)
+						vert.TexCoord = TexCoords[key.vt];
+					if (key.vn != -1)
+						vert.Normal = Float4D(Normals[key.vn], 1.f);
 
-						if (!parameter.IsFloat())
-							Raise(_GetErrorMessage());
-
-						if (i < 3)
-							position[i] = parameter;
-						else
-							color[i - 3] = parameter;
-					}
+					const Index_t index = shape.Vertices.size();
+					shape.Indices.emplace_back(index);
+					shape.Vertices.emplace_back(vert);
+					VertexMap[key] = index;
 				}
+				else {
+					shape.Indices.emplace_back(VertexMap[key]);
+				}
+			}
+		}
 
-				switch (type[0]) {
-				case 's':
-				case 'g':
-				case 'o':
-				case '#':
+		NT_NODISCARD Shape LoadFromFile(const std::string& filePath) {
+			std::ifstream file(filePath);
+			if (!file.is_open())
+				Raise("Failed to open: " + filePath);
+
+			Shape result;
+			std::string line;
+			while (std::getline(file, line)) {
+				if (line.empty())
 					continue;
 
+				switch (line.front()) {
 				case 'v':
-					_LoadVertex(type, color, Float4D(position, 1.f));
+					ParseVertex(line);
 					break;
 
 				case 'f':
-					_LoadFace(pShape, splitedString);
+					ParseFace(result, line);
 					break;
 
+				case '#':
+				case 'm':
+				case 'o':
+				case 's':
+				case 'u':
+					continue;
+
 				default:
-					Raise(_GetErrorMessage());
+					Raise("Unknown type");
 				}
-			}
+			};
+
 			file.close();
 
-			return pShape;
+			return result;
 		}
 
-	private:
-		String FilePath;
-		std::vector<Float4D> Positions;
-		std::vector<Float3D> Colors;
+		std::vector<Float3D> Positions;
+		std::vector<Float4D> Colors;
 		std::vector<Float3D> TexCoords;
 		std::vector<Float3D> Normals;
-		uInt LineNumber = 0;
-
-	private:
-		String _GetErrorMessage() const {
-			return "Failed to load mesh.\nFile name: " + FilePath + "\nLine: " + std::to_string(LineNumber);
-		}
-
-		void _LoadMTL() 
-		{
-		}
-
-		void _LoadVertex(const std::string& type, const Float3D& color, const Float4D& position) {
-			if (type == "v") {
-				Colors.push_back(color);
-				Positions.push_back(position);
-			}
-			else if (type == "vt") {
-				TexCoords.push_back(Float3D(position));
-			}
-			else if (type == "vn") {
-				Normals.push_back(position);
-			}
-			else if (type == "vp") {
-
-			}
-			else {
-				Raise(_GetErrorMessage());
-			}
-		}
-		void _LoadFace(Shape* pShape, std::vector<String>& splitedString) {
-			for (uInt i = 1; i < splitedString.size(); ++i) {
-				std::vector<String> splitedData = splitedString[i].Split('/');
-
-				if (splitedData.size() <= 1)
-					Raise(_GetErrorMessage());
-
-				const Int vertexIndex = Int(splitedData[0]) - 1;
-
-				Vertex vertex = { };
-				vertex.Position = Positions[vertexIndex];
-				vertex.Color =
-					(!Colors.empty()) ? Float4D(Colors[vertexIndex], 1.f) : Colors::White;
-
-				if (!splitedData[1].empty())
-					vertex.TexCoord = TexCoords[Int(splitedData[1]) - 1];
-
-				if (!splitedData[2].empty())
-					vertex.Normal = Normals[Int(splitedData[2]) - 1];
-
-				pShape->Vertices.push_back(vertex);
-			}
-		}
+		std::unordered_map<VertexKey, uInt, VertexKeyHash> VertexMap;
 	};
 }

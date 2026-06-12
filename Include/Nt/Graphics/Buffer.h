@@ -19,9 +19,9 @@ namespace Nt {
 		USAGE_DYNAMICCOPY = 0x88EA
 	};
 
-	class Buffer {
+	class NT_API Buffer {
 	public:
-		enum Target : uInt {
+		enum Target : uShort {
 			NONE = 0x0000,
 			ARRAY = 0x8892,
 			ATOMIC_COUNTER = 0x92C0,
@@ -35,46 +35,51 @@ namespace Nt {
 			QUERY = 0x9192,
 			SHADER_STORAGE = 0x90D2,
 			TEXTURE = 0x8C2A,
-			TRANSFORM_FEEDBAC = 0x8C8E,
+			TRANSFORM_FEEDBACK = 0x8C8E,
 			UNIFORM = 0x8A11,
 		};
-		enum class Access : uInt {
+		enum class Access : uShort {
 			READ_ONLY = 0x88B8,
 			WRITE_ONLY = 0x88B9,
 			READ_WRITE = 0x88BA
 		};
 
 	public:
-		Buffer() noexcept = default;
-		NT_API ~Buffer();
+		explicit Buffer(const Target& target);
 
-		NT_API void Create(const Target& target);
+		Buffer() = delete;
+		Buffer(const Buffer& other);
+		Buffer(Buffer&& other) noexcept = default;
+		~Buffer() noexcept;
 
-		NT_API void SetData(const uInt& size, const void* pData, const UsageDraw& usage);
-		NT_API void SetSubData(const uInt& offset, const uInt& size, const void* pData);
+		void Clear() noexcept;
 
-		NT_API void* Map(const Access& access) const;
-		NT_API void Unmap() const;
+		void SetData(const uInt& size, void* pData, const UsageDraw& usage) noexcept;
+		void SetSubData(const uInt& offset, const uInt& size, const void* pData) const;
 
-		NT_API void Bind() const;
-		NT_API void Unbind() const noexcept;
+		NT_NODISCARD void* Map(const Access& access) const noexcept;
+		void Unmap() const noexcept;
 
-		NT_API void Delete();
+		void Bind() const noexcept;
+		void Unbind() const noexcept;
 		
-		NT_API _NODISCARD UsageDraw GetUsage() const noexcept;
-		NT_API _NODISCARD Target GetTarget() const noexcept;
-		NT_API _NODISCARD const Void* GetDataPtr() const noexcept;
-		NT_API _NODISCARD uInt GetDataSize() const noexcept;
-		NT_API _NODISCARD uInt GetID() const noexcept;
-		NT_API _NODISCARD Bool IsCreated() const noexcept;
+		Buffer& operator = (const Buffer& other) noexcept;
+		Buffer& operator = (Buffer&& other) noexcept = default;
+
+		NT_NODISCARD UsageDraw GetUsage() const noexcept;
+		NT_NODISCARD Target GetTarget() const noexcept;
+		NT_NODISCARD void* GetDataPtr() const noexcept;
+		NT_NODISCARD uInt GetSize() const noexcept;
+		NT_NODISCARD uInt GetID() const noexcept;
 
 	private:
-		const Void* m_pData = nullptr;
-
-		UsageDraw m_Usage = USAGE_NONE;
+		void* m_pData = nullptr;
 		Target m_Target = NONE;
-
-		uInt m_DataSize = 0;
+		UsageDraw m_Usage = USAGE_NONE;
+		uInt m_Size = 0;
 		uInt m_ID = 0;
+
+	private:
+		void _Create();
 	};
 }

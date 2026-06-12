@@ -1,60 +1,57 @@
 #pragma once
 
-#include <fstream>
-
 #include <Nt/Graphics/Geometry/Shape.h>
 #include <Nt/Graphics/VertexArray.h>
 #include <Nt/Graphics/Resources/IResource.h>
 
+#pragma warning(push)
+#pragma warning(disable: 4251)
+
 namespace Nt {
-	class Mesh : public IResource {
+	class NT_API Mesh final : public IResource {
 	public:
-		NT_API Mesh();
-		NT_API Mesh(const Nt::String& fileName);
-		NT_API Mesh(const Shape& newShape, const UsageDraw& usage = USAGE_DYNAMICDRAW);
-		NT_API Mesh(const Mesh& newMesh);
-		NT_API Mesh(Mesh&& otherMesh);
-		NT_API ~Mesh() override;
+		Mesh(const String& fileName);
+		Mesh(const Shape& shape, const UsageDraw& usage = USAGE_DYNAMICDRAW);
 
-		NT_API void Write(std::ostream& Stream) const override;
-		NT_API void Read(std::istream& Stream) override;
+		Mesh() = default;
+		Mesh(const Mesh& mesh) noexcept = default;
+		Mesh(Mesh&& other) noexcept = default;
+		~Mesh() override;
 
-		_NODISCARD _CONSTEXPR20 uInt Sizeof() const noexcept override {
-			return sizeof(*this);
-		}		
+		void LoadFromFile(const String& filePath) override;
+		void Release() override;
 
-		NT_API void LoadFromFile(const Nt::String& filePath) override;
-		NT_API void Release() override;
+		void UpdateVertices(const Vertices_t& vertices);
 
-		NT_API void UpdateVertices(const Vertices_t& vertices);
+		NT_NODISCARD String GetFilePath() const noexcept override;
+		NT_NODISCARD std::type_index GetType() const override;
 
-		NT_API _NODISCARD String GetFilePath() const noexcept override;
-		NT_API _NODISCARD std::type_index GetType() const;
+		NT_NODISCARD const Shape& GetShape() const noexcept;
+		NT_NODISCARD const Vertices_t& GetVertices() const noexcept;
+		NT_NODISCARD const Indices_t& GetIndices() const noexcept;
 
-		NT_API _NODISCARD const Shape& GetShape() const noexcept;
-		NT_API _NODISCARD const Vertices_t& GetVertices() const;
-		NT_API _NODISCARD const Indices_t& GetIndices() const;
+		NT_NODISCARD Float3D GetScale() const noexcept;		
+		NT_NODISCARD uInt GetVerticesCount() const noexcept;
 
-		NT_API _NODISCARD Float3D GetScale() const noexcept;
-		
-		NT_API _NODISCARD Bool IsUsedIndexBuffer() const noexcept;
+		void SetShape(const Shape& newShape, const UsageDraw& usage = USAGE_DYNAMICDRAW);
+		void SetVertices(const Vertices_t& vertices, const UsageDraw& usage = USAGE_DYNAMICDRAW);
+		void SetIndices(const Indices_t& indices, const UsageDraw& usage = USAGE_DYNAMICDRAW);
 
-		NT_API void SetShape(const Shape& newShape, const UsageDraw& usage = USAGE_DYNAMICDRAW);
-		NT_API void SetVertices(const Vertices_t& vertices, const UsageDraw& usage = USAGE_DYNAMICDRAW);
-		NT_API void SetIndices(const Indices_t& Indices, const UsageDraw& Usage = USAGE_DYNAMICDRAW);
+		void SetColor(const Float4D& color) noexcept;
+		void SetScale(Float3D scale);
 
-		NT_API void SetColor(const Float4D& Color);
-		NT_API void SetScale(Float3D scale);
+		void Bind() const noexcept;
 
-		NT_API void Bind() const noexcept;
-
-		NT_API Mesh& operator = (const Shape& shape);
+		Mesh& operator = (const Shape& shape);
+		Mesh& operator = (const Mesh& mesh) noexcept = default;
+		Mesh& operator = (Mesh&& mesh) noexcept = default;
 
 	private:
+		VertexArray m_VertexArray;
+		Float3D m_Scale = Float3D(1.f, 1.f, 1.f);
 		std::string m_FilePath;
-		std::unique_ptr<VertexArray> m_pVertexArray;
-		std::unique_ptr<Shape> m_pShape;
-		Float3D m_Scale = { 1.f, 1.f, 1.f };
-		Bool m_IsUsedIndexBuffer = false;
+		Shape m_Shape;
 	};
 }
+
+#pragma warning(pop)

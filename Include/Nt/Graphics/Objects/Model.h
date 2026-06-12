@@ -3,54 +3,36 @@
 #include <Nt/Graphics/Objects/IObject.h>
 #include <Nt/Graphics/Resources/Texture.h>
 #include <Nt/Graphics/Resources/Mesh.h>
-#include <Nt/Graphics/Resources/ResourceManager.h>
+#include <Nt/Graphics/Resources/ResourceHandle.h>
 
 namespace Nt {
 	class Renderer;
 
-	class Model : public IObject, public ISerialization {
+	class NT_API Model : public IObject {
 	public:
-		NT_API Model() noexcept;
-		NT_API Model(const uInt& meshIndex);
-		NT_API Model(const uInt& meshIndex, const uInt& textureIndex);
-		NT_API Model(const Mesh& newMesh);
-		NT_API Model(const Mesh& newMesh, const Texture& newTexture);
-		NT_API Model(const Nt::String& meshFileName);
-		NT_API Model(const Nt::String& meshFileName, const Nt::String& textureFileName);
-		NT_API Model(const Model& newModel);
-		NT_API Model(Model&& newModel);
-		NT_API ~Model();
+		explicit Model(Mesh* pMesh, Texture* pTexture = nullptr) noexcept;
 
-		NT_API void Write(std::ostream& stream) const override;
-		NT_API void Read(std::istream& stream) override;
-		NT_API constexpr uInt Sizeof() const noexcept override;
-		NT_API constexpr uInt ClassType() const noexcept;
-		NT_API _NODISCARD static ISerialization* New([[maybe_unused]] const uInt& classType);
+		Model() noexcept = default;
+		Model(const Model& newModel) noexcept = default;
+		Model(Model&& newModel) noexcept;
+		~Model() noexcept override = default;
 
-		NT_API void LoadTextureFromFile(const Nt::String& fileName);
-		NT_API void LoadMeshFromFile(const Nt::String& fileName);
+		void Render(NotNull<Renderer*> pRenderer) const override;
+		void Render(NotNull<Renderer*> pRenderer, const uInt& offset, const uInt& verticesCount) const override;
 
-		NT_API void Render(Renderer* pRenderer) const override;
-		NT_API void Render(Renderer* pRenderer, const uInt& offset, const uInt& verticesCount) const override;
+		Model& operator = (const Model& newModel) noexcept = default;
+		Model& operator = (Model&& model) noexcept = default;
 
-		NT_API Model& operator = (const Model& newModel);
-		NT_API Model& operator = (Model&& model);
+		NT_NODISCARD ResourceHandle<Mesh> GetMesh() const noexcept;
+		NT_NODISCARD ResourceHandle<Texture> GetTexture() const noexcept;
 
-		NT_API _NODISCARD uInt GetTextureIndex() const noexcept;
-		NT_API _NODISCARD uInt GetMeshIndex() const noexcept;
-		NT_API _NODISCARD Texture* GetTexturePtr() const noexcept;
-		NT_API _NODISCARD Mesh* GetMeshPtr() const noexcept;
-
-		NT_API void SetTexture(const uInt& textureIndex);
-		NT_API void SetTexture(const Texture& newTexture);
-		NT_API void SetMesh(const uInt& meshIndex);
-		NT_API void SetMesh(const Mesh& newMesh);
-		NT_API void SetMesh(const Shape& shape);
+		void SetMeshByPtr(Mesh* pMesh) noexcept;
+		void SetTextureByPtr(Texture* pTexture) noexcept;
+		void SetMesh(const uInt& index) noexcept;
+		void SetTexture(const uInt& index) noexcept;
 
 	protected:
-		Mesh* m_pMesh;
-		Texture* m_pTexture;
-		uInt m_MeshIndex;
-		uInt m_TextureIndex;
+		ResourceHandle<Mesh> m_pMesh = nullptr;
+		ResourceHandle<Texture> m_pTexture = nullptr;
 	};
 }

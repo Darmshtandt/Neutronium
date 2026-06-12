@@ -10,7 +10,7 @@ namespace Nt {
 			void ResizeContainer(const uInt& newContainerSize) {
 				if (m_Cells.size() == newContainerSize)
 					return;
-				
+
 				m_Cells.resize(newContainerSize);
 				SetRect(m_Rect);
 			}
@@ -106,21 +106,19 @@ namespace Nt {
 			SetLayoutSize(layoutSize);
 		}
 		GridLayout(const uInt2D& layoutSize, const IntRect& rect, const String& name) :
-			Window(rect, name)
-		{
+			Window(rect, name) {
 			m_SavedClientRect = m_ClientRect;
 			SetLayoutSize(layoutSize);
 		}
 		GridLayout(const uInt2D& layoutSize, const Int2D& windowSize, const String& name) :
-			Window(windowSize, name)
-		{
+			Window(windowSize, name) {
 			m_SavedClientRect = m_ClientRect;
 			SetLayoutSize(layoutSize);
 		}
-		
+
 		void Create(const String& name) override {
-			constexpr IntRect defaultWindowRect = 
-				{ CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT };
+			constexpr IntRect defaultWindowRect =
+			{ 0, 0, 100, 100 };
 
 			if (m_WindowRect.Right == 0 || m_WindowRect.Bottom == 0)
 				Create(defaultWindowRect, name);
@@ -129,7 +127,7 @@ namespace Nt {
 		}
 		void Create(const Int2D& size, const String& name) override {
 			if (IsCreated()) {
-				Log::Warning("The handle has already been created");
+				Log::Instance().Warning("The handle has already been created");
 				return;
 			}
 
@@ -140,7 +138,7 @@ namespace Nt {
 		}
 		void Create(const IntRect& windowRect, const String& name) override {
 			if (IsCreated()) {
-				Log::Warning("The handle has already been created");
+				Log::Instance().Warning("The handle has already been created");
 				return;
 			}
 
@@ -151,28 +149,29 @@ namespace Nt {
 		}
 
 		void UpdateContent() noexcept {
-			const IntRect clientRect = m_ClientRect;
-			if (clientRect.RightBottom != m_SavedClientRect.RightBottom) {
-				if (m_SavedClientRect.Right == 0)
-					m_SavedClientRect.Right = 0;
-				if (m_SavedClientRect.Bottom == 0)
-					m_SavedClientRect.Bottom = 0;
+			if (m_ClientRect.RightBottom != m_SavedClientRect.RightBottom)
+				ForceUpdate();
+		}
+		void ForceUpdate() {
+			if (m_SavedClientRect.Right == 0)
+				m_SavedClientRect.Right = 0;
+			if (m_SavedClientRect.Bottom == 0)
+				m_SavedClientRect.Bottom = 0;
 
-				const LDouble2D differentSize =
-					LDouble2D(clientRect.RightBottom) / LDouble2D(m_SavedClientRect.RightBottom);
+			const LDouble2D differentSize =
+				LDouble2D(m_ClientRect.RightBottom) / LDouble2D(m_SavedClientRect.RightBottom);
 
-				m_SavedClientRect = clientRect;
-				for (Column& column : m_Columns) {
-					for (Cell& cell : column)
-						cell.SetRect(LDoubleRect(cell.GetRect()) * differentSize);
-				}
+			m_SavedClientRect = m_ClientRect;
+			for (Column& column : m_Columns) {
+				for (Cell& cell : column)
+					cell.SetRect(LDoubleRect(cell.GetRect()) * differentSize);
 			}
 		}
 		void ResetLayout() {
 			const Int2D windowClientSize = m_SavedClientRect.RightBottom;
 			const IntRect padding = m_PercentagePaddingRect * Float2D(windowClientSize);
 
-			const Int2D columnSize = { 
+			const Int2D columnSize = {
 				(windowClientSize.x - (padding.Left + padding.Right)) / Int(m_LayoutSize.x),
 				windowClientSize.y - (padding.Top + padding.Bottom)
 			};
@@ -193,7 +192,7 @@ namespace Nt {
 				if (pHandle->GetHandle() != nullptr) {
 					for (const Column& column : m_Columns) {
 						if (column.IsContained(pHandle)) {
-							Log::Warning("Handle is already in GridLayout");
+							Log::Instance().Warning("Handle is already in GridLayout");
 							return;
 						}
 					}
@@ -209,7 +208,7 @@ namespace Nt {
 			if (pText != nullptr) {
 				for (const Column& column : m_Columns) {
 					if (column.IsContained(pText)) {
-						Log::Warning("Text is already in GridLayout");
+						Log::Instance().Warning("Text is already in GridLayout");
 						return;
 					}
 				}
@@ -261,9 +260,9 @@ namespace Nt {
 			}
 
 			const uInt2D windowClientSize = Window::m_ClientRect.RightBottom;
-			const uInt2D columnSize = { 
-				windowClientSize.x / m_LayoutSize.x, 
-				windowClientSize.y 
+			const uInt2D columnSize = {
+				windowClientSize.x / m_LayoutSize.x,
+				windowClientSize.y
 			};
 
 			IntRect columnRect = { Int2D(), columnSize };
@@ -396,7 +395,7 @@ namespace Nt {
 		Int2D m_Gap2D;
 
 	private:
-		virtual void _Paint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) {
+		void _Paint(HDC& hdc, [[maybe_unused]] PAINTSTRUCT& paint) override {
 			if (IsVisibleDebugGrid) {
 				constexpr uInt lineWeight = 1;
 
@@ -408,7 +407,7 @@ namespace Nt {
 
 					for (const Cell& cell : column) {
 						cell.Draw(hdc);
-						
+
 						const Bool isLastCell = (cell.GetRect().LeftTop == (column.end() - 1)->GetRect().LeftTop);
 						if (columnID == 0 && (!isLastCell) && m_Gap2D.y > 0) {
 							drawGapPosition.y = cell.GetRect().Top + cell.GetRect().Bottom;

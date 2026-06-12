@@ -7,18 +7,23 @@ namespace Nt {
 	template <class _Ty> struct Vector3D;
 	template <class _Ty> struct Vector4D;
 
-	template <class _Ty, int size>
+	template <class _Ty, Int size>
 	struct VectorScalars {
-		std::array<_Ty, size> Array = { };
+		_Ty Array[size];
 	};
 
 	template <class _Ty>
 	struct VectorScalars<_Ty, 2> {
+		NT_CONSTEXPR VectorScalars() noexcept :
+			x(0), y(0)
+		{
+		}
+
 		union {
 			struct { _Ty x, y; };
 			struct { _Ty r, g; };
 
-			std::array<_Ty, 2> Array = { };
+			_Ty Array[2];
 		};
 	};
 
@@ -26,17 +31,22 @@ namespace Nt {
 	struct VectorScalars<_Ty, 3> {
 		using Vec2 = Vector2D<_Ty>;
 
+		NT_CONSTEXPR VectorScalars() noexcept :
+			x(0), y(0), z(0)
+		{
+		}
+
 		union {
 			struct { _Ty x, y, z; };
 			struct { _Ty r, g, b; };
 
-			struct { Vec2 xy; _Ty z; };
-			struct { _Ty x; Vec2 yz; };
+			struct { Vec2 xy; NT_MAYBE_UNUSED _Ty reserved_1; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_2; Vec2 yz; };
 
-			struct { Vec2 rg; _Ty b; };
-			struct { _Ty r; Vec2 gb; };
+			struct { Vec2 rg; NT_MAYBE_UNUSED _Ty reserved_3; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_4; Vec2 gb; };
 
-			std::array<_Ty, 3> Array = { };
+			_Ty Array[3];
 		};
 	};
 
@@ -45,27 +55,30 @@ namespace Nt {
 		using Vec2 = Vector2D<_Ty>;
 		using Vec3 = Vector3D<_Ty>;
 
+		NT_CONSTEXPR VectorScalars() noexcept :
+			x(0), y(0), z(0), w(0)
+		{
+		}
+
 		union {
 			struct { _Ty x, y, z, w; };
-			struct { _Ty r, g, b, z; };
+			struct { _Ty r, g, b, a; };
 
-			struct { Vec2 xy; _Ty z, w; };
-			struct { _Ty x; Vec2 yz; _Ty w; };
-			struct { _Ty x, y; Vec2 zw; };
-			struct { Vec2 xy, zw; };
+			struct { Vec2 xy; NT_MAYBE_UNUSED _Ty reserved_1, reserved_2; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_3; Vec2 yz; NT_MAYBE_UNUSED _Ty reserved_4; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_5, reserved_6; Vec2 zw; };
 
-			struct { Vec2 rg; _Ty b, a; };
-			struct { _Ty r; Vec2 gb; _Ty a; };
-			struct { _Ty r, g; Vec2 ba; };
-			struct { Vec2 rg, ba; };
+			struct { Vec2 rg; NT_MAYBE_UNUSED _Ty reserved_7, reserved_8; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_9; Vec2 gb; NT_MAYBE_UNUSED _Ty reserved_10; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_11, reserved_12; Vec2 ba; };
 
-			struct { Vec3 xyz; _Ty w; };
-			struct { _Ty x; Vec3 yzw; };
+			struct { Vec3 xyz; NT_MAYBE_UNUSED _Ty reserved_13; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_14; Vec3 yzw; };
 
-			struct { Vec3 rgb; _Ty a; };
-			struct { _Ty r; Vec3 gba; };
+			struct { Vec3 rgb; NT_MAYBE_UNUSED _Ty reserved_15; };
+			struct { NT_MAYBE_UNUSED _Ty reserved_16; Vec3 gba; };
 
-			std::array<_Ty, 4> Array = { };
+			_Ty Array[4];
 		};
 	};
 }

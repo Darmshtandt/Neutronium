@@ -79,7 +79,7 @@ namespace Nt {
 			fullErrorMessage += "\n====================";
 		}
 
-		Log::Error('\n' + fullErrorMessage);
+		Log::Instance().Error('\n' + fullErrorMessage);
 		MessageWindow(fullErrorMessage, Caption).Show(MessageIcon::ERROR);
 	}
 }

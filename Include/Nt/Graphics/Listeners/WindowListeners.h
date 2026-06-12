@@ -80,11 +80,13 @@ namespace Nt {
 		virtual void Create() 
 		{
 		}
-		virtual void Resize(const ResizeType& type, const Int2D& newSize)
-		{
+		virtual void Resize(const ResizeType& type, const Int2D& newSize) {
+			(void)type;
+			(void)newSize;
 		}
-		virtual void Resizing(const ResizingType& type, IntRect& newRect)
-		{
+		virtual void Resizing(const ResizingType& type, IntRect& newRect) {
+			(void)type;
+			(void)newRect;
 		}
 		virtual void Close() 
 		{
@@ -92,47 +94,55 @@ namespace Nt {
 	};
 
 	struct KeyboardListener {
-		virtual void KeyPressed(const Key& key)
-		{
+		virtual void KeyPressed(const Key& key) {
+			(void)key;
 		}
-		virtual void KeyReleassed(const Key& key)
-		{
+		virtual void KeyReleased(const Key& key) {
+			(void)key;
 		}
 	};
 
 	struct MouseListener {
-		virtual void ButtonPressed(const Mouse::Button& button)
-		{
+		virtual void ButtonPressed(const Key& button) {
+			(void)button;
 		}
-		virtual void ButtonReleassed(const Mouse::Button& button)
-		{
+		virtual void ButtonReleased(const Key& button) {
+			(void)button;
 		}
 
-		virtual void Move(const MouseMode& mode, const Int2D& position)
-		{
+		virtual void Move(const MouseMode& mode, const Int2D& position) {
+			(void)mode;
+			(void)position;
 		}
-		virtual void Hover(const MouseMode& mode, const Int2D& position)
-		{
+		virtual void Hover(const MouseMode& mode, const Int2D& position) {
+			(void)mode;
+			(void)position;
 		}
 		virtual void Leave()
 		{
 		}
 
-		virtual void HorizontalWheel(const MouseMode& mode, const Int& delta, const Int2D& position)
-		{
+		virtual void HorizontalWheel(const MouseMode& mode, const Short& delta, const Int2D& position) {
+			(void)mode;
+			(void)delta;
+			(void)position;
 		}
-		virtual void Wheel(const MouseMode& mode, const Int& delta, const Int2D& position)
-		{
+		virtual void Wheel(const MouseMode& mode, const Short& delta, const Int2D& position) {
+			(void)mode;
+			(void)delta;
+			(void)position;
 		}
 
-		virtual void NoClientHover(const HitTest& hitTest, const Int2D& position)
-		{
+		virtual void NoClientHover(const HitTest& hitTest, const Int2D& position) {
+			(void)hitTest;
+			(void)position;
 		}
 		virtual void NoClientLeave()
 		{
 		}
-		virtual void NoClientMove(const HitTest& hitTest, const Int2D& position)
-		{
+		virtual void NoClientMove(const HitTest& hitTest, const Int2D& position) {
+			(void)hitTest;
+			(void)position;
 		}
 	};
 }

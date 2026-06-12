@@ -36,7 +36,7 @@ namespace Nt {
 		}
 		void Create(const Int2D& size, const String& name) override {
 			if (IsCreated()) {
-				Log::Warning("The handle has already been created");
+				Log::Instance().Warning("The handle has already been created");
 				return;
 			}
 
@@ -47,7 +47,7 @@ namespace Nt {
 		}
 		void Create(const IntRect& windowRect, const String& name) override {
 			if (IsCreated()) {
-				Log::Warning("The handle has already been created");
+				Log::Instance().Warning("The handle has already been created");
 				return;
 			}
 
@@ -106,7 +106,7 @@ namespace Nt {
 				if (handle != nullptr) {
 					for (const Cell& cell : m_Cells) {
 						if (cell.GetHandle() != nullptr && cell.GetHandle()->GetHandle() == handle) {
-							Log::Warning("This element has already been added to the BoxLayout");
+							Log::Instance().Warning("This element has already been added to the BoxLayout");
 							return;
 						}
 					}
@@ -321,7 +321,7 @@ namespace Nt {
 		IntRect _GetContentRect() const {
 			IntRect contentRect = m_SavedClientRect;
 			contentRect.LeftTop = GetPaddingRect().LeftTop;
-			contentRect.RightBottom -= GetPaddingRect().LeftTop + GetPaddingRect().RightBottom;
+			contentRect.RightBottom -= Int2D(GetPaddingRect().LeftTop + GetPaddingRect().RightBottom);
 			return contentRect;
 		}
 	};

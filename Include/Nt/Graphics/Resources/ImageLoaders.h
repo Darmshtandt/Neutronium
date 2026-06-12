@@ -4,7 +4,7 @@
 #include <Nt/Graphics/Resources/Image.h>
 
 namespace Nt {
-	struct ImageData {
+	struct ImageData final {
 		std::string FileName;
 		uInt2D Size;
 		uInt BitCount = 0;

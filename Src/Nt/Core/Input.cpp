@@ -12,36 +12,52 @@
 
 
 namespace Nt {
+	void Keyboard::Update() noexcept {
+		memcpy(m_IsPressedKeyPrevStateArray, m_IsPressedKeyArray, 256);
+		ZeroMemory(m_IsPressedKeyArray, 256);
+	}
+
 	Bool Keyboard::IsKeyPressed(const Key& keyCode, const Bool& once) noexcept {
 		const Int& keyIntCode = Int(keyCode);
 
-		m_IsPresedKeyArray[keyIntCode] = (GetAsyncKeyState(keyIntCode) & 0x8000);
-		if (m_IsPresedKeyArray[keyIntCode]) {
+		m_IsPressedKeyArray[keyIntCode] = (GetAsyncKeyState(keyIntCode) & 0x8000);
+		if (m_IsPressedKeyArray[keyIntCode]) {
 			if (once)
-				return (!m_IsPresedKeyPrevStateArray[keyIntCode]);
+				return (!m_IsPressedKeyPrevStateArray[keyIntCode]);
 			return true;
 		}
 		return false;
 	}
 
-	Bool Mouse::IsButtonPressed(const Mouse::Button& buttonCode, const Bool& once) noexcept {
-		m_IsPresedButtonArray[buttonCode] = (GetAsyncKeyState(buttonCode) & 0x8000);
-		if (m_IsPresedButtonArray[buttonCode]) {
+	void Mouse::Update() noexcept {
+		memcpy(m_IsPressedButtonPrevStateArray, m_IsPressedButtonArray, 6);
+		ZeroMemory(m_IsPressedButtonArray, 6);
+	}
+
+	Bool Mouse::IsButtonPressed(const Key& buttonCode, const Bool& once) noexcept {
+		m_IsPressedButtonArray[buttonCode] = (GetAsyncKeyState(buttonCode) & 0x8000);
+		if (m_IsPressedButtonArray[buttonCode]) {
 			if (once)
-				return (!m_IsPresedButtonPrevStateArray[buttonCode]);
+				return (!m_IsPressedButtonPrevStateArray[buttonCode]);
 			return true;
 		}
 		return false;
 	}
 
-	Int2D Mouse::GetCursorPosition() noexcept {
+	NT_FORCE_INLINE Bool Mouse::MoveCursorToCenter() noexcept {
+		return SetCursorPos(
+			GetSystemMetrics(SM_CXSCREEN) / 2, 
+			GetSystemMetrics(SM_CYSCREEN) / 2);
+	}
+
+	NT_FORCE_INLINE Int2D Mouse::GetCursorPosition() noexcept {
 		POINT cursorPosition;
 		GetCursorPos(&cursorPosition);
 
 		return cursorPosition;
 	}
 
-	void Mouse::SetCursorPosition(const Int2D& Position) noexcept {
+	NT_FORCE_INLINE void Mouse::SetCursorPosition(const Int2D& Position) noexcept {
 		SetCursorPos(Position.x, Position.y);
 	}
 }

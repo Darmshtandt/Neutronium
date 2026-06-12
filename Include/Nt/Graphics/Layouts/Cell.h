@@ -12,11 +12,11 @@ namespace Nt {
 		static_assert(Int(UnitType::UNIT_COUNT) == 2, "No new unit types have been added");
 
 		if (unitFrom == UnitType::UNIT_PERCENTAGE && maxValue == 0) {
-			Log::Warning("Invalid maximum value passed");
+			Log::Instance().Warning("Invalid maximum value passed");
 			return value;
 		}
 		else if (unitFrom == unitTo) {
-			Log::Warning("2 identical units of measurement were transmitted");
+			Log::Instance().Warning("2 identical units of measurement were transmitted");
 			return value;
 		}
 
@@ -27,7 +27,7 @@ namespace Nt {
 			return _Ty(_U(value) * maxValue);
 		}
 
-		Log::Warning("Unknown unit type");
+		Log::Instance().Warning("Unknown unit type");
 		return value;
 	}
 
@@ -136,20 +136,19 @@ namespace Nt {
 
 	private:
 		void _UpdateContentRect() noexcept {
-			if (m_pHandle == nullptr)
-				return;
-
 			const IntRect padding = m_PercentagePaddingRect * Float2D(m_Rect.RightBottom);
 
 			IntRect newRect = m_Rect;
 			newRect.LeftTop += padding.LeftTop;
 
-			if (m_IsClampToEdge)
-				newRect.RightBottom -= padding.LeftTop + padding.RightBottom;
-			else
-				newRect.RightBottom = m_pHandle->GetWindowRect().RightBottom;
+			if (m_pHandle != nullptr) {
+				if (m_IsClampToEdge)
+					newRect.RightBottom -= padding.LeftTop + padding.RightBottom;
+				else
+					newRect.RightBottom = m_pHandle->GetWindowRect().RightBottom;
 
-			m_pHandle->SetWindowRect(newRect);
+				m_pHandle->SetWindowRect(newRect);
+			}
 			if (m_pText != nullptr)
 				m_pText->SetRect(newRect);
 		}

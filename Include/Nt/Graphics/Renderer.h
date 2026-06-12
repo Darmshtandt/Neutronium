@@ -1,12 +1,16 @@
 #pragma once
 
-#include <Nt/Core/Math/Rect.h>
+#include <Nt/Core/Math/Projections.h>
 #include <Nt/Core/Colors.h>
 #include <Nt/Core/Timer.h>
 
+#include <Nt/Graphics/System/System.h>
 #include <Nt/Graphics/Resources/Texture.h>
 #include <Nt/Graphics/Resources/Mesh.h>
 #include <Nt/Graphics/Shader.h>
+
+#pragma warning(push)
+#pragma warning(disable: 4251)
 
 namespace Nt {
 	enum class CullFace : uInt {
@@ -16,9 +20,39 @@ namespace Nt {
 		FRONT_AND_BACK = 0x0408
 	};
 
-	class Renderer {
+	enum class DepthMode {
+		NONE = 0x0000,
+		NEVER = 0x0200,
+		LESS = 0x0201,
+		EQUAL = 0x0202,
+		LEQUAL = 0x0203,
+		GREATER = 0x0204,
+		NOT_EQUAL = 0x0205,
+		GEQUAL = 0x0206,
+		ALWAYS = 0x0207
+	};
+
+	enum class HintTarget {
+		FOG = 0x0C54,
+		GENERATE_MIPMAP = 0x8192,
+		LINE_SMOOTH = 0x0C52,
+		PERSPECTIVE_CORRECTION = 0x0C50,
+		POINT_SMOOTH = 0x0C51,
+		POLYGON_SMOOTH = 0x0C53,
+		TEXTURE_COMPRESSION = 0x84EF,
+		FRAGMENT_SHADER_DERIVATIVE = 0x8B8B,
+		MULTISAMPLE_FILTER_NV = 0x8534
+	};
+
+	enum class HintMode {
+		FASTEST = 0x1101,
+		NICEST = 0x1102,
+		DONT_CARE = 0x1100
+	};
+
+	class NT_API Renderer {
 	private:
-		enum class ProjectionType {
+		enum class ProjectionType : Byte {
 			NONE,
 			ORTHO,
 			ORTHO2D,
@@ -59,85 +93,101 @@ namespace Nt {
 		};
 
 	public:
-		NT_API Renderer(const Bool& isEnabled3D) noexcept;
+		explicit Renderer(const Bool& isEnabled3D) noexcept;
+		Renderer() = delete;
+		Renderer(const Renderer&) = default;
+		Renderer(Renderer&&) noexcept = default;
+		~Renderer();
 
-		NT_API void Resize();
-		NT_API void Resize(const uInt2D& size);
-		NT_API void Resize(FloatRect rect);
+		void Resize();
+		void Resize(const uInt2D& size);
+		void Resize(FloatRect rect);
 
-		NT_API void SetClearColor(const Float4D& clearColor) const noexcept;
-		NT_API void Clear();
-		NT_API void Display();
+		void SetClearColor(const Float4D& clearColor) const noexcept;
+		void Clear();
+		void Display();
 
-		NT_API void Render(const Mesh* pMesh) const;
-		NT_API void Render(const Mesh* pMesh, const uInt& offset, const uInt& verticesCount) const;
-		NT_API void RenderInstanced(const Mesh* pMesh, const uInt& count) const;
-		NT_API void RenderInstanced(const Mesh* pMesh, const uInt& offset, const uInt& verticesCount, const uInt& count) const;
+		void Render(NotNull<const Mesh*> pMesh) const;
+		void Render(NotNull<const Mesh*> pMesh, const uInt& offset, const uInt& verticesCount) const;
+		void RenderInstanced(NotNull<const Mesh*> pMesh, const uInt& count) const;
+		void RenderInstanced(NotNull<const Mesh*> pMesh, const uInt& offset, const uInt& verticesCount, const uInt& count) const;
 
-		NT_API void Translate(const Float3D& offset);
-		NT_API void Rotate(const Float3D& angles);
-		NT_API void Rotate2D(const Float& angle);
-		NT_API void Transform(const Float3D& offset, const Float3D& origin, const Float3D& angles, const Float3D& angleOrigin);
+		void Translate(const Float3D& offset);
+		void Scale(const Float3D& size);
+		void Rotate(const Float3D& angles);
+		void Rotate2D(const Float& angle);
+		void Transform(const Float3D& offset, const Float3D& origin, const Float3D& angles, const Float3D& angleOrigin);
 
-		NT_API void RotateAroundOrigin(const Float3D& origin, const Float3D& angles);
-		NT_API void Rotate2DAroundOrigin(const Float3D& origin, const Float& angle);
+		void RotateAroundOrigin(const Float3D& origin, const Float3D& angles);
+		void Rotate2DAroundOrigin(const Float3D& origin, const Float& angle);
 
-		NT_API void BindTexture(const Texture& texture);
-		NT_API void UnbindTexture();
-		NT_API void BindMesh(const Mesh& mesh);
-		NT_API void UnbindMesh();
+		void BindTexture(const Texture* texture);
+		void UnbindTexture();
+		void BindMesh(Mesh* mesh);
+		void UnbindMesh();
 
-		NT_API void EnableDepthBuffer() const noexcept;
-		NT_API void DisableDepthBuffer() const noexcept;
+		void Hint(const HintTarget& target, const HintMode& mode) const noexcept;
 
-		NT_API void SetCullFace(const CullFace& mode) const noexcept;
-		NT_API void SetViewport(const Nt::IntRect& rect);
+		void EnableMultisample() const noexcept;
+		void DisableMultisample() const noexcept;
 
-		NT_API void MatricesPush() noexcept;
-		NT_API void MatrixWorldPush() noexcept;
-		NT_API void MatrixViewPush() noexcept;
-		NT_API void MatrixProjectionPush() noexcept;
+		void EnableDepthBuffer() const noexcept;
+		void DisableDepthBuffer() const noexcept;
 
-		NT_API void MatricesPop() noexcept;
-		NT_API void MatrixWorldPop() noexcept;
-		NT_API void MatrixViewPop() noexcept;
-		NT_API void MatrixProjectionPop() noexcept;
+		void EnableDepthMask() const noexcept;
+		void DisableDepthMask() const noexcept;
 
-		NT_API void SetOrthoProjection(FloatRect rect, const Float& orthoNear, const Float& orthoFar);
-		NT_API void SetOrtho2DProjection(const FloatRect& rect);
-		NT_API void SetPerspectiveProjection(const Float& fov, const Float& aspect, const Float& _near, const Float& _far);
+		void SetCullFace(const CullFace& mode) noexcept;
+		void SetViewport(const IntRect& rect);
 
-		NT_API void SetLineWidth(const Float& width) noexcept;
+		void MatricesPush() noexcept;
+		void MatrixWorldPush() noexcept;
+		void MatrixViewPush() noexcept;
+		void MatrixProjectionPush() noexcept;
 
-		NT_API void CheckInitialization() const;
+		void MatricesPop() noexcept;
+		void MatrixWorldPop() noexcept;
+		void MatrixViewPop() noexcept;
+		void MatrixProjectionPop() noexcept;
 
-		NT_API Shader* GetShaderPtr() const noexcept;
-		NT_API Matrix4x4 GetWorld() const noexcept;
-		NT_API Matrix4x4 GetView() const noexcept;
-		NT_API Matrix4x4 GetProjection() const noexcept;
-		NT_API Float4D GetColor() const noexcept;
-		NT_API uIntRect GetViewportRect() const noexcept;
-		NT_API DrawingMode GetDrawingMode() const noexcept;
-		NT_API uInt GetFPSLimit() const noexcept;
-		NT_API uInt GetFPS() const noexcept;
-		NT_API uInt GetFrameTime() const noexcept;
-		NT_API Float GetZoom() const noexcept;
-		NT_API Bool IsInitialized() const noexcept;
-		NT_API Bool IsEnabled3D() const noexcept;
+		void SetOrthoProjection(FloatRect rect, const Float& orthoNear, const Float& orthoFar);
+		void SetOrtho2DProjection(const FloatRect& rect);
+		void SetPerspectiveProjection(const Float& fov, const Float& aspect, const Float& _near, const Float& _far);
 
-		NT_API void SetFPSLimit(const uInt& fpsLimit) noexcept;
-		NT_API void SetProjection(const Matrix4x4& projection);
-		NT_API void SetWorld(const Matrix4x4& world);
-		NT_API void SetView(const Matrix4x4& view);
-		NT_API void SetColor(const Float4D& color);
-		NT_API void SetZoom(const Float& zoom) noexcept;
-		NT_API void SetDrawingMode(const DrawingMode& mode) noexcept;
-		NT_API void SetCurrentShader(Shader* pShader);
+		void SetLineWidth(const Float& width) noexcept;
+
+		void CheckInitialization() const;
+
+		NT_NODISCARD Shader* GetShaderPtr() const noexcept;
+		NT_NODISCARD Matrix4x4 GetWorld() const noexcept;
+		NT_NODISCARD Matrix4x4 GetView() const noexcept;
+		NT_NODISCARD Matrix4x4 GetProjection() const noexcept;
+		NT_NODISCARD Float4D GetColor() const noexcept;
+		NT_NODISCARD uIntRect GetViewportRect() const noexcept;
+		NT_NODISCARD CullFace GetCullFace() const noexcept;
+		NT_NODISCARD DepthMode GetDepthMode() const noexcept;
+		NT_NODISCARD DrawingMode GetDrawingMode() const noexcept;
+		NT_NODISCARD uInt GetFPSLimit() const noexcept;
+		NT_NODISCARD uInt GetFPS() const noexcept;
+		NT_NODISCARD Float GetFrameTimeMs() const noexcept;
+		NT_NODISCARD Float GetFrameTimeSec() const noexcept;
+		NT_NODISCARD Float GetZoom() const noexcept;
+		NT_NODISCARD Bool IsBindedTexture() const noexcept;
+		NT_NODISCARD Bool IsInitialized() const noexcept;
+		NT_NODISCARD Bool IsEnabled3D() const noexcept;
+
+		void SetFPSLimit(const uInt& fpsLimit) noexcept;
+		void SetProjection(const Matrix4x4& projection);
+		void SetWorld(const Matrix4x4& world);
+		void SetView(const Matrix4x4& view);
+		void SetColor(const Float4D& color);
+		void SetZoom(const Float& zoom) noexcept;
+		void SetDepthMode(const DepthMode& mode) noexcept;
+		void SetDrawingMode(const DrawingMode& mode) noexcept;
+		void SetShader(Shader* pShader);
 
 	protected:
-#ifdef _WINDEF_
-		NT_API void _Initialize(HWND hwnd);
-#endif
+		void _Initialize(WindowID hwnd);
 
 	private:
 		_Matrices m_Matrices;
@@ -148,26 +198,31 @@ namespace Nt {
 		uIntRect m_ViewportRect;
 		Shader* m_ShaderPtr = nullptr;
 
-#ifdef _WINDEF_
-		HWND m_hwnd = nullptr;
-#endif
+		ContextID m_hContext = nullptr;
+		WindowID m_hwnd = nullptr;
+		DescriptorID m_hdc = nullptr;
+		CullFace m_CullFace = CullFace::BACK;
+		DepthMode m_DepthMode = DepthMode::LESS;
 		DrawingMode m_DrawingMode = DrawingMode::TRIANGLES;
 
 		Int m_FPSLimit = 120;
 		Int m_FPSCounter = 0;
 		Int m_FPS = 0;
-		Int m_FrameTime = 0;
+		Float m_FrameTimeMs = FLT_EPSILON;
 		Timer m_LoopTimeStamp;
 		Timer m_FPSTimer;
 
 		Float m_Zoom = 1.f;
+		Bool m_IsBindedTexture = false;
 		Bool m_IsEnabled3D;
 		Bool m_IsInitialized = false;
 
 	private:
-		NT_API void _ApplyProjectionMatrix() const;
-		NT_API void _ApplyWorldMatrix() const;
-		NT_API void _ApplyViewMatrix() const;
-		NT_API void _ApplyRenderColor() const;
+		void _ApplyProjectionMatrix() const;
+		void _ApplyWorldMatrix() const;
+		void _ApplyViewMatrix() const;
+		void _ApplyRenderColor() const;
 	};
 }
+
+#pragma warning(pop)

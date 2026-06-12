@@ -1,11 +1,6 @@
 #pragma once
 
-#ifndef NT_DLL
-#	define NT_API  __declspec(dllimport)
-#else
-#	define NT_API __declspec(dllexport)
-#endif
-
+#include <Nt/Core/NtDLL.h>
 #include <typeinfo>
 #include <string>
 #include <memory>
@@ -32,10 +27,20 @@
 #	undef RAD
 #endif
 
+#ifdef min
+#	undef min
+#endif
+
+#ifdef max
+#	undef max
+#endif
+
+#define Requires(...) typename = std::enable_if_t<__VA_ARGS__>
+
 #include <Nt/Core/NtError.h>
 
-constexpr Float PIf = 3.1415926535897932384636433832795f;
-constexpr Double PI = 3.1415926535897932384636433832795;
+constexpr Float PIf = 3.1415927f;
+constexpr Double PI = 3.141592653589793;
 
 constexpr Float RADf = (PIf / 180.f);
 constexpr Double RAD = (PI / 180.0);
@@ -59,48 +64,24 @@ namespace Nt {
 // ----------------------------------------------------------------------------
 	NT_API void _ShowCursor(const Bool& fShow) noexcept;
 
-	__inline void __nop() noexcept 
+	NT_FORCE_INLINE void __nop() noexcept 
 	{
 	}
 
-	__inline void* ZeroMemory(void* ptr, const uInt& size) {
+	NT_FORCE_INLINE void* ZeroMemory(void* ptr, const uInt& size) {
 		return memset(ptr, 0, size);
 	}
 
-	template <typename _Ty, typename = std::enable_if_t<std::is_arithmetic_v<_Ty>>>
-	_NODISCARD _CONSTEXPR20 _Ty Abs(const _Ty& value) noexcept {
-		return (value < 0) ? -value : value;
-	}
+	template <typename _Ty, typename _U>
+	NT_NODISCARD_CONSTEXPR _U CostexprCast(const _Ty& value) noexcept {
+		using UTypeLimit = std::numeric_limits<_U>;
 
-	template <class _Ty>
-	_Ty RequireNotNull(const _Ty& pointer, const std::string_view& message) {
-		if (pointer == nullptr)
-			Raise(message);
-
-		return pointer;
-	}
-
-	template <class _Ty>
-	_Ty* RequireNotNull(const std::unique_ptr<_Ty>& pointer) {
-		if (pointer == nullptr)
-			Raise(std::string(typeid(_Ty).name()) + " is null");
-
-		return pointer.get();
-	}
-
-	template <class _Ty>
-	_Ty* RequireNotNull(std::unique_ptr<_Ty>& pointer) {
-		if (pointer == nullptr)
-			Raise(std::string(typeid(_Ty).name()) + " is null");
-
-		return pointer.get();
-	}
-
-	template <class _Ty> requires std::is_pointer_v<_Ty>
-	_Ty RequireNotNull(_Ty pointer) {
-		if (pointer == nullptr)
-			Raise(std::string(typeid(_Ty).name()) + " is null");
-
-		return pointer;
+		if NT_CONSTEXPR (value < static_cast<_Ty>(UTypeLimit::min()))
+			return UTypeLimit::min();
+		else if NT_CONSTEXPR (value > static_cast<_Ty>(UTypeLimit::max()))
+			return UTypeLimit::max();
+		return static_cast<_U>(value);
 	}
 }
+
+#include <Nt/Core/NotNull.h>

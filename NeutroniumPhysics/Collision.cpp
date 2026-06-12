@@ -7,9 +7,17 @@
 #include <Nt/Physics/Collision.h>
 
 namespace Nt {
-	Bool MeshCollider::IsCollide(const ICollider* pCollider) const {
+#ifdef _DEBUG
+	Bool MeshCollider::IsCollide(NotNull<ICollider*> pCollider) const {
+		if (pCollider->Type == ICollider::TYPE_MESH)
+			return GJK(*pCollider.DynamicCast<const MeshCollider*>());
+		return false;
+	}
+#else
+	Bool MeshCollider::IsCollide(ICollider* pCollider) const {
 		if (pCollider->Type == ICollider::TYPE_MESH)
 			return GJK(*dynamic_cast<const MeshCollider*>(pCollider));
 		return false;
 	}
+#endif
 }

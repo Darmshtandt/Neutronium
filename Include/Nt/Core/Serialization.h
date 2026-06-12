@@ -158,7 +158,7 @@ namespace Nt {
 		}
 		template <typename _Ty> requires (IsPointer<_Ty> && !IsArray<_Ty> && !IsCStr<_Ty> && !IsCWStr<_Ty> && !IsSerial<std::remove_pointer_t<_Ty>>&& std::is_abstract_v<std::remove_pointer_t<_Ty>>)
 		__inline static void _Write(std::ostream& Stream, _Ty Value) {
-			Raise(L"Attempt write abstract class");
+			Raise("Attempt write abstract class");
 		}
 		template <typename _Ty> requires IsSerial<_Ty>
 		__inline static void _Write(std::ostream& Stream, _Ty Value) {

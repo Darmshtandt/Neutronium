@@ -1,35 +1,17 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include <windows.h>
-#include <GL\GLEW.h>
-#include <GL\GL.h>
-
-#include <functional>
-#include <fstream>
-#include <vector>
-#include <list>
-#include <map>
-
-#include <Nt/Core/Utilities.h>
-#include <Nt/Core/Serialization.h>
 #include <Nt/Core/Log.h>
-
-#include <Nt/Core/Math/Rect.h>
-#include <Nt/Core/Colors.h>
-
-#include <Nt/Graphics/Buffer.h>
-#include <Nt/Graphics/VertexArray.h>
-
-#include <Nt/Graphics/Resources/IResource.h>
-#include <Nt/Graphics/Resources/Image.h>
-#include <Nt/Graphics/Resources/Texture.h>
-#include <Nt/Graphics/Resources/Mesh.h>
+#include <Nt/Core/Utilities.h>
 #include <Nt/Graphics/Resources/ResourceManager.h>
 
 namespace Nt {
-	Bool ResourceManager::IsResourceExists(const std::unique_ptr<IResource>& pResource) const {
-		RequireNotNull(pResource.get());
+	namespace Details {
+		uInt g_Generation = 0;
+	}
+
+	void ResourceManager::RequireExist(const std::unique_ptr<IResource>& pResource) const {
+		RequireNotNull(pResource);
 
 		const std::type_index& type = pResource->GetType();
 
@@ -40,17 +22,15 @@ namespace Nt {
 			Raise(errorMsg);
 		}
 
-		const ResourceList& resourseList = m_Resources.at(type);
-		const ResourceList::const_iterator iterator =
+		const ResourceArray& resourseList = m_Resources.at(type);
+		const ResourceArray::const_iterator iterator =
 			std::find(resourseList.cbegin(), resourseList.cend(), pResource);
 
 		if (iterator == resourseList.cend())
 			Raise(std::string("Not found.\nType: ") + type.name());
-
-		return true;
 	}
 
-	Bool ResourceManager::IsResourceExists(const std::type_index& type, const uInt& index) const {
+	void ResourceManager::RequireExist(const std::type_index& type, const uInt& index) const {
 		if (!m_Resources.contains(type)) {
 			String errorMsg = "Attempting to reference an not contained type\nType: ";
 			errorMsg += type.name();
@@ -68,17 +48,25 @@ namespace Nt {
 
 			Raise(errorMsg);
 		}
-
-		return true;
 	}
 
-	_NODISCARD
+	Bool ResourceManager::IsValid(IResource* pResource) const noexcept {
+		if (pResource == nullptr)
+			return false;
+
+		const ResourceArray& resourceList = m_Resources.at(pResource->GetType());
+		if (pResource->m_Index >= resourceList.size())
+			return false;
+
+		IResource* pExistingResource = resourceList[pResource->m_Index].get();
+		return pResource->m_Generation == pExistingResource->m_Generation;
+	}
+
 	ResourceManager& ResourceManager::Instance() noexcept {
 		static ResourceManager manager;
 		return manager;
 	}
 
-	_NODISCARD
 	const ResourceManager::ResourcesContainer& ResourceManager::GetResources() const noexcept {
 		return m_Resources;
 	}
@@ -86,36 +74,34 @@ namespace Nt {
 	uInt ResourceManager::Add(std::unique_ptr<IResource>&& pNewResource) {
 		RequireNotNull(pNewResource.get());
 
-		ResourceList& resourceList = m_Resources[pNewResource->GetType()];
+		ResourceArray& resourceList = m_Resources[pNewResource->GetType()];
 
-		const ResourceList::const_iterator resourceIterator =
+		const ResourceArray::const_iterator resourceIterator =
 			std::find_if(resourceList.begin(), resourceList.end(), [&](const std::unique_ptr<IResource>& pResource) {
-				return (pResource == pNewResource) || (pResource->GetFilePath() == pNewResource->GetFilePath());
+				if (pResource == pNewResource)
+					return true;
+				if (pResource->GetFilePath().empty())
+					return false;
+				return (pResource->GetFilePath() == pNewResource->GetFilePath());
 				});
 
 		if (resourceIterator != resourceList.end()) {
-			Log::Warning("The resource has already been added");
-			return uInt(-1);
+			Log::Instance().Warning("The resource has already been added");
+			return (*resourceIterator)->m_Index;
 		}
 
-		resourceList.push_back(std::move(pNewResource));
+		const uInt index = resourceList.size();
+		pNewResource->m_Generation = ++Details::g_Generation;
+		pNewResource->m_Index = index;
+		resourceList.emplace_back(std::move(pNewResource));
 
-		return (resourceList.size() - 1);
+		return index;
 	}
 	void ResourceManager::Remove(const std::unique_ptr<IResource>& pResource) {
 		const std::type_index type = pResource->GetType();
+		RequireExist(pResource);
 
-		if (!IsResourceExists(pResource)) {
-			String errorMsgStr = "Not found.";
-			errorMsgStr += "\n\nFile path: ";
-			errorMsgStr += pResource->GetFilePath();
-			errorMsgStr += "\nResource type: ";
-			errorMsgStr += type.name();
-
-			Raise(errorMsgStr);
-		}
-
-		const ResourceList::const_iterator iterator =
+		const ResourceArray::const_iterator iterator =
 			std::find(m_Resources[type].cbegin(), m_Resources[type].cend(), pResource);
 
 		m_Resources[type].erase(iterator);
@@ -124,9 +110,9 @@ namespace Nt {
 			m_Resources.erase(type);
 	}
 	void ResourceManager::Remove(const std::type_index& type, const uInt& index) {
-		IsResourceExists(type, index);
+		RequireExist(type, index);
 
-		ResourceList::const_iterator iterator = m_Resources[type].begin();
+		ResourceArray::const_iterator iterator = m_Resources[type].begin();
 		std::advance(iterator, index);
 
 		m_Resources[type].erase(iterator);

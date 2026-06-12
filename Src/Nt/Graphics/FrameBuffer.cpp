@@ -20,17 +20,16 @@ namespace Nt {
 
 	void FrameBuffer::Create() {
 		if (m_ID != 0) {
-			Log::Warning("Framebuffer already created");
+			Log::Instance().Warning("Framebuffer already created");
 			return;
 		}
 
 		glGenFramebuffers(1, &m_ID);
-		Bind(Type::DEFAULT);
+		Assert(m_ID != 0, "Failed to create");
 	}
 
 	void FrameBuffer::Bind(const Type& type) const {
 		Assert(m_ID != 0, "Framebuffer not created");
-
 		glBindFramebuffer(uInt(type), m_ID);
 	}
 	void FrameBuffer::Unbind(const Type& type) const noexcept {
@@ -48,15 +47,15 @@ namespace Nt {
 		glInvalidateFramebuffer(uInt(type), 1, &attachment);
 	}
 
-	void FrameBuffer::SetRenderBuffer(const RenderBuffer& buffer, const uInt& attachment) const {
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, attachment, GL_RENDERBUFFER, buffer.GetID());
+	void FrameBuffer::SetRenderBuffer(const RenderBuffer& buffer, const Attachment& attachment) const {
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, uInt(attachment), GL_RENDERBUFFER, buffer.GetID());
 	}
 
-	void FrameBuffer::SetTexture2D(const Texture* pTexture, const uInt& attachment, const uInt& level) {
+	void FrameBuffer::SetTexture2D(const Texture* pTexture, const Attachment& attachment, const uInt& level) {
 		Assert(RequireNotNull(pTexture)->GetID() != 0, "Texture not created");
 
-		glFramebufferTexture2D(GL_FRAMEBUFFER, attachment, GL_TEXTURE_2D, pTexture->GetID(), level);
-		Assert(GetStatus() != Status::COMPLETE, "Failed to set texture to framebuffer");
+		glFramebufferTexture2D(GL_FRAMEBUFFER, uInt(attachment), GL_TEXTURE_2D, pTexture->GetID(), level);
+		Assert(GetStatus() == Status::COMPLETE, "Failed to set texture to framebuffer");
 	}
 
 	void FrameBuffer::Delete() {

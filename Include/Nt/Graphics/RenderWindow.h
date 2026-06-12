@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <Nt/Graphics/Objects/Camera.h>
-#include <Nt/Graphics/Window.h>
+#include <Nt/Graphics/System/Window.h>
 #include <Nt/Graphics/Renderer.h>
 
 namespace Nt {
@@ -19,11 +19,13 @@ namespace Nt {
 
 		NT_API void Resize(const uInt2D& size);
 
+		NT_API Camera* GetCamera() const noexcept;
+
 		NT_API void SetPerspectiveProjection(const Float& fov, const Float& _near, const Float& _far);
 		NT_API void SetOrthoProjection(const Float& _near, const Float& _far);
 		NT_API void SetOrtho2DProjection(const FloatRect& rect);
 		NT_API void SetOrtho2DProjection();
-		NT_API void SetCurrentCamera(Camera* pCamera);
+		NT_API void SetCamera(Camera* pCamera) noexcept;
 
 	private:
 		Camera* m_CameraPtr = nullptr;
@@ -35,11 +37,7 @@ namespace Nt {
 
 		NT_API void _InitializeDefaultShader();
 
-#ifdef _WINDEF_
 		NT_API void _Creation([[maybe_unused]] const CREATESTRUCT* pWindowStruct) override;
-
 		NT_API void _Resize(const uInt2D& size) override;
-
-#endif
 	};
 }

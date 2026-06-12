@@ -73,7 +73,7 @@ namespace Nt {
 
 		m_ProgramID = glCreateProgram();
 		if (m_ProgramID == 0)
-			Raise(L"Failed to create program");
+			Raise("Failed to create program");
 	}
 	void Shader::CompileFromFile(const Shader::Types& shaderType, const String& fileName) {
 		if (m_ProgramID == 0)

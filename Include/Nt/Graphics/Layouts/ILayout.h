@@ -79,11 +79,11 @@ namespace Nt {
 
 			HPEN hPen = CreatePen(PS_SOLID, 1, VectorToColorRef(DebugGridColorConfig.GapColor));
 			if (hPen == nullptr) {
-				Log::Warning("Failed to create pen");
+				Log::Instance().Warning("Failed to create pen");
 				return;
 			}
 			if (SelectObject(hdc, hPen) == nullptr) {
-				Log::Warning("Failed to select pen");
+				Log::Instance().Warning("Failed to select pen");
 				return;
 			}
 

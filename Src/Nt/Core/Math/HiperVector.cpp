@@ -8,16 +8,12 @@ namespace Nt {
 	{
 	}
 
-	const Float & HiperVector::GetCoord(const uInt& axis) const {
-		if (Position.size() <= axis)
-			Raise("Out of range");
-
+	NT_FORCE_INLINE const Float& HiperVector::GetCoord(const uInt& axis) const {
+		Assert(axis < Position.size(), "Out of range");
 		return Position[axis];
 	}
-	Float& HiperVector::GetCoord(const uInt& axis) {
-		if (Position.size() <= axis)
-			Raise("Out of range");
-
+	NT_FORCE_INLINE Float& HiperVector::GetCoord(const uInt& axis) {
+		Assert(axis < Position.size(), "Out of range");
 		return Position[axis];
 	}
 
@@ -26,19 +22,21 @@ namespace Nt {
 			return 0.f;
 
 		Float squareDistance = 0.f;
-		for (uInt i = 0; i < Position.size(); ++i)
-			squareDistance += powf(Position[i] - other.Position[i], 2.f);
+		for (uInt i = 0; i < Position.size(); ++i) {
+			const Float different = Position[i] - other.Position[i];
+			squareDistance += different * different;
+		}
 
 		return squareDistance;
 	}
-	uInt HiperVector::GetDimension() const noexcept {
+	NT_FORCE_INLINE uInt HiperVector::GetDimension() const noexcept {
 		return Position.size();
 	}
 
-	const Float& HiperVector::operator[](const uInt& axis) const {
+	NT_FORCE_INLINE const Float& HiperVector::operator [] (const uInt& axis) const {
 		return GetCoord(axis);
 	}
-	Float& HiperVector::operator[](const uInt& axis) {
+	NT_FORCE_INLINE Float& HiperVector::operator [] (const uInt& axis) {
 		return GetCoord(axis);
 	}
 }

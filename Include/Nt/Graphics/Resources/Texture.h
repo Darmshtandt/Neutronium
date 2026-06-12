@@ -3,7 +3,7 @@
 #include <Nt/Graphics/Resources/Image.h>
 
 namespace Nt {
-	enum MinFilter {
+	enum MinFilter : uShort {
 		MIN_NONE = 0x0000,
 		MIN_NEAREST = 0x2600,
 		MIN_LINEAR = 0x2601,
@@ -12,12 +12,12 @@ namespace Nt {
 		MIN_NEAREST_MIPMAP_LINEAR = 0x2702,
 		MIN_LINEAR_MIPMAP_LINEAR = 0x2703,
 	};
-	enum MagFilter {
+	enum MagFilter : uShort {
 		MAG_NONE = 0x0000,
 		MAG_NEAREST = 0x2600,
 		MAG_LINEAR = 0x2601
 	};
-	enum Wrap {
+	enum Wrap : uShort {
 		WRAP_NONE = 0x0000,
 		WRAP_CLAMP = 0x2900,
 		WRAP_REPEAT = 0x2901,
@@ -27,70 +27,70 @@ namespace Nt {
 		WRAP_MIRROR_CLAMP_TO_EDGE = 0x8743,
 	};
 
-	class Texture : public IResource {
+	class NT_API Texture final : public IResource {
 	public:
 		struct Parameters {
-			MinFilter MinFilter = MIN_NONE;
-			MagFilter MagFilter = MAG_NONE;
+			MinFilter MinFilter = MIN_NEAREST;
+			MagFilter MagFilter = MAG_NEAREST;
 			Int MinLOD = 0;
 			Int MaxLOD = 0;
-			Wrap S = WRAP_NONE;
-			Wrap T = WRAP_NONE;
+			Wrap S = WRAP_REPEAT;
+			Wrap T = WRAP_REPEAT;
 		};
 
 	public:
-		NT_API Texture() noexcept = default;
-		NT_API Texture(const String& fileName);
-		NT_API Texture(const Texture& newTexture);
-		NT_API Texture(Texture&& otherTexture) noexcept;
-		NT_API ~Texture();
+		Texture() noexcept = default;
+		Texture(const String& fileName);
+		Texture(const Texture& newTexture);
+		Texture(Texture&& otherTexture) noexcept;
+		~Texture() override;
 
-		NT_API void Read(std::istream& Stream) override;
+		void LoadFromFile(const String& filePath) override;
+		void Release() override;
 
-		_NODISCARD _CONSTEXPR20 uInt Sizeof() const noexcept override {
-			return sizeof(*this);
-		}
+		void Create(const uInt& channelsCount, const uInt2D& size, Byte* pData);
+		void Delete();
 
-		NT_API void LoadFromFile(const String& filePath) override;
-		NT_API void Release() override;
+		void GenerateMipmap() const;
 
-		NT_API void Create(const uInt& channelsCount, const uInt2D& size, std::unique_ptr<Byte[]>&& pData);
-		NT_API void Delete();
+		void FlipVertically();
+		void Rotate_90_Degrees(const Bool& toRight);
 
-		NT_API void GenerateMipmap() const;
+		void Bind() const;
+		void BindUnit(const uInt& unitID) const;
 
-		NT_API void FlipVerticaly();
-		NT_API void Rotate_90_Degrees(const Bool& toRight);
+		void SetParameters(const Parameters& parameters);
+		void SetMinFiler(const MinFilter& filter);
+		void SetMagFiler(const MagFilter& filter);
+		void SetMinLOD(const Int& value);
+		void SetMaxLOD(const Int& value);
+		void SetWrapS(const Wrap& wrap);
+		void SetWrapT(const Wrap& wrap);
 
-		NT_API void Bind() const;
-		NT_API void BindUnit(const uInt& unitID) const;
+		NT_NODISCARD std::type_index GetType() const override;
+		NT_NODISCARD MinFilter GetMinFiler() const noexcept;
+		NT_NODISCARD MagFilter GetMagFiler() const noexcept;
+		NT_NODISCARD Int GetMinLOD() const noexcept;
+		NT_NODISCARD Int GetMaxLOD() const noexcept;
+		NT_NODISCARD Wrap GetWrapS() const noexcept;
+		NT_NODISCARD Wrap GetWrapT() const noexcept;
 
-		NT_API void SetParameters(const Parameters& parameters);
-		NT_API void SetMinFiler(const MinFilter& filter);
-		NT_API void SetMagFiler(const MagFilter& filter);
-		NT_API void SetMinLOD(const Int& value);
-		NT_API void SetMaxLOD(const Int& value);
-		NT_API void SetWrapS(const Wrap& wrap);
-		NT_API void SetWrapT(const Wrap& wrap);
+		NT_NODISCARD String GetFilePath() const noexcept override;
+		NT_NODISCARD uInt2D GetSize() const noexcept;
+		NT_NODISCARD const Byte* GetData() const noexcept;
+		NT_NODISCARD Byte* GetData() noexcept;
+		NT_NODISCARD uInt GetChannelCount() const noexcept;
 
-		NT_API _NODISCARD std::type_index GetType() const;
-
-		NT_API _NODISCARD String GetFilePath() const noexcept override;
-		NT_API _NODISCARD uInt2D GetSize() const noexcept;
-		NT_API _NODISCARD const std::unique_ptr<Byte[]>& GetData() const noexcept;
-		NT_API _NODISCARD std::unique_ptr<Byte[]>& GetData() noexcept;
-		NT_API _NODISCARD uInt GetChannelCount() const noexcept;
-
-		NT_API _NODISCARD uInt GetID() const noexcept;
-		NT_API _NODISCARD Bool IsCreated() const noexcept;
+		NT_NODISCARD uInt GetID() const noexcept;
+		NT_NODISCARD Bool IsCreated() const noexcept;
 
 	private:
+		mutable Parameters m_Parameters;
 		Image m_Image;
-		Parameters m_Parameters;
 		uInt m_ID = 0;
-		uInt m_ColorComponent = 0;
+		Int m_ColorComponent = 0;
 
 	private:
-		NT_API void Create();
+		void Create();
 	};
 }

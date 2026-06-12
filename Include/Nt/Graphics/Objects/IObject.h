@@ -1,59 +1,74 @@
 #pragma once
 
 #include <Nt/Core/Math/Matrix4x4.h>
+#include <Nt/Core/Colors.h>
+
+#pragma warning(push)
+#pragma warning(disable: 4251)
 
 namespace Nt {
 	class Renderer;
 
-	class IObject {
+	class NT_API IObject {
 	public:
-		NT_API IObject() noexcept;
-		NT_API IObject(const IObject& Object) noexcept;
+		IObject() noexcept = default;
+		IObject(const IObject& object) noexcept = default;
+		IObject(IObject&& object) noexcept = default;
+		virtual ~IObject() noexcept = default;
 
-		virtual void Render(Renderer* pRenderer) const = 0;
-		virtual void Render(Renderer* pRenderer, const uInt& offset, const uInt& verticesCount) const = 0;
+		virtual void StaticUpdate();
+		virtual void Render(NotNull<Renderer*> pRenderer) const = 0;
+		virtual void Render(NotNull<Renderer*> pRenderer, const uInt& offset, const uInt& verticesCount) const = 0;
 
-		NT_API void Translate(const Float3D& Offset);
-		NT_API void Scale(const Float3D& scale);
-		NT_API void Rotate(const Float3D& Angle);
-		NT_API void RotateAroundOrigin(const Float3D& AngleOrigin);
+		void Translate(const Float3D& offset);
+		void Scale(const Float3D& scale);
+		void Rotate(const Float3D& Angle);
+		void RotateAroundOrigin(const Float3D& angleOrigin);
 
-		NT_API void UnmarkChanged() noexcept;
+		void Hide() noexcept;
+		void Show() noexcept;
 
-		NT_API void DisableRender() noexcept;
-		NT_API void EnableRender() noexcept;
+		NT_NODISCARD Matrix4x4 LocalToWorld() const noexcept;
+		NT_NODISCARD Matrix4x4 WorldToLocal() const noexcept;
 
-		NT_API _NODISCARD Matrix4x4 LocalToWorld() const noexcept;
-		NT_API _NODISCARD Matrix4x4 WorldToLocal() const noexcept;
+		NT_NODISCARD Float3D GetPosition() const noexcept;
+		NT_NODISCARD Float3D GetSize() const noexcept;
+		NT_NODISCARD Float3D GetAngle() const noexcept;
+		NT_NODISCARD Float3D GetAngleOrigin() const noexcept;
+		NT_NODISCARD Float3D GetOrigin() const noexcept;
+		NT_NODISCARD Float4D GetColor() const noexcept;
+		NT_NODISCARD Bool IsVisible() const noexcept;
+		NT_NODISCARD Bool IsDirty() const noexcept;
 
-		NT_API _NODISCARD _CONSTEXPR20 Float3D GetPosition() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Float3D GetSize() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Float3D GetAngle() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Float3D GetAngleOrigin() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Float3D GetOrigin() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Float4D GetColor() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Bool IsRenderEnabled() const noexcept;
-		NT_API _NODISCARD _CONSTEXPR20 Bool IsChanged() const noexcept;
+		void SetPosition(const Float3D& position) noexcept;
+		void SetSize(const Float3D& size) noexcept;
+		void SetAngle(const Float3D& angle) noexcept;
+		void SetAngleOrigin(const Float3D& angleOrigin) noexcept;
+		void SetOrigin(const Float3D& origin) noexcept;
+		void SetColor(const Float4D& color) noexcept;
 
-		NT_API virtual void SetPosition(const Float3D& Position);
-		NT_API virtual void SetSize(const Float3D& Size);
-		NT_API virtual void SetAngle(const Float3D& Angle);
-		NT_API virtual void SetAngleOrigin(const Float3D& AngleOrigin);
-		NT_API virtual void SetOrigin(const Float3D& Origin);
-		NT_API virtual void SetColor(const Float4D& Color);
-
-		NT_API IObject& operator = (const IObject& object) noexcept;
+		IObject& operator = (const IObject& object) noexcept = default;
+		IObject& operator = (IObject&& object) noexcept = default;
 
 	protected:
 		Float3D m_Position;
 		Float3D m_Origin;
 		Float3D m_Angle;
 		Float3D m_AngleOrigin;
-		Float3D m_Size;
-		Float4D m_Color;
+		Float3D m_Size = Float3D(1.f, 1.f, 1.f);
+		Float4D m_Color = Colors::White;
 
 	private:
-		Bool m_IsChanged;
-		Bool m_IsRenderEnabled;
+		mutable Matrix4x4 m_LocalToWorld = this->_ComputeLocalToWorld();
+		mutable Matrix4x4 m_WorldToLocal = this->_ComputeWorldToLocal();
+		mutable Bool m_IsDirty = false;
+		Bool m_IsVisible = true;
+
+	private:
+		NT_NODISCARD Matrix4x4 _ComputeLocalToWorld() const noexcept;
+		NT_NODISCARD Matrix4x4 _ComputeWorldToLocal() const noexcept;
+		void _UpdateMatrices() const noexcept;
 	};
 }
+
+#pragma warning(pop)

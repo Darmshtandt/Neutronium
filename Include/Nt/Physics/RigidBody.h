@@ -20,8 +20,8 @@ namespace Nt {
 			RemoveAllColliders();
 		}
 
-		void Update(const Float& DeltaTime) {
-			m_DeltaTime = DeltaTime;
+		virtual void Update(const Float& deltaTime) {
+			m_DeltaTime = deltaTime;
 			if (m_EnableGravitation)
 				AddForce(m_GravityDirection * m_DeltaTime);
 
@@ -41,18 +41,15 @@ namespace Nt {
 				//}
 				//m_PrevPosition = GetPosition();
 			}
+
+			IObject::StaticUpdate();
 		}
 
-		Bool CheckCollision(const RigidBody* pRigidBody) {
-			RequireNotNull(pRigidBody);
-
+		Bool CheckCollision(const NotNull<RigidBody*> pRigidBody) {
 			m_IsObjectCollided = false;
 
-			for (ICollider* pThisCollider : m_Colliders) {
-				for (ICollider* pOtherCollider : pRigidBody->m_Colliders) {
-					RequireNotNull(pThisCollider);
-					RequireNotNull(pOtherCollider);
-
+			for (NotNull<ICollider*> pThisCollider : m_Colliders) {
+				for (NotNull<ICollider*> pOtherCollider : pRigidBody->m_Colliders) {
 					if (pThisCollider->IsCollide(pOtherCollider))
 						return true;
 				}
@@ -61,7 +58,7 @@ namespace Nt {
 			return false;
 		}
 
-		void AddCollider(ICollider* pCollider) {
+		void AddCollider(NotNull<ICollider*> pCollider) {
 			m_Colliders.push_back(pCollider);
 		}
 		void RemoveCollider(const uInt& Index) {
@@ -81,8 +78,8 @@ namespace Nt {
 		}
 
 
-		void AddForce(const Float3D& Force) noexcept {
-			m_Force += Force * GetWeight();
+		void AddForce(const Float3D& force) noexcept {
+			m_Force += force * GetWeight();
 			if (m_Force != Float3D())
 				m_IsAwake = true;
 		}
@@ -116,14 +113,14 @@ namespace Nt {
 		}
 
 		RigidBody& operator = (const RigidBody& rigidBody) {
-			if (this != &rigidBody)
+			if (this == &rigidBody)
 				return *this;
 
 			RemoveAllColliders();
 			return _Clone(rigidBody);
 		}
 		RigidBody& operator = (RigidBody&& rigidBody) {
-			if (this != &rigidBody)
+			if (this == &rigidBody)
 				return *this;
 
 			RemoveAllColliders();
@@ -174,26 +171,26 @@ namespace Nt {
 		}
 
 
-		void SetGravityDirection(const Float3D& GravityDirection) noexcept {
-			m_GravityDirection = GravityDirection.GetNormalize();
+		void SetGravityDirection(const Float3D& gravityDirection) noexcept {
+			m_GravityDirection = gravityDirection.GetNormalize();
 		}
-		void SetLinearVelocity(const Float3D& LinearVelocity) noexcept {
-			m_LinearVelocity = LinearVelocity;
+		void SetLinearVelocity(const Float3D& linearVelocity) noexcept {
+			m_LinearVelocity = linearVelocity;
 		}
-		void SetLinearAcceleration(const Float3D& LinearAcceleration) noexcept {
-			m_LinearAcceleration = LinearAcceleration;
+		void SetLinearAcceleration(const Float3D& linearAcceleration) noexcept {
+			m_LinearAcceleration = linearAcceleration;
 		}
-		void SetForce(const Float3D& Force) noexcept {
-			m_Force = Force;
+		void SetForce(const Float3D& force) noexcept {
+			m_Force = force;
 		}
-		void SetFriction(const Float& Friction) noexcept {
-			m_Friction = Friction;
+		void SetFriction(const Float& friction) noexcept {
+			m_Friction = friction;
 		}
-		void SetFrictionStatic(const Float& FrictionStatic) noexcept {
-			m_FrictionStatic = FrictionStatic;
+		void SetFrictionStatic(const Float& frictionStatic) noexcept {
+			m_FrictionStatic = frictionStatic;
 		}
-		void SetMass(const Float& Mass) noexcept {
-			m_Mass = Mass;
+		void SetMass(const Float& mass) noexcept {
+			m_Mass = mass;
 		}
 
 	protected:
@@ -223,7 +220,7 @@ namespace Nt {
 
 	private:
 		RigidBody& _Clone(const RigidBody& rigidBody) {
-			if (this != &rigidBody)
+			if (this == &rigidBody)
 				return *this;
 
 			_SetParameters(rigidBody);
@@ -233,7 +230,7 @@ namespace Nt {
 			return *this;
 		}
 		RigidBody& _Move(RigidBody&& rigidBody) {
-			if (this != &rigidBody)
+			if (this == &rigidBody)
 				return *this;
 
 			_SetParameters(rigidBody);
@@ -243,7 +240,7 @@ namespace Nt {
 			return *this;
 		}
 		void _SetParameters(const RigidBody& rigidBody) noexcept {
-			if (this != &rigidBody)
+			if (this == &rigidBody)
 				return;
 
 			m_GravityDirection = rigidBody.m_GravityDirection;

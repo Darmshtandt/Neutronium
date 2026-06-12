@@ -13,7 +13,7 @@ namespace Nt {
 		NT_API Sprite(const Sprite& NewSprite);
 		NT_API ~Sprite();
 
-		NT_API void Render(Renderer* pRenderer) const override;
+		NT_API void Render(NotNull<Renderer*> pRenderer) const override;
 
 		NT_API Sprite& operator = (const Sprite& newSprite);
 
@@ -37,6 +37,6 @@ namespace Nt {
 	private:
 		NT_API void _UpdateTexCoords() const;
 
-		NT_API virtual void Render([[maybe_unused]] Renderer* pRenderer, [[maybe_unused]] const uInt& offset, [[maybe_unused]] const uInt& verticesCount) const override;
+		NT_API virtual void Render([[maybe_unused]] NotNull<Renderer*> pRenderer, [[maybe_unused]] const uInt& offset, [[maybe_unused]] const uInt& verticesCount) const override;
 	};
 }
