@@ -85,6 +85,8 @@ namespace Nt {
 	}
 	void RenderWindow::SetCamera(Camera* pCamera) noexcept {
 		m_CameraPtr = pCamera;
+		if (m_CameraPtr != nullptr)
+			SetView(m_CameraPtr->GetView());
 	}
 
 	void RenderWindow::_InitializeDefaultShader() {

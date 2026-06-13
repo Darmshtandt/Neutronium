@@ -2,6 +2,9 @@
 Bin/
 Debug/
 packages/
+Lib/
+ExtInclude/
+ExtLibs/
 
 NeutroniumCore/Debug/
 NeutroniumCore/Release/
@@ -17,4 +20,5 @@ NeutroniumPhysics/x64/
 
 Project1/
 
+StructLayoutSettings.json
 Нейтронат калия кальция.txt

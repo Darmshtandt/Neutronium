@@ -1,7 +1,5 @@
 #pragma once
 
-#include <fstream>
-
 #include <Nt/Core/Math/Vector.h>
 #include <Nt/Graphics/Resources/IResource.h>
 

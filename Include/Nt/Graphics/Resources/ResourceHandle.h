@@ -5,7 +5,7 @@
 
 namespace Nt {
 	template <class _Ty, Requires(std::is_base_of_v<IResource, _Ty>)>
-	class NT_API ResourceHandle final {
+	class ResourceHandle final {
 	public:
 		ResourceHandle(_Ty* pResource) noexcept :
 			m_pResource(pResource)

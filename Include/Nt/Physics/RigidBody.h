@@ -214,7 +214,7 @@ namespace Nt {
 	private:
 		Bool m_IsEnable = true;
 		Bool m_IsActive = false;
-		Bool m_IsAwake = true;
+		Bool m_IsAwake = false;
 		Bool m_EnableCollision = true;
 		Bool m_EnableGravitation = false;
 

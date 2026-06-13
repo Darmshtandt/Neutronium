@@ -3,7 +3,6 @@
 
 #include <Nt/Graphics/Resources/Mesh.h>
 #include <Nt/Graphics/Resources/MeshLoaders.h>
-#include <Nt/Graphics/Resources/ResourceHandle.h>
 
 namespace Nt {
 	Mesh::Mesh(const String& fileName) {
@@ -119,6 +118,4 @@ namespace Nt {
 		SetShape(shape);
 		return *this;
 	}
-
-	template class NT_API ResourceHandle<Mesh>;
 }

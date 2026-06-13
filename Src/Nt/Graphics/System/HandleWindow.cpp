@@ -597,12 +597,12 @@ namespace Nt {
 
 		case WM_LBUTTONUP:
 		case WM_RBUTTONUP: {
-			KeyDownEvent e = { };
+			KeyUpEvent e = { };
 			e.Key = (uMsg == WM_RBUTTONUP) ? BUTTON_RIGHT : BUTTON_LEFT;
 			e.Position = { LOWORD(lParam), HIWORD(lParam) };
 			e.HandleID = m_ID;
 
-			pBus->Emmit<KeyDownEvent>(e);
+			pBus->Emmit<KeyUpEvent>(e);
 		}
 			return;
 

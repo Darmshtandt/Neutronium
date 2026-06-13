@@ -1,10 +1,10 @@
 // This is an open source non-commercial project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include <filesystem>
-
 #include <Nt/Graphics/Resources/Image.h>
 #include <Nt/Graphics/Resources/ImageLoaders.h>
+
+#include <filesystem>
 
 namespace Nt {
 	Image::Image(const String& filePath) {

@@ -3,7 +3,6 @@
 
 #include <GL/GLEW.h>
 #include <Nt/Graphics/Resources/Texture.h>
-#include <Nt/Graphics/Resources/ResourceHandle.h>
 
 namespace Nt {
 	Texture::Texture(const String& FileName) {
@@ -275,6 +274,4 @@ namespace Nt {
 		m_Image.Release();
 		Delete();
 	}
-
-	template class NT_API ResourceHandle<Texture>;
 }
