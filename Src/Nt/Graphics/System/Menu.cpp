@@ -200,6 +200,8 @@ namespace Nt {
 		return const_cast<Item*>(GetItemPtr(id));
 	}
 	void Menu::_Modify(const uInt& flags, const uInt& id, const std::wstring& text) const {
+		SetLastError(0);
+
 		if (!ModifyMenu(m_Handle, id, flags | MF_BYCOMMAND, id, text.c_str()))
 			Raise(String("Failed to modify menu.\nError code: ") + String(GetLastError()));
 	}

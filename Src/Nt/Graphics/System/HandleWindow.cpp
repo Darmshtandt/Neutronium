@@ -47,6 +47,25 @@ namespace Nt {
 			Log::Instance().Warning("Failed to get window rect.");
 		return rect;
 	}
+
+	IntRect GetMappedWindowRect(HWND hwnd, HWND hParent) noexcept {
+		SetLastError(0);
+
+		RECT rect = { };
+		if (hwnd == nullptr)
+			Log::Instance().Warning("Handle window pointer is null.");
+		else if (!GetWindowRect(hwnd, &rect))
+			Log::Instance().Warning("Failed to get window rect. Code: " + std::to_string(GetLastError()));
+
+		if (hParent != nullptr) {
+			SetLastError(0);
+			const Int result = MapWindowPoints(HWND_DESKTOP, hParent, reinterpret_cast<LPPOINT>(&rect), 2);
+			if (result == 0)
+				Log::Instance().Warning("Failed to map window rect. Code: " + std::to_string(GetLastError()));
+		}
+		return rect;
+	}
+
 	IntRect AdjustWindowRect(const IntRect& windowRect, const DWord& styles, const Bool& isHasMenu) noexcept {
 		RECT rect = windowRect;
 		if (!AdjustWindowRect(&rect, styles, isHasMenu))
@@ -162,7 +181,7 @@ namespace Nt {
 		m_hParent = reinterpret_cast<HWND>(GetWindowLongPtr(m_hwnd, GWLP_HWNDPARENT));
 		m_pMenu = nullptr;
 		m_ClientRect = Nt::GetClientRect(m_hwnd);
-		m_WindowRect = Nt::GetWindowRect(m_hwnd);
+		m_WindowRect = GetMappedWindowRect(m_hwnd, m_hParent);
 		m_ID = GetWindowLongPtr(m_hwnd, GWLP_ID);;
 		m_Styles = GetWindowLongPtr(m_hwnd, GWL_STYLE);
 		m_ExStyles = GetWindowLongPtr(m_hwnd, GWL_EXSTYLE);
@@ -393,14 +412,16 @@ namespace Nt {
 		if (m_WindowRect.LeftTop == newPosition)
 			return;
 
-		const WindowPositionFlags falgs = WindowPositionFlags(POSITIONFLAG_NOSIZE | POSITIONFLAG_NOOWNERZORDER | POSITIONFLAG_NOZORDER);
-		SetWindowPos({ newPosition - m_WindowRect.LeftTop, m_WindowRect.RightBottom }, falgs);
+		NT_CONSTEXPR WindowPositionFlags falgs = WindowPositionFlags(
+			POSITIONFLAG_NOSIZE | POSITIONFLAG_NOOWNERZORDER | POSITIONFLAG_NOZORDER);
+		SetWindowPos({ newPosition, m_WindowRect.RightBottom }, falgs);
 	}
 	void HandleWindow::SetSize(const Int2D& newSize) noexcept {
 		if (m_WindowRect.RightBottom == newSize)
 			return;
 
-		const WindowPositionFlags falgs = WindowPositionFlags(POSITIONFLAG_NOMOVE | POSITIONFLAG_NOOWNERZORDER | POSITIONFLAG_NOZORDER);
+		NT_CONSTEXPR WindowPositionFlags falgs = WindowPositionFlags(
+			POSITIONFLAG_NOMOVE | POSITIONFLAG_NOOWNERZORDER | POSITIONFLAG_NOZORDER);
 		SetWindowPos({ m_WindowRect.LeftTop, newSize }, falgs);
 	}
 	void HandleWindow::SetWindowRect(const IntRect& newRect) noexcept {
@@ -413,6 +434,7 @@ namespace Nt {
 		}
 		else {
 			m_WindowRect = m_ClientRect = newRect;
+			m_ClientRect.LeftTop = { };
 		}
 	}
 	void HandleWindow::SetName(const String& name) {
@@ -546,7 +568,7 @@ namespace Nt {
 		UpdateWindow(m_hwnd);
 	}
 	IntRect HandleWindow::_ComputeRealWindowRect() {
-		IntRect windowRect = Nt::GetWindowRect(m_hwnd);
+		IntRect windowRect = GetMappedWindowRect(m_hwnd, m_hParent);
 		windowRect.RightBottom -= windowRect.LeftTop;
 		return windowRect;
 	}

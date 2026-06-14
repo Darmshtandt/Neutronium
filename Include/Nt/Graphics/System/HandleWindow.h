@@ -25,6 +25,7 @@ namespace Nt {
 #ifdef _WINDEF_
 	NT_API IntRect GetClientRect(HWND hwnd) noexcept;
 	NT_API IntRect GetWindowRect(HWND hwnd) noexcept;
+	NT_API IntRect GetMappedWindowRect(HWND hwnd, HWND hParent) noexcept;
 
 	NT_API IntRect AdjustedWindowRect(HWND hwnd, const DWord& styles, const Bool& isHasMenu) noexcept;
 	NT_API IntRect AdjustedWindowRectEx(HWND hwnd, const DWord& styles, const DWord& exStyles, const Bool& isHasMenu) noexcept;

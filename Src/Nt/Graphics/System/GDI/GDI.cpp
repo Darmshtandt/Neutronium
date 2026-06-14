@@ -18,6 +18,8 @@ namespace Nt::GDI {
 		else if (size.y == 0)
 			Log::Instance().Warning("Height = 0");
 
+		SetLastError(0);
+
 		HBITMAP compabilleBitmap = ::CreateCompatibleBitmap(RequireNotNull(hdc), size.x, size.y);
 		if (compabilleBitmap == nullptr)
 			Log::Instance().Warning(String("Failed to create compatible handle bitmap.\nError code:") + String(GetLastError()));
@@ -65,6 +67,8 @@ namespace Nt::GDI {
 	}
 
 	HDC CreateCompatibleDC(const HDC& hdc) {
+		SetLastError(0);
+
 		HDC compabilleDC = ::CreateCompatibleDC(RequireNotNull(hdc));
 		if (compabilleDC == nullptr)
 			Log::Instance().Warning(String("Failed to create compatible HDC.\nError code:") + String(GetLastError()));
@@ -72,6 +76,8 @@ namespace Nt::GDI {
 	}
 
 	HGDIOBJ SelectObject(const HDC& hdc, const HGDIOBJ& hObject) {
+		SetLastError(0);
+
 		HGDIOBJ hGDIObj = ::SelectObject(RequireNotNull(hdc), RequireNotNull(hObject));
 		if (hGDIObj == nullptr)
 			Log::Instance().Warning(String("Failed to select object.\nError code:") + String(GetLastError()));
@@ -88,12 +94,16 @@ namespace Nt::GDI {
 			return;
 		}
 
+		SetLastError(0);
+
 		const Bool result = ::GetDIBits(hdc, hBitmap, start, height, pBits, pBmpInfo, usage);
 		if (!result)
 			Log::Instance().Warning(String("Failed to get bitmap bits.\nError code: ") + String(GetLastError()));
 	}
 
 	Int SetStretchBltMode(const HDC& hdc, const Int& mode) {
+		SetLastError(0);
+
 		const Int result = ::SetStretchBltMode(RequireNotNull(hdc), mode);
 		if (result == 0)
 			Log::Instance().Warning(String("Failed to set StretchBlt mode.\nError code: ") + String(GetLastError()));
@@ -123,7 +133,7 @@ namespace Nt::GDI {
 		const Bool result = ::StretchBlt(hdcDest, rectDest.Left, rectDest.Top,
 			rectDest.Right, rectDest.Bottom, hdcSrc,
 			rectSrc.Left, rectSrc.Top, rectSrc.Right, rectSrc.Bottom, rop);
-		if (result && GetLastError() > 0)
+		if (!result)
 			Log::Instance().Warning(String("Failed to draw bitmap.\nError code: ") + String(GetLastError()));
 		return result;
 	}

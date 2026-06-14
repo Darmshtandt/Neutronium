@@ -116,21 +116,29 @@ namespace Nt {
 	}
 
 	Matrix4x4 IObject::_ComputeLocalToWorld() const noexcept {
-		return
+		const Matrix4x4 localMatrix = 
 			Matrix4x4::GetTranslate(m_Position) *
-			Matrix4x4::GetRotateY(m_Angle.y) *
-			Matrix4x4::GetRotateX(m_Angle.x) *
-			Matrix4x4::GetRotateZ(m_Angle.z) *
+			Matrix4x4::GetRotateZYX(m_Angle) *
 			Matrix4x4::GetScale(m_Size);
+
+		const Matrix4x4 originMatrix =
+			Matrix4x4::GetTranslate(m_Origin) *
+			Matrix4x4::GetRotateZYX(m_AngleOrigin);
+
+		return localMatrix * originMatrix;
 	}
 
 	Matrix4x4 IObject::_ComputeWorldToLocal() const noexcept {
-		return
+		const Matrix4x4 localMatrix =
 			Matrix4x4::GetScale(m_Size) *
-			Matrix4x4::GetRotateZ(m_Angle.z) *
-			Matrix4x4::GetRotateX(m_Angle.x) *
-			Matrix4x4::GetRotateY(m_Angle.y) *
+			Matrix4x4::GetRotate(m_Angle) *
 			Matrix4x4::GetTranslate(m_Position);
+
+		const Matrix4x4 originMatrix =
+			Matrix4x4::GetRotate(m_AngleOrigin) *
+			Matrix4x4::GetTranslate(m_Origin);
+
+		return localMatrix * originMatrix;
 	}
 
 	void IObject::_UpdateMatrices() const noexcept {

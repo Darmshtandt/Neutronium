@@ -68,6 +68,9 @@ namespace Nt {
 		static constexpr Matrix4x4 GetRotate(const Float3D& angle) noexcept {
 			return GetRotateX(angle.x) * GetRotateY(angle.y) * GetRotateZ(angle.z);
 		}
+		static constexpr Matrix4x4 GetRotateZYX(const Float3D& angle) noexcept {
+			return GetRotateZ(angle.z) * GetRotateY(angle.y) * GetRotateX(angle.x);
+		}
 
 		constexpr Matrix4x4& MakeIdentity() noexcept {
 			for (uInt i = 0; i < 4; ++i)

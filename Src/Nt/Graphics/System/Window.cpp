@@ -77,27 +77,32 @@ namespace Nt {
 		m_Name = name;
 		m_ClassName = m_Name + L"Class";
 
+		SetLastError(0);
+
 		WNDCLASS wndClass = { };
 		wndClass.hbrBackground = CreateSolidBrush(m_BackgroundColor);
 		wndClass.hInstance = GetModuleHandle(nullptr);
 		wndClass.lpfnWndProc = _BaseWndProc;
 		wndClass.lpszClassName = m_ClassName.c_str();
 
-		if ((!RegisterClass(&wndClass)) && GetLastError() == 1410) {
+		if (!RegisterClass(&wndClass) && GetLastError() == 1410) {
 			for (uInt i = 0; i < 100; ++i) {
 				const std::wstring newClassName = m_ClassName + std::to_wstring(i);
 				wndClass.lpszClassName = newClassName.c_str();
 
-				if (RegisterClass(&wndClass)) {
+				const Word result = RegisterClass(&wndClass);
+				const DWord errorCode = GetLastError();
+
+				if (result) {
 					m_ClassName = newClassName;
 					wndClass.lpszClassName = m_ClassName.c_str();
 					break;
 				}
-				else if (GetLastError() != 1410) {
+				else if (errorCode != 1410) {
 					String errorMsg = "Failed to create window class.\nClass name: \"";
 					errorMsg += wndClass.lpszClassName;
 					errorMsg += "\". Error code: ";
-					errorMsg += GetLastError();
+					errorMsg += errorCode;
 					Raise(errorMsg);
 				}
 			}
@@ -436,6 +441,8 @@ namespace Nt {
 				pThis->m_WindowRect.RightBottom -= pThis->m_WindowRect.LeftTop;
 
 				pThis->m_ClientRect = pThis->_ComputeRealClientRect();
+				//pThis->m_WindowRect.RightBottom += newSize - pThis->m_ClientRect.RightBottom;
+				//pThis->m_ClientRect.RightBottom = newSize;
 
 				pThis->_AddEvent(Event::Types::WINDOW_RESIZE, 0);
 				pThis->_Resize(pThis->m_ClientRect.RightBottom);
@@ -443,7 +450,8 @@ namespace Nt {
 				for (WindowListener* listener : pThis->m_WindowListeners)
 					listener->Resize(ResizeType(wParam), newSize);
 			}
-				return DefWindowProc(hwnd, uMsg, wParam, lParam);
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+				return NULL;
 
 			case WM_KEYDOWN:
 				pThis->_AddEvent(Event::Types::KEY_DOWN, wParam);
@@ -615,7 +623,7 @@ namespace Nt {
 		if (Result)
 			return filePath;
 
-		DWORD errorCode = GetLastError();
+		DWord errorCode = GetLastError();
 		if (errorCode != 0)
 			Raise(String("Failed to open file dialog") + String(errorCode));
 		return L"";
