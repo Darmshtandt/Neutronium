@@ -437,7 +437,7 @@ namespace Nt {
 				const Int2D newSize = { LOWORD(lParam), HIWORD(lParam) };
 
 				pThis->m_ClientRect.RightBottom = newSize;
-				pThis->m_WindowRect = Nt::GetWindowRect(hwnd);
+				pThis->m_WindowRect = GetMappedWindowRect(pThis->m_hwnd, pThis->m_hParent);
 				pThis->m_WindowRect.RightBottom -= pThis->m_WindowRect.LeftTop;
 
 				pThis->m_ClientRect = pThis->_ComputeRealClientRect();

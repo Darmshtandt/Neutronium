@@ -124,26 +124,42 @@ namespace Nt {
 		}
 	}
 
-	NT_API void Nt::Shader::SetUniformMatrix4x4(const String& semanticName, const uInt& type, const Matrix4x4& matrix) const {
+	void Shader::SetUniformMatrix3x3(const String& semanticName, const uInt& type, const Matrix3x3& matrix) const {
 		const Int location = _GetUniformLocation(semanticName);
 
 		switch (type) {
+		case UNIFORM_INT:
+		case UNIFORM_UINT:
+		case UNIFORM_FLOAT:
+			glUniformMatrix3fv(location, 1, GL_FALSE, matrix.Matrix);
+			break;
+
+		case UNIFORM_DOUBLE:
+			Double array2D[9];
+			for (uInt i = 0; i < 9; ++i)
+				array2D[i] = static_cast<Double>(matrix.Matrix[i]);
+
+			glUniformMatrix3dv(location, 1, GL_FALSE, array2D);
+			break;
+		}
+	}
+
+	void Shader::SetUniformMatrix4x4(const String& semanticName, const uInt& type, const Matrix4x4& matrix) const {
+		const Int location = _GetUniformLocation(semanticName);
+
+		switch (type) {
+		case UNIFORM_INT:
+		case UNIFORM_UINT:
 		case UNIFORM_FLOAT:
 			glUniformMatrix4fv(location, 1, GL_FALSE, matrix.Matrix);
 			break;
 
-		case UNIFORM_DOUBLE: {
+		case UNIFORM_DOUBLE:
 			Double array2D[16];
 			for (uInt i = 0; i < 16; ++i)
-				array2D[i] = Double(matrix.Matrix[i]);
+				array2D[i] = static_cast<Double>(matrix.Matrix[i]);
 
 			glUniformMatrix4dv(location, 1, GL_FALSE, array2D);
-			break;
-		}
-		case UNIFORM_INT:
-			break;
-
-		case UNIFORM_UINT:
 			break;
 		}
 	}

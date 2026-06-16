@@ -25,13 +25,30 @@ namespace Nt {
 					Matrix2D[i][j] = (i == j) ? 1.f : 0.f;
 			}
 		}
-
-		constexpr void Translate(const Float3D& vector) noexcept {
-			Matrix2D[2][0] += Matrix2D[0][0] * vector.x + Matrix2D[1][0] * vector.y + Matrix2D[2][0] * vector.z;
-			Matrix2D[2][1] += Matrix2D[0][1] * vector.x + Matrix2D[1][1] * vector.y + Matrix2D[2][1] * vector.z;
-			Matrix2D[2][2] += Matrix2D[0][2] * vector.x + Matrix2D[1][2] * vector.y + Matrix2D[2][2] * vector.z;
+		static constexpr Matrix3x3 GetTranslate(const Float3D& vec) noexcept {
+			Matrix3x3 Mat;
+			Mat.MakeIdentity();
+			Mat.Translate(vec);
+			return Mat;
+		}
+		static constexpr Matrix3x3 GetScale(const Float3D& vec) noexcept {
+			return Matrix3x3 {
+				vec.x, 0.f, 0.f,
+				0.f,vec.y, 0.f,
+				0.f, 0.f, vec.z
+			};
+		}
+		static constexpr Matrix3x3 GetRotateZ(const Float& angle) noexcept {
+			return Matrix3x3 {
+				cosf(angle), -sinf(angle), 0.f,
+				sinf(angle), cosf(angle), 0.f,
+				0.f, 0.f, 1.f
+			};
 		}
 
+		constexpr void Translate(const Float3D& vector) noexcept {
+			Columns[2] = Columns[0] * vector.x + Columns[1] * vector.y + Columns[2] * vector.z;
+		}
 		constexpr void Rotate(const Float3D& angle) noexcept {
 			if (angle == 0.f)
 				return;
@@ -104,13 +121,11 @@ namespace Nt {
 			return *this;
 		}
 
-		constexpr Float3D operator * (const Float3D& Vec) const noexcept {
+		constexpr Float3D operator * (const Float3D& v) const noexcept {
 			Float3D Result = { };
-			Matrix3x3 This = *this;
-			for (uInt i = 0; i < 3; ++i) {
-				This.Columns[i] *= Vec;
-				Result.Array[i] = This.Columns[i].x + This.Columns[i].y + This.Columns[i].z;
-			}
+			Result.x = v.x * Columns[0].x + v.y * Columns[1].x + v.z * Columns[2].x;
+			Result.y = v.x * Columns[0].y + v.y * Columns[1].y + v.z * Columns[2].y;
+			Result.z = v.x * Columns[0].z + v.y * Columns[1].z + v.z * Columns[2].z;
 			return Result;
 		}
 

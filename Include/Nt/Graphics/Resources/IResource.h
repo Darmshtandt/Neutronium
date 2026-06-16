@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Nt/Core/Utilities.h>
 #include <typeindex>
 
 namespace Nt {
@@ -13,8 +14,8 @@ namespace Nt {
 		virtual void LoadFromFile(const Nt::String& filePath) = 0;
 		virtual void Release() = 0;
 
-		_NODISCARD virtual std::type_index GetType() const = 0;
-		_NODISCARD virtual String GetFilePath() const noexcept = 0;
+		NT_NODISCARD virtual std::type_index GetType() const = 0;
+		NT_NODISCARD virtual String GetFilePath() const noexcept = 0;
 
 	protected:
 		void _ThrowError(cString errorMsg) const {

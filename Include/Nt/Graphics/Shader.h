@@ -145,10 +145,10 @@ namespace Nt {
 			Uniform(location, count, pValue);
 		}
 
-		NT_API void SetUniformMatrix4x4(const String& semanticName, const uInt& type, const Matrix4x4& Mat) const;
+		NT_API void SetUniformMatrix3x3(const String& semanticName, const uInt& type, const Matrix3x3& mat) const;
+		NT_API void SetUniformMatrix4x4(const String& semanticName, const uInt& type, const Matrix4x4& mat) const;
 
 		NT_API void Use() const noexcept;
-
 		NT_API void Delete() const;
 
 		NT_API void EnableStrict() noexcept;
@@ -166,7 +166,7 @@ namespace Nt {
 
 	private:
 		template <typename _Ty> requires std::is_arithmetic_v<_Ty>
-		_CONSTEXPR23 UniformType _GetUniformType() const noexcept {
+		NT_NODISCARD_CONSTEXPR UniformType _GetUniformType() const noexcept {
 			using _U = UniformTypeMap_t<_Ty>;
 
 			if constexpr (std::is_same_v<_U, Double>)
@@ -181,8 +181,8 @@ namespace Nt {
 				static_assert(std::is_same_v<_U, uInt>, "Error uniform type");
 		}
 
-		NT_API uInt _GetUniformLocation(const String& semanticName) const;
-		NT_API uInt _CompileShader(const uInt& ShaderID, const cString& code) const;
+		NT_NODISCARD NT_API uInt _GetUniformLocation(const String& semanticName) const;
+		NT_NODISCARD NT_API uInt _CompileShader(const uInt& ShaderID, const cString& code) const;
 		NT_API void _VarifyResult(const uInt& ShaderID, const Types& shaderType, const cString& fileName = nullptr);
 	};
 }
