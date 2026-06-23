@@ -1,5 +1,7 @@
 ﻿#pragma once
 
+#define NT_OLD_RIGID_BODY
+
 #include <Nt/Physics/Collision.h>
 
 namespace Nt {
