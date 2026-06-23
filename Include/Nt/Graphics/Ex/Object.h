@@ -9,7 +9,9 @@ namespace NtEx {
 	using namespace Nt;
 
 	class Object;
-	using ObjectPtr = std::unique_ptr<Object>;
+	using UniqueObject = std::unique_ptr<Object>;
+	using SharedObject = std::shared_ptr<Object>;
+	using WeakObject = std::weak_ptr<Object>;
 
 	class Object : public Identifier {
 	public:
@@ -68,13 +70,13 @@ namespace NtEx {
 			if (pParent && pParent->_AddNode(this))
 				m_pParent = pParent;
 		}
-		NT_NODISCARD const std::list<ObjectPtr>& Nodes() const noexcept {
+		NT_NODISCARD const std::list<SharedObject>& Nodes() const noexcept {
 			return m_Nodes;
 		}
 
 	protected:
-		std::unordered_map<ClassID, std::unique_ptr<BaseComponent>> m_Components;
-		std::list<ObjectPtr> m_Nodes;
+		std::unordered_map<ClassID, std::shared_ptr<BaseComponent>> m_Components;
+		std::list<SharedObject> m_Nodes;
 		Object* m_pParent;
 
 	private:
@@ -87,7 +89,7 @@ namespace NtEx {
 		}
 
 		NT_NODISCARD Bool _FindNode(Object* pObject) const noexcept {
-			for (const std::unique_ptr<Object>& pNode : m_Nodes) {
+			for (const SharedObject& pNode : m_Nodes) {
 				if (pNode.get() == pObject || pNode->_FindNode(pObject))
 					return true;
 			}
@@ -100,7 +102,7 @@ namespace NtEx {
 				return false;
 			}
 
-			m_Nodes.emplace_back(pObject);
+			m_Nodes.emplace_back(pObject.Get());
 			return true;
 		}
 		void _RemoveChild(NotNull<Object*> pObject) noexcept {

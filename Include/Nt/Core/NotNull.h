@@ -5,42 +5,38 @@
 #include <memory>
 
 template <class _Ty>
-_CONSTEXPR20 const _Ty& RequireNotNull(const _Ty& pointer, const std::string_view& message) {
+NT_CONSTEXPR const _Ty& RequireNotNull(const _Ty& pointer, const std::string_view& message) {
 #ifdef _DEBUG
 	if (pointer == nullptr)
 		Raise(message);
 #endif
-
 	return pointer;
 }
 
 template <class _Ty>
-_CONSTEXPR20 _Ty& RequireNotNull(_Ty& pointer, const std::string_view& message) {
+NT_CONSTEXPR _Ty& RequireNotNull(_Ty& pointer, const std::string_view& message) {
 #ifdef _DEBUG
 	if (pointer == nullptr)
 		Raise(message);
 #endif
-
 	return pointer;
 }
 
 template <class _Ty>
-_CONSTEXPR20 const _Ty& RequireNotNull(const _Ty& pointer) {
+NT_CONSTEXPR const _Ty& RequireNotNull(const _Ty& pointer) {
 #ifdef _DEBUG
 	if (pointer == nullptr)
 		Raise(std::string(typeid(std::remove_cvref_t<_Ty>).name()) + " is null");
 #endif
-
 	return pointer;
 }
 
 template <class _Ty>
-_CONSTEXPR20 _Ty& RequireNotNull(_Ty& pointer) {
+NT_CONSTEXPR _Ty& RequireNotNull(_Ty& pointer) {
 #ifdef _DEBUG
 	if (pointer == nullptr)
 		Raise(std::string(typeid(std::remove_cvref_t<_Ty>).name()) + " is null");
 #endif
-
 	return pointer;
 }
 
@@ -53,12 +49,12 @@ public:
 	}
 
 	template <class _U>
-	_NODISCARD _U DynamicCast() const {
+	NT_NODISCARD _U DynamicCast() const {
 		return RequireNotNull(dynamic_cast<_U>(m_Pointer));
 	}
 
 	template <class _U>
-	_NODISCARD _U ReinterpretCast() const {
+	NT_NODISCARD _U ReinterpretCast() const {
 		return RequireNotNull(reinterpret_cast<_U>(m_Pointer));
 	}
 
@@ -82,24 +78,24 @@ public:
 		return m_Pointer;
 	}
 
-	_NODISCARD const std::remove_pointer_t<_Ty>& operator * () const {
+	NT_NODISCARD const std::remove_pointer_t<_Ty>& operator * () const {
 		return *m_Pointer;
 	}
-	_NODISCARD std::remove_pointer_t<_Ty>& operator * () {
+	NT_NODISCARD std::remove_pointer_t<_Ty>& operator * () {
 		return *m_Pointer;
 	}
 
-	_NODISCARD operator _Ty () const {
+	NT_NODISCARD operator _Ty () const {
 		return m_Pointer;
 	}
-	_NODISCARD operator _Ty () {
+	NT_NODISCARD operator _Ty () {
 		return m_Pointer;
 	}
 
-	_NODISCARD const _Ty& Get() const noexcept {
+	NT_NODISCARD const _Ty& Get() const noexcept {
 		return m_Pointer;
 	}
-	_NODISCARD _Ty& Get() noexcept {
+	NT_NODISCARD _Ty& Get() noexcept {
 		return m_Pointer;
 	}
 
@@ -128,7 +124,7 @@ struct is_smart_pointer<std::weak_ptr<_Ty>> : std::true_type
 };
 
 template <typename _Ty>
-_CONSTEXPR20 Bool is_smart_pointer_v = is_smart_pointer<_Ty>::value;
+NT_CONSTEXPR Bool is_smart_pointer_v = is_smart_pointer<_Ty>::value;
 
 template <typename _Ty, typename _Enable = void>
 class NotNull;
