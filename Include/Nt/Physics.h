@@ -11,8 +11,8 @@ namespace Nt {
 
 #include <Nt/Graphics.h>
 
-#include <Nt/Physics/RayCast.h>
 #include <Nt/Physics/Simplex.h>
 #include <Nt/Physics/Collision.h>
-#include <Nt/Physics/RigidBody.h>`
+#include <Nt/Physics/Triangulation.h>
+#include <Nt/Physics/RigidBody.h>
 #include <Nt/Physics/PhysicalWorld.h>

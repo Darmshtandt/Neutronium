@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -31,7 +31,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{41eb0bee-9356-4cf2-b6c6-e6d039b53858}</ProjectGuid>
     <RootNamespace>Neutronium</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
     <ProjectName>NeutroniumGraphics</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -40,6 +40,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Example|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -136,15 +137,20 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include</AdditionalIncludeDirectories>
-      <DisableSpecificWarnings>4100;4201;4715;4996</DisableSpecificWarnings>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include;$(SolutionDir)packages\freetype.2.8.0.1\build\native\;$(SolutionDir)packages\openal\include</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4201;4996</DisableSpecificWarnings>
+      <UndefinePreprocessorDefinitions>min;max;ZeroMemory</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ComDlg32.lib;Comctl32.lib;OpenGL32.lib;GLU32.lib;Glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;$(SolutionDir)packages\freetype.2.8.0.1\build\native\lib\Win32\v141\static\Debug\;$(SolutionDir)packages\openal\lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ComDlg32.lib;Comctl32.lib;OpenGL32.lib;GLU32.lib;Glew32s.lib;freetype28d.lib;%(AdditionalDependencies);OpenAL32.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Example|Win32'">
     <ClCompile>
@@ -161,7 +167,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ComDlg32.lib;OpenGL32.lib;GLU32.lib;Glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ComDlg32.lib;OpenGL32.lib;GLU32.lib;Glew32s.lib;%(AdditionalDependencies);OpenAL32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -174,16 +180,16 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)ExtInclude\;$(SolutionDir)Include;$(SolutionDir)packages\freetype.2.8.0.1\build\native\;$(SolutionDir)packages\openal\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ComDlg32.lib;Comctl32.lib;OpenGL32.lib;GLU32.lib;Glew32s.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;$(SolutionDir)packages\freetype.2.8.0.1\build\native\lib\Win32\v141\static\Release\;$(SolutionDir)packages\openal\lib32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ComDlg32.lib;Comctl32.lib;OpenGL32.lib;GLU32.lib;Glew32s.lib;freetype28.lib;%(AdditionalDependencies);OpenAL32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -242,65 +248,159 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\Nt\Graphics\HandleWindow.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Ex\Algorithms\EPA.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Ex\Algorithms\GJK.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Ex\Physics\HitBox.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Ex\Physics\RigidBody.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Resources\Wave.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Sound\Listener.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Sound\Sound.cpp" />
+    <ClCompile Include="..\Include\Nt\Graphics\Sound\SoundDevice.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Buffer.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\FrameBuffer.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Edge.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Face.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Plane.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Primitives.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Shape.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Geometry\Vertex.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Objects\Camera.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Objects\IObject.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Objects\Model.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Objects\Sprite.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\RenderBuffer.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Renderer.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\RenderWindow.cpp" />
-    <ClCompile Include="..\Src\Nt\Graphics\Resources\ResourceMenager.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Image.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\Mesh.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\Resources\ResourceManager.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Resources\Texture.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\Shader.cpp" />
-    <ClCompile Include="..\Src\Nt\Graphics\Sprite.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\FTFont.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\GDI\Bitmap.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\GDI\Font.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\GDI\GDI.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\HandleWindow.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\Menu.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\FTText.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\Window.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\Button.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\ComboBox.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\CommonControls.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\Icon.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\ImageList.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\ListBox.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\ListView.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\Text.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\TextEdit.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\Tooltip.cpp" />
+    <ClCompile Include="..\Src\Nt\Graphics\System\WindowElements\TreeView.cpp" />
     <ClCompile Include="..\Src\Nt\Graphics\VertexArray.cpp" />
-    <ClCompile Include="..\Src\Nt\Graphics\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Include\Nt\Graphics.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Camera.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Font.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\GDI\Bitmap.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\GDI\Font.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\GDI\GDI.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Geometry.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Buffer.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Algorithms\EPA.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Algorithms\GJK.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\BaseComponent.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\ClassIdentifier.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\Camera.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\DirectionalLight.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\Material.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\Physics.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\RenderMatrix.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\Resources.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\SpriteAnimation.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Components\Transform.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\DepthTest.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\MatrixPlus.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Object.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Physics\BoundingBox.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Physics\HitBox.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Physics\PhysicBase.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Physics\RigidBody.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Ex\Quaternion.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\FrameBuffer.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Edge.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Face.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Plane.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Primitives.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Ray.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\RayCast.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Shape.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Geometry\Vertex.h" />
     <ClInclude Include="..\Include\Nt\Graphics\GUI.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\HandleDeviceContext.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\HandleWindow.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Icon.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\IObject.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\BoxLayout.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\Cell.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\GridLayout.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Layouts\ILayout.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Menu.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Model.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Listeners\WindowListeners.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Camera.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\IObject.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Model.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Objects\Sprite.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\RenderBuffer.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Renderer.h" />
     <ClInclude Include="..\Include\Nt\Graphics\RenderWindow.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Image.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ImageLoaders.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\IResource.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Mesh.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceMenager.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\MeshLoaders.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceHandle.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\ResourceManager.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Resources\Texture.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Resources\Wave.h" />
     <ClInclude Include="..\Include\Nt\Graphics\Shader.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Sprite.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Text.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Sound\Listener.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Sound\Sound.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\Sound\SoundDevice.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\FTFont.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\GDI\Bitmap.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\GDI\Font.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\GDI\GDI.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\HandleDeviceContext.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\HandleWindow.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\Icon.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\Menu.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\System.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\FTText.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WinAPI.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\Window.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\Button.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\ComboBox.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\CommonControls.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\ImageList.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\ListBox.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\ListView.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\Text.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\TextEdit.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\Tooltip.h" />
+    <ClInclude Include="..\Include\Nt\Graphics\System\WindowElements\TreeView.h" />
     <ClInclude Include="..\Include\Nt\Graphics\VertexArray.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\Window.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\Button.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\ComboBox.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\ImageList.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\ListBox.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\ListView.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\Text.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\TextEdit.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\Tooltip.h" />
-    <ClInclude Include="..\Include\Nt\Graphics\WindowElements\TreeView.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NeutroniumCore\NeutroniumCore.vcxproj">
       <Project>{45378ad9-706f-48e5-89b5-e73266561a53}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Include\Nt\Graphics\Ex\ClassIdentifier.inl" />
+    <None Include="cpp.hint" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\freetype.redist.2.8.0.1\build\native\freetype.redist.targets" Condition="Exists('..\packages\freetype.redist.2.8.0.1\build\native\freetype.redist.targets')" />
+    <Import Project="..\packages\freetype.2.8.0.1\build\native\freetype.targets" Condition="Exists('..\packages\freetype.2.8.0.1\build\native\freetype.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\freetype.redist.2.8.0.1\build\native\freetype.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\freetype.redist.2.8.0.1\build\native\freetype.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\freetype.2.8.0.1\build\native\freetype.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\freetype.2.8.0.1\build\native\freetype.targets'))" />
+  </Target>
 </Project>

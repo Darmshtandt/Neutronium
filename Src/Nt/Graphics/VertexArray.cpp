@@ -1,149 +1,116 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
 #include <GL/GLEW.h>
-#include <fstream>
-
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
-#include <Nt/Core/Utilities.h>
-#include <Nt/Core/Log.h>
-
-#include <Nt/Core/Math/Vectors.h>
-#include <Nt/Core/Math/Rect.h>
-#include <Nt/Core/Math/Matrix3x3.h>
-#include <Nt/Core/Math/Matrix4x4.h>
-
-#include <Nt/Core/Serialization.h>
-
-#include <Nt/Graphics/Geometry.h>
 #include <Nt/Graphics/VertexArray.h>
 
 namespace Nt {
-	VertexArray::VertexArray() noexcept {
+	VertexArray::VertexArray() :
+		m_VertexBuffer(Buffer::ARRAY),
+		m_ElementBuffer(Buffer::ELEMENT_ARRAY)
+	{
 		_Create();
 	}
-	VertexArray::VertexArray(const VertexArray& Array) noexcept {
+
+	VertexArray::VertexArray(const VertexArray& other) : 
+		m_VertexBuffer(other.m_VertexBuffer),
+		m_ElementBuffer(other.m_ElementBuffer)
+	{
 		_Create();
-		Array.CopyTo(this);
 	}
+
 	VertexArray::~VertexArray() noexcept {
-		glDeleteVertexArrays(1, &m_VAO);
-		glDeleteBuffers(1, &m_VBO);
-		glDeleteBuffers(1, &m_EBO);
+		if (m_ID != 0)
+			glDeleteVertexArrays(1, &m_ID);
 	}
 
-	void VertexArray::CopyTo(VertexArray* pVertexArray) const {
-		if (pVertexArray == nullptr)
-			Raise("pVertexArray is nullptr");
-
-		const uInt NumVertices = GetNumVertices();
-		const uInt NumIndices = GetNumIndices();
-
-		Vertex* Vertices = new Vertex[NumVertices];
-		Index_t* Indices = new Index_t[NumIndices];
-
-		memcpy(Vertices, m_VBOData, NumVertices * sizeof(Vertex));
-		memcpy(Indices, m_EBOData, NumIndices * sizeof(Index_t));
-
-		pVertexArray->SetVBOData(NumVertices, Vertices, GetVBOUsage());
-		pVertexArray->SetEBOData(NumIndices, Indices, GetEBOUsage());
+	void VertexArray::Clear() noexcept {
+		m_VertexBuffer.Clear();
+		m_ElementBuffer.Clear();
 	}
 
-	void VertexArray::UpdateVBO(const uInt& NumVertices, Vertex* pData) {
-		if (m_VAO == 0)
-			Raise("VAO is not created");
-		if (m_VBO == 0)
-			Raise("VBO is not created");
+	void VertexArray::UpdateVBO(const uInt& numVertices, Vertex* pData) const {
+		glBindVertexArray(m_ID);
 
-		glBindVertexArray(m_VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Vertex) * NumVertices, pData);
+		m_VertexBuffer.Bind();
+		m_VertexBuffer.SetSubData(0, sizeof(Vertex) * numVertices, pData);
 	}
-	void VertexArray::UpdateEBO(const uInt& NumIndices, Vertex* pData) {
-		if (m_VAO == 0)
-			Raise("VAO is not created");
-		if (m_EBO == 0)
-			Raise("EBO is not created");
+	void VertexArray::UpdateEBO(const uInt& numIndices, Vertex* pData) const {
+		glBindVertexArray(m_ID);
 
-		glBindVertexArray(m_VAO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-		glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(Vertex) * NumIndices, pData);
+		m_ElementBuffer.Bind();
+		m_ElementBuffer.SetSubData(0, sizeof(Vertex) * numIndices, pData);
 	}
 
-	void VertexArray::SetVBOData(const uInt& NumVertices, Vertex* pData, const uInt& Usage) noexcept {
-		m_VBOUsage = Usage;
-		m_NumVertices = NumVertices;
-		m_VBOData = pData;
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_NumVertices, m_VBOData, Usage);
+	void VertexArray::SetVBOData(const uInt& numVertices, Vertex* pData, const UsageDraw& usage) noexcept {
+		m_VertexBuffer.Bind();
+		m_VertexBuffer.SetData(sizeof(Vertex) * numVertices, pData, usage);
 	}
 
-	void VertexArray::SetEBOData(const uInt& NumIndices, Index_t* pData, const uInt& Usage) noexcept {
-		m_EBOUsage = Usage;
-		m_NumIndices = NumIndices;
-		m_EBOData = pData;
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Index_t) * m_NumIndices, m_EBOData, Usage);
+	void VertexArray::SetEBOData(const uInt& numIndices, Index_t* pData, const UsageDraw& usage) noexcept {
+		m_ElementBuffer.Bind();
+		m_ElementBuffer.SetData(sizeof(Index_t) * numIndices, pData, usage);
 	}
 
-	void VertexArray::Set() const noexcept {
-		glBindVertexArray(m_VAO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	void VertexArray::Bind() const noexcept {
+		glBindVertexArray(m_ID);
+
+		m_VertexBuffer.Bind();
+		m_ElementBuffer.Bind();
 	}
 
-	Vertex* VertexArray::GetVBOData() const noexcept {
-		return reinterpret_cast<Vertex*>(m_VBOData);
-	}
-	Index_t* VertexArray::GetEBOData() const noexcept {
-		return reinterpret_cast<Index_t*>(m_EBOData);
+	VertexArray& VertexArray::operator = (const VertexArray& other) noexcept {
+		if (this == &other)
+			return *this;
+
+		m_VertexBuffer = other.m_VertexBuffer;
+		m_ElementBuffer = other.m_ElementBuffer;
+
+		return *this;
 	}
 
-	uInt VertexArray::GetNumVertices() const noexcept {
-		return m_NumVertices;
+	_NODISCARD const Buffer& VertexArray::GetVertexBuffer() const noexcept {
+		return m_VertexBuffer;
 	}
-	uInt VertexArray::GetNumIndices() const noexcept {
-		return m_NumIndices;
+	_NODISCARD const Buffer& VertexArray::GetElementBuffer() const noexcept {
+		return m_ElementBuffer;
 	}
 
-	uInt VertexArray::GetVBOUsage() const noexcept {
-		return m_VBOUsage;
+	_NODISCARD const Vertex* VertexArray::GetVerticesData() const noexcept {
+		return static_cast<const Vertex*>(m_VertexBuffer.GetDataPtr());
 	}
-	uInt VertexArray::GetEBOUsage() const noexcept {
-		return m_EBOUsage;
+	_NODISCARD const Index_t* VertexArray::GetIndicesData() const noexcept {
+		return static_cast<const Index_t*>(m_ElementBuffer.GetDataPtr());
+	}
+
+	_NODISCARD uInt VertexArray::GetNumVertices() const noexcept {
+		return m_VertexBuffer.GetSize() / sizeof(Vertex);
+	}
+	_NODISCARD uInt VertexArray::GetNumIndices() const noexcept {
+		return m_ElementBuffer.GetSize() / sizeof(Index_t);
+	}
+	_NODISCARD uInt VertexArray::GetID() const noexcept {
+		return m_ID;
 	}
 
 	void VertexArray::_Create() {
-		glGenVertexArrays(1, &m_VAO);
-		glBindVertexArray(m_VAO);
-		if (m_VAO == 0)
-			Raise("Failed to create VAO");
+		glGenVertexArrays(1, &m_ID);
+		glBindVertexArray(m_ID);
+		Assert(m_ID != 0, "Failed to create VertexArray");
 
-		m_NumVertices = 0;
-		glGenBuffers(1, &m_VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-		if (m_VBO == 0) {
-			glDeleteVertexArrays(1, &m_VAO);
-			Raise("Failed to create VBO");
-		}
+		m_VertexBuffer.Bind();
+		m_ElementBuffer.Bind();
 
-		m_NumIndices = 0;
-		glGenBuffers(1, &m_EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-		if (m_EBO == 0) {
-			glDeleteVertexArrays(1, &m_VAO);
-			glDeleteBuffers(1, &m_VBO);
-			Raise("Failed to create EBO");
-		}
-
-		uInt Offset = 0;
+		uInt offset = 0;
 		for (uInt i = 0; i < 4; ++i) {
 			glEnableVertexAttribArray(i);
 
-			const bool IsTexCoord = (i == 2);
-			const uInt Size = (IsTexCoord) ? 3 : 4;
-			glVertexAttribPointer(i, Size, GL_FLOAT, GL_FALSE, sizeof(Vertex), (LPCVOID)(Offset));
+			const Bool isTexCoord = (i == 2);
+			const uInt size = (isTexCoord) ? 3 : 4;
 
-			Offset += Size * sizeof(float);
+			glVertexAttribPointer(i, size, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const Void*)(offset));
+
+			offset += size * sizeof(Float);
 		}
 	}
 }

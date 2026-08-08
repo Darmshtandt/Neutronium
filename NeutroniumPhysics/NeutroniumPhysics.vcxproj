@@ -31,7 +31,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{a8c7b6c3-a994-4769-a2f3-0e0160aa0b1a}</ProjectGuid>
     <RootNamespace>NeutroniumPhysics</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.22621.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -39,6 +39,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Example|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -130,12 +131,17 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <LanguageStandard_C>stdc17</LanguageStandard_C>
       <DisableSpecificWarnings>4100;4201;4715;4996</DisableSpecificWarnings>
+      <UndefinePreprocessorDefinitions>min;max;ZeroMemory</UndefinePreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(OutDir);$(SolutionDir)ExtLibs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Example|Win32'">
     <ClCompile>
@@ -241,7 +247,6 @@
     <ClInclude Include="..\Include\Nt\Physics.h" />
     <ClInclude Include="..\Include\Nt\Physics\Collision.h" />
     <ClInclude Include="..\Include\Nt\Physics\PhysicalWorld.h" />
-    <ClInclude Include="..\Include\Nt\Physics\RayCast.h" />
     <ClInclude Include="..\Include\Nt\Physics\RigidBody.h" />
     <ClInclude Include="..\Include\Nt\Physics\Simplex.h" />
   </ItemGroup>

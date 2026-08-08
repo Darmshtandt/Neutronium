@@ -1,51 +1,64 @@
 #pragma once
 
+#include <Nt/Core/Utilities.h>
+
 namespace Nt {
 	template <class _Ty>
 	class SelfDeletingPtr {
 	public:
-		constexpr SelfDeletingPtr(const _Ty* Ptr = nullptr) :
+		_CONSTEXPR20 SelfDeletingPtr(const _Ty* Ptr = nullptr) :
 			m_Ptr(const_cast<_Ty*>(Ptr)) {
 		}
-		constexpr ~SelfDeletingPtr() {
+		_CONSTEXPR20 ~SelfDeletingPtr() {
 			Delete();
 		}
 
-		constexpr void Delete() {
+		_CONSTEXPR20 void Delete() {
 			SAFE_DELETE(&m_Ptr);
 		}
-		constexpr void MoveTo(SelfDeletingPtr<_Ty>& NewPointer) {
-			if (NewPointer.m_Ptr != nullptr)
-				Raise(L"NewPointer is already taken by another pointer");
-			if (m_Ptr == nullptr)
-				Raise(L"This pointer is nullptr");
+		_CONSTEXPR20 void MoveTo(SelfDeletingPtr<_Ty>& newPointer) {
+			if (newPointer.m_Ptr != nullptr) {
+				Raise("NewPointer is already taken by another pointer");
+				return;
+			}
+			if (m_Ptr == nullptr) {
+				Raise("This pointer is nullptr");
+				return;
+			}
 
-			NewPointer.m_Ptr = m_Ptr;
+			newPointer.m_Ptr = m_Ptr;
 			m_Ptr = nullptr;
 		}
 		
-		constexpr SelfDeletingPtr<_Ty> operator = (_Ty* Ptr) {
-			if (m_Ptr != nullptr)
-				Raise(L"This pointer is already taken by another pointer");
-			if (Ptr == nullptr)
-				Raise(L"Ptr is nullptr");
-			m_Ptr = Ptr;
+		_CONSTEXPR20 SelfDeletingPtr<_Ty>& operator = (_Ty* ptr) {
+			if (m_Ptr != nullptr) {
+				Raise("This pointer is already taken by another pointer");
+				return *this;
+			}
+
+			if (ptr == nullptr) {
+				Raise("Pointer is null");
+				return *this;
+			}
+
+			m_Ptr = ptr;
+			return *this;
 		}
 
-		constexpr _Ty* operator -> () const noexcept {
+		_CONSTEXPR20 _Ty* operator -> () const noexcept {
 			return m_Ptr;
 		}
-		constexpr _Ty operator * () const noexcept {
+		_CONSTEXPR20 _Ty& operator * () const noexcept {
 			return *m_Ptr;
 		}
-		constexpr operator _Ty* () const noexcept {
+		_CONSTEXPR20 operator _Ty* () const noexcept {
 			return m_Ptr;
 		}
-		constexpr operator const _Ty* () const noexcept {
+		_CONSTEXPR20 operator const _Ty* () const noexcept {
 			return m_Ptr;
 		}
 
-		constexpr _Ty* Get() const noexcept {
+		_CONSTEXPR20 _Ty* Get() const noexcept {
 			return m_Ptr;
 		}
 

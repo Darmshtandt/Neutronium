@@ -1,5 +1,10 @@
 #pragma once
 
+#include <Nt/Core/Utilities.h>
+#include <Nt/Graphics/Geometry/Ray.h>
+#include <Nt/Graphics/Renderer.h>
+#include <Nt/Physics/Simplex.h>
+
 namespace Nt {
 	class ICollider {
 	public:
@@ -16,15 +21,14 @@ namespace Nt {
 
 	public:
 		ICollider(const uInt& _Type) :
-			Type(_Type) {
+			Type(_Type),
+			m_pModel(nullptr)
+		{
 		}
+		virtual ~ICollider() = default;
 
-		virtual Bool IsCollide(const ICollider* pCollider) const = 0;
-		__inline void Render(Renderer* pRenderer) const {
-			if (!pRenderer)
-				Raise("Renderer is nullptr");
-
-			if (m_pModel) {
+		__inline void Render(NotNull<Renderer*> pRenderer) const {
+			if (m_pModel != nullptr) {
 				const Renderer::DrawingMode PrevDrawingMode = pRenderer->GetDrawingMode();
 				pRenderer->SetDrawingMode(Renderer::DrawingMode::LINE_STRIP);
 				pRenderer->SetLineWidth(5.f);
@@ -36,10 +40,12 @@ namespace Nt {
 			}
 		}
 
+		virtual Bool IsCollide(NotNull<ICollider*> pCollider) const = 0;
+
 		virtual ICollider* GetCopy() const = 0;
 
 		__inline void SetColor(const Float4D& Color) noexcept {
-			if (m_pModel)
+			if (m_pModel != nullptr)
 				m_pModel->SetColor(Color);
 		}
 
@@ -51,85 +57,13 @@ namespace Nt {
 		Model* m_pModel;
 	};
 
-	class BoxCollider : public ICollider {
-	public:
-		BoxCollider(Float3D Size) :
-			ICollider(TYPE_BOX),
-			m_Size(Size) {
-			_RecreateModel();
-		}
-		
-		NT_API Bool IsCollide(const ICollider* pCollider) const override final;
-
-		ICollider* GetCopy() const override {
-			return new BoxCollider(*this);
-		}
-
-		__inline void SetSize(const Float3D& Size) {
-			m_Size = Size;
-			_RecreateModel();
-		}
-
-	private:
-		Float3D m_Size;
-
-	private:
-		__inline void _RecreateModel() {
-			SAFE_DELETE(&m_pModel);
-			if (m_Size.Length() > 0) {
-				m_pModel = new Model(Geometry::Cube(m_Size, Colors::White));
-				m_pModel->SetSize(m_Size);
-				m_pModel->SetColor(Colors::Red);
-			}
-		}
-	};
-
-	struct SphereCollider : public ICollider {
-		SphereCollider() :
-			ICollider(TYPE_SPHERE),
-			Radius(0.f) {
-		}
-
-		NT_API Bool IsCollide(const ICollider* pCollider) const override final;
-
-		ICollider* GetCopy() const override {
-			return new SphereCollider(*this);
-		}
-
-		Float Radius;
-	};
-
-	struct TriangleCollider : public ICollider {
-		TriangleCollider() :
-			ICollider(TYPE_TRIANGLE) {
-		}
-
-		NT_API Bool IsCollide(const ICollider* pCollider) const override final;
-
-		void SetABC(const Float3D& A, const Float3D& B, const Float3D& C) noexcept {
-			const Float3D AB = B - A;
-			const Float3D BC = C - B;
-			const Float3D CA = A - C;
-
-			const Float ABLength = AB.LengthSquare();
-			const Float BCLength = BC.LengthSquare();
-			const Float CALength = CA.LengthSquare();
-		}
-
-		ICollider* GetCopy() const override {
-			return new TriangleCollider(*this);
-		}
-
-		Matrix4x4 Mat;
-	};
-
 	class MeshCollider : public ICollider {
 	public:
 		MeshCollider() :
 			ICollider(TYPE_MESH) {
 		}
 
-		NT_API Bool IsCollide(const ICollider* pCollider) const override final;
+		NT_API Bool IsCollide(NotNull<ICollider*> pCollider) const override final;
 
 		[[nodiscard]]
 		Float3D FindFurthestPoint(const Float3D& direction) const {
@@ -137,8 +71,8 @@ namespace Nt {
 			Float maxDistance = -FLT_MAX;
 			//Vec3D transformedDirection = (invModel() * direction).normalized();
 
-			const Float3D transformedDirection = (m_LocalWorld * direction).GetNormalize();
-			for (Float3D point : m_Points) {
+			const Float3D transformedDirection = (m_LocalWorld * Float4D(direction, 1.f)).GetNormalize().xyz;
+			for (const Float3D& point : m_Points) {
 				const Float pointLength = point.Dot(transformedDirection);
 				if (pointLength > maxDistance) {
 					maxDistance = pointLength;
@@ -280,10 +214,10 @@ namespace Nt {
 
 			Float3D P = ray.Direction().GetCross(ac);
 			Float determinant = ab.Dot(P);
-			if (std::abs(determinant) < 0.000001)
+			if (std::fabs(determinant) < 0.000001f)
 				return false;
 
-			Float inverseDeterminant = 1.0 / determinant;
+			Float inverseDeterminant = 1.f / determinant;
 			Float3D rayStartToA = ray.Start - face[0];
 
 			Float intersectionParam1 = rayStartToA.Dot(P) * inverseDeterminant;
@@ -317,11 +251,11 @@ namespace Nt {
 		void SetShape(const Shape& shape) {
 			m_Points.clear();
 			if (shape.Indices.size() == 0) {
-				for (Index_t index : shape.Indices)
+				for (const Index_t& index : shape.Indices)
 					m_Points.push_back(shape.Vertices[index].Position);
 			}
 			else {
-				for (Vertex vertex : shape.Vertices)
+				for (const Vertex& vertex : shape.Vertices)
 					m_Points.push_back(vertex.Position);
 			}
 		}

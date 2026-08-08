@@ -45,33 +45,38 @@ namespace Nt {
 // ============================================================================
 //	Neutronium
 // ----------------------------------------------------------------------------
-#include <Nt/Graphics/Geometry.h>
+#include <Nt/Graphics/Geometry/Primitives.h>
+#include <Nt/Graphics/Geometry/Ray.h>
+#include <Nt/Graphics/Buffer.h>
 #include <Nt/Graphics/VertexArray.h>
-#include <Nt/Graphics/IObject.h>
+#include <Nt/Graphics/Objects/IObject.h>
 #include <Nt/Graphics/Shader.h>
 
-#include <Nt/Graphics/Menu.h>
+#include <Nt/Graphics/System/Menu.h>
 //#include <Nt/Graphics/HandleDeviceContext.h>
-#include <Nt/Graphics/HandleWindow.h>
-#include <Nt/Graphics/GDI/GDI.h>
-#include <Nt/Graphics/GDI/Font.h>
-#include <Nt/Graphics/GDI/Bitmap.h>
-#include <Nt/Graphics/Icon.h>
-#include <Nt/Graphics/WindowElements.h>
-#include <Nt/Graphics/Window.h>
+#include <Nt/Graphics/System/HandleWindow.h>
+#include <Nt/Graphics/System/GDI/GDI.h>
+#include <Nt/Graphics/System/GDI/Font.h>
+#include <Nt/Graphics/System/GDI/Bitmap.h>
+#include <Nt/Graphics/System/Icon.h>
+#include <Nt/Graphics/System/WindowElements.h>
+#include <Nt/Graphics/System/Window.h>
 #include <Nt/Graphics/Layouts.h>
 
 #include <Nt/Graphics/Resources/ResourceManager.h>
 #include <Nt/Graphics/Resources/IResource.h>
 #include <Nt/Graphics/Resources/Image.h>
+#include <Nt/Graphics/Resources/ImageLoaders.h>
 #include <Nt/Graphics/Resources/Texture.h>
 #include <Nt/Graphics/Resources/Mesh.h>
 
+#include <Nt/Graphics/FrameBuffer.h>
+
 #include <Nt/Graphics/Renderer.h>
 #include <Nt/Graphics/RenderWindow.h>
-#include <Nt/Graphics/Model.h>
-#include <Nt/Graphics/Sprite.h>
-#include <Nt/Graphics/Camera.h>
+#include <Nt/Graphics/Objects/Model.h>
+#include <Nt/Graphics/Objects/Sprite.h>
+#include <Nt/Graphics/Objects/Camera.h>
 
 #ifdef __NT__EXPEREMENTAL
 #include <Nt/Graphics/GUI.h>

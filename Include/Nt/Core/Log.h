@@ -1,54 +1,48 @@
 #pragma once
 
+#include <Nt/Core/NtTypes.h>
+#include <Nt/Core/String.h>
+
+#pragma warning(disable : 4251)
+
 namespace Nt {
-	class Log {
+	class NT_API Log {
 	public:
-		NT_API static void Successfull(const String& Message) noexcept;
-		NT_API static void Warning(const String& Message) noexcept;
-		NT_API static void Error(const String& Message) noexcept;
-		NT_API static void Message(const String& Message) noexcept;
+		Log() noexcept;
 
+		NT_NODISCARD static Log& Instance() noexcept;
 
-		static void EnableOutput() noexcept {
-			m_EnableOutput = true;
-		}
-		static void DisableOutput() noexcept {
-			m_EnableOutput = false;
-		}
+		void Successful(const String& message) noexcept;
+		void Warning(const String& message) noexcept;
+		void Error(const String& message) noexcept;
+		void Message(const String& message) noexcept;
 
-		static void EnableOutputSuccessfulls() noexcept {
-			m_EnableOutputSuccessfulls = true;
-		}
-		static void DisableOutputSuccessfulls() noexcept {
-			m_EnableOutputSuccessfulls = false;
-		}
+		void EnableOutput() noexcept;
+		void DisableOutput() noexcept;
+		void EnableOutputSuccessfully() noexcept;
+		void DisableOutputSuccessfully() noexcept;
+		void EnableOutputWarnings() noexcept;
+		void DisableOutputWarnings() noexcept;
+		void EnableOutputErrors() noexcept;
+		void DisableOutputErrors() noexcept;
+		void EnableOutputMessages() noexcept;
+		void DisableOutputMessages() noexcept;
 
-		static void EnableOutputWarnings() noexcept {
-			m_EnableOutputWarnings = true;
-		}
-		static void DisableOutputWarnings() noexcept {
-			m_EnableOutputWarnings = false;
-		}
-
-		static void EnableOutputErrors() noexcept {
-			m_EnableOutputErrors = true;
-		}
-		static void DisableOutputErrors() noexcept {
-			m_EnableOutputErrors = false;
-		}
-
-		static void EnableOutputMessages() noexcept {
-			m_EnableOutputMessages = true;
-		}
-		static void DisableOutputMessages() noexcept {
-			m_EnableOutputMessages = false;
-		}
+		void SetMessageStream(std::ostream& messageStream) noexcept;
+		void SetErrorStream(std::ostream& errorStream) noexcept;
+		void SetWarningStream(std::ostream& warningStream) noexcept;
 
 	private:
-		static bool m_EnableOutput;
-		static bool m_EnableOutputSuccessfulls;
-		static bool m_EnableOutputWarnings;
-		static bool m_EnableOutputErrors;
-		static bool m_EnableOutputMessages;
+		std::reference_wrapper<std::ostream> m_MessageStream;
+		std::reference_wrapper<std::ostream> m_ErrorStream;
+		std::reference_wrapper<std::ostream> m_WarningStream;
+
+		Bool m_EnableOutput = true;
+		Bool m_EnableOutputSuccessfulls = true;
+		Bool m_EnableOutputWarnings = true;
+		Bool m_EnableOutputErrors = true;
+		Bool m_EnableOutputMessages = true;
 	};
 }
+
+#pragma warning(default : 4251)

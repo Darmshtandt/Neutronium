@@ -1,8 +1,10 @@
-#include <windows.h>
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
 #include <Nt/Core/Timer.h>
+#include <Nt/Core/WinMinimal.h>
+
+#include <windows.h>
 
 namespace Nt {
 	Timer::Timer() noexcept :
@@ -16,14 +18,14 @@ namespace Nt {
 		m_Start = GetTickCount64();
 	}
 
-	uLLong Timer::SecondsToTicks(const Double& Seconds) const noexcept {
+	_NODISCARD uLLong Timer::SecondsToTicks(const Double& Seconds) const noexcept {
 		return uLLong(Double(m_Frequency) * Seconds);
 	}
 
-	uLLong Timer::GetElapsedTimeMs() const noexcept {
+	_NODISCARD uLLong Timer::GetElapsedTimeMs() const noexcept {
 		return GetTickCount64() - m_Start;
 	}
-	uLLong Timer::GetTicks() noexcept {
+	_NODISCARD uLLong Timer::GetTicks() noexcept {
 		QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&m_Ticks));
 		return m_Ticks;
 	}

@@ -1,5 +1,24 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+.vs/
+Bin/
+Debug/
+packages/
+Lib/
+ExtInclude/
+ExtLibs/
 
-/.vs/Neutronium
+NeutroniumCore/Debug/
+NeutroniumCore/Release/
+NeutroniumCore/x64/
+
+NeutroniumGraphics/Debug/
+NeutroniumGraphics/Release/
+NeutroniumGraphics/x64/
+
+NeutroniumPhysics/Debug/
+NeutroniumPhysics/Release/
+NeutroniumPhysics/x64/
+
+Project1/
+
+StructLayoutSettings.json
+Нейтронат калия кальция.txt

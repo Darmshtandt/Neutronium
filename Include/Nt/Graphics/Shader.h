@@ -1,202 +1,188 @@
 #pragma once
 
-/*
-All uniforms:
+#include <map>
 
-m_GLEW.Uniform1F
-m_GLEW.Uniform1FV
-m_GLEW.Uniform1I
-m_GLEW.Uniform1IV
-m_GLEW.Uniform1D
-m_GLEW.Uniform1DV
-m_GLEW.Uniform1UI
-m_GLEW.Uniform1uIV
+#include <Nt/Core/Math/Vector.h>
+#include <Nt/Core/Math/Matrix4x4.h>
+#include <Nt/Graphics/Buffer.h>
 
-m_GLEW.Uniform2F
-m_GLEW.Uniform2FV
-m_GLEW.Uniform2I
-m_GLEW.Uniform2IV
-m_GLEW.Uniform2D
-m_GLEW.Uniform2DV
-m_GLEW.Uniform2UI
-m_GLEW.Uniform2uIV
-
-m_GLEW.Uniform3F
-m_GLEW.Uniform3FV
-m_GLEW.Uniform3I
-m_GLEW.Uniform3IV
-m_GLEW.Uniform3D
-m_GLEW.Uniform3DV
-m_GLEW.Uniform3UI
-m_GLEW.Uniform3uIV
-
-m_GLEW.Uniform4F
-m_GLEW.Uniform4FV
-m_GLEW.Uniform4I
-m_GLEW.Uniform4IV
-m_GLEW.Uniform4D
-m_GLEW.Uniform4DV
-m_GLEW.Uniform4UI
-m_GLEW.Uniform4uIV
-
-m_GLEW.UniformMatrix2FV
-m_GLEW.UniformMatrix2DV
-m_GLEW.UniformMatrix3FV
-m_GLEW.UniformMatrix3DV
-m_GLEW.UniformMatrix4FV
-m_GLEW.UniformMatrix4DV
-
-m_GLEW.UniformMatrix2x3DV
-m_GLEW.UniformMatrix2x4DV
-m_GLEW.UniformMatrix3x2DV
-m_GLEW.UniformMatrix3x4DV
-m_GLEW.UniformMatrix4x2DV
-m_GLEW.UniformMatrix4x3DV
-
-*/
+#ifndef GLAPIENTRY
+#	define GLAPIENTRY __stdcall
+#endif
 
 namespace Nt {
-	enum class UniformType {
-		FLOAT, DOUBLE, INT, UINT
+	enum UniformType : uInt {
+		UNIFORM_DOUBLE,
+		UNIFORM_FLOAT,
+		UNIFORM_INT,
+		UNIFORM_UINT,
+		UNIFORM_TYPES_COUNT
 	};
-	enum class UniformDimension {
-		_1D, _2D, _3D, _4D
+	enum UniformMatrixSize : uInt {
+		UNIFORM_MATRIX_2X2,
+		UNIFORM_MATRIX_2X3,
+		UNIFORM_MATRIX_2X4,
+
+		UNIFORM_MATRIX_3X2,
+		UNIFORM_MATRIX_3X3,
+		UNIFORM_MATRIX_3X4,
+
+		UNIFORM_MATRIX_4X2,
+		UNIFORM_MATRIX_4X3,
+		UNIFORM_MATRIX_4X4,
+
+		UNIFORM_MATRIX_COUNT
 	};
+	enum UniformDimension : uInt {
+		UNIFORM_1D,
+		UNIFORM_2D,
+		UNIFORM_3D,
+		UNIFORM_4D,
+		UNIFORM_DIMENSIONS_COUNT
+	};
+
+
+	template <class _Ty>
+	struct UniformTypeMap {
+		using Type = _Ty;
+	};
+
+	template <> struct UniformTypeMap<Bool> {
+		using Type = Int;
+	};
+	template <> struct UniformTypeMap<Char> {
+		using Type = Int;
+	};
+	template <> struct UniformTypeMap<Short> {
+		using Type = Int;
+	};
+	template <> struct UniformTypeMap<LLong> {
+		using Type = Int;
+	};
+	template <> struct UniformTypeMap<Char8> {
+		using Type = Int;
+	};
+	template <> struct UniformTypeMap<Char16> {
+		using Type = Int;
+	};
+
+	template <> struct UniformTypeMap<uChar> {
+		using Type = uInt;
+	};
+	template <> struct UniformTypeMap<uShort> {
+		using Type = uInt;
+	};
+	template <> struct UniformTypeMap<uLLong> {
+		using Type = uInt;
+	};
+
+	template <> struct UniformTypeMap<LDouble> {
+		using Type = Double;
+	};
+
+	template <class _Ty>
+	using UniformTypeMap_t = typename UniformTypeMap<_Ty>::Type;
+
 
 	class Shader {
-	private:
-		struct GLEWFunctions {
-			PFNGLUNIFORM1FPROC Uniform1F;
-			PFNGLUNIFORM1DPROC Uniform1D;
-			PFNGLUNIFORM1IPROC Uniform1I;
-			PFNGLUNIFORM1UIPROC Uniform1UI;
-
-			PFNGLUNIFORM2FPROC Uniform2F;
-			PFNGLUNIFORM2DPROC Uniform2D;
-			PFNGLUNIFORM2IPROC Uniform2I;
-			PFNGLUNIFORM2UIPROC Uniform2UI;
-
-			PFNGLUNIFORM3FPROC Uniform3F;
-			PFNGLUNIFORM3DPROC Uniform3D;
-			PFNGLUNIFORM3IPROC Uniform3I;
-			PFNGLUNIFORM3UIPROC Uniform3UI;
-
-			PFNGLUNIFORM4FPROC Uniform4F;
-			PFNGLUNIFORM4DPROC Uniform4D;
-			PFNGLUNIFORM4IPROC Uniform4I;
-			PFNGLUNIFORM4UIPROC Uniform4UI;
-		};
-
 	public:
-		enum class Types {
-			VERTEX = GL_VERTEX_SHADER,
-			COMPUTE = GL_COMPUTE_SHADER,
-			TESS_CONTROL = GL_TESS_CONTROL_SHADER,
-			TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
-			GEOMETRY = GL_GEOMETRY_SHADER,
-			FRAGMENT = GL_FRAGMENT_SHADER,
+		enum Types {
+			VERTEX = 0x8B31,
+			COMPUTE = 0x91B9,
+			TESS_CONTROL = 0x8E88,
+			TESS_EVALUATION = 0x8E87,
+			GEOMETRY = 0x8DD9,
+			FRAGMENT = 0x8B30,
 		};
 
 	public:
 		NT_API Shader();
 		NT_API ~Shader() noexcept;
 
-
 		NT_API void Initialize();
-		NT_API void CompileFromFile(const Shader::Types& ShaderType, const String& FileName);
-		NT_API void CompileCode(const Shader::Types& ShaderType, const std::string& Code);
+		NT_API void Create();
+		NT_API void CompileFromFile(const Types& shaderType, const String& fileName);
+		NT_API void CompileCode(const Types& shaderType, const std::string& code);
 
 		NT_API void Link();
+		
+		template <typename _Ty> requires (std::is_arithmetic_v<_Ty>)
+		void SetUniform(const String& semanticName, const _Ty& value) const {
+			using _U = UniformTypeMap_t<_Ty>;
+
+			const auto Uniform = m_UniformFunctions[0][_GetUniformType<_U>()];
+			const auto Uniform1D = reinterpret_cast<void (GLAPIENTRY*) (Int, _U)>(Uniform[UNIFORM_1D]);
+
+			Uniform1D(_GetUniformLocation(semanticName), value);
+		}
+		template <class _Ty> requires (is_Vector_v<_Ty>)
+		void SetUniform(const String& semanticName, const _Ty& value) const {
+			using _U = UniformTypeMap_t<typename _Ty::ValueType>;
+
+			const auto Uniform = m_UniformFunctions[0][_GetUniformType<_U>()];
+			const auto Uniform2D = reinterpret_cast<void (GLAPIENTRY*) (Int, _U, _U)>(Uniform[UNIFORM_2D]);
+			const auto Uniform3D = reinterpret_cast<void (GLAPIENTRY*) (Int, _U, _U, _U)>(Uniform[UNIFORM_3D]);
+			const auto Uniform4D = reinterpret_cast<void (GLAPIENTRY*) (Int, _U, _U, _U, _U)>(Uniform[UNIFORM_4D]);
+
+			const Int location = _GetUniformLocation(semanticName);
+
+			if constexpr (std::is_same_v<_Ty, Vector2D<_U>>)
+				Uniform2D(location, value.x, value.y);
+			else if constexpr (std::is_same_v<_Ty, Vector3D<_U>>)
+				Uniform3D(location, value.x, value.y, value.z);
+			else if constexpr (std::is_same_v<_Ty, Vector4D<_U>>)
+				Uniform4D(location, value.x, value.y, value.z, value.w);
+			else
+				static_assert(std::is_same_v<_Ty, Vector4D<_U>>, "Error uniform dimension");
+		}
 
 		template <typename _Ty>
-		void SetUniform(const String SemanticName, const uInt& Type, const _Ty& Value) const {
-			const Int Location = _GetUniformLocation(SemanticName);
-			switch (Type) {
-			case GL_FLOAT:
-				m_GLEW.Uniform1F(Location, Value);
-				break;
-			case GL_DOUBLE:
-				m_GLEW.Uniform1D(Location, Value);
-				break;
-			case GL_INT:
-				m_GLEW.Uniform1I(Location, Value);
-				break;
-			case GL_UNSIGNED_INT:
-				m_GLEW.Uniform1UI(Location, Value);
-				break;
-			}
-		}
-		template <typename _Ty>
-		void SetUniformVec2(const String SemanticName, const uInt& Type, const Vector2D<_Ty>& Vec) const {
-			const Int Location = _GetUniformLocation(SemanticName);
-			switch (Type) {
-			case GL_FLOAT:
-				m_GLEW.Uniform2F(Location, float(Vec.x), float(Vec.y));
-				break;
-			case GL_DOUBLE:
-				m_GLEW.Uniform2D(Location, double(Vec.x), double(Vec.y));
-				break;
-			case GL_INT:
-				m_GLEW.Uniform2I(Location, int(Vec.x), int(Vec.y));
-				break;
-			case GL_UNSIGNED_INT:
-				m_GLEW.Uniform2UI(Location, uInt(Vec.x), uInt(Vec.y));
-				break;
-			}
-		}
-		template <typename _Ty>
-		void SetUniformVec3(const String SemanticName, const uInt& Type, const Vector3D<_Ty>& Vec) const {
-			const Int Location = _GetUniformLocation(SemanticName);
-			switch (Type) {
-			case GL_FLOAT:
-				m_GLEW.Uniform3F(Location, float(Vec.x), float(Vec.y), float(Vec.z));
-				break;
-			case GL_DOUBLE:
-				m_GLEW.Uniform3D(Location, double(Vec.x), double(Vec.y), double(Vec.z));
-				break;
-			case GL_INT:
-				m_GLEW.Uniform3I(Location, int(Vec.x), int(Vec.y), int(Vec.z));
-				break;
-			case GL_UNSIGNED_INT:
-				m_GLEW.Uniform3UI(Location, uInt(Vec.x), uInt(Vec.y), uInt(Vec.z));
-				break;
-			}
-		}
-		template <typename _Ty>
-		void SetUniformVec4(const String SemanticName, const uInt& Type, const Vector4D<_Ty>& Vec) const {
-			const Int Location = _GetUniformLocation(SemanticName);
-			switch (Type) {
-			case GL_FLOAT:
-				m_GLEW.Uniform4F(Location, float(Vec.x), float(Vec.y), float(Vec.z), float(Vec.w));
-				break;
-			case GL_DOUBLE:
-				m_GLEW.Uniform4D(Location, double(Vec.x), double(Vec.y), double(Vec.z), double(Vec.w));
-				break;
-			case GL_INT:
-				m_GLEW.Uniform4I(Location, int(Vec.x), int(Vec.y), int(Vec.z), int(Vec.w));
-				break;
-			case GL_UNSIGNED_INT:
-				m_GLEW.Uniform4UI(Location, uInt(Vec.x), uInt(Vec.y), uInt(Vec.z), uInt(Vec.w));
-				break;
-			}
+		void SetUniformArray(const String& semanticName, const UniformType& type, const uInt& count, _Ty* pValue) const {
+			const auto Uniform = 
+				reinterpret_cast<void (*) (Int, Int, _Ty*)>(m_UniformFunctions[1][type][UNIFORM_1D]);
+
+			const Int location = _GetUniformLocation(semanticName);
+			Uniform(location, count, pValue);
 		}
 
-		NT_API void SetUniformMatrix4x4(const String semanticName, const uInt& type, const Matrix4x4& Mat) const;
-
+		NT_API void SetUniformMatrix3x3(const String& semanticName, const uInt& type, const Matrix3x3& mat) const;
+		NT_API void SetUniformMatrix4x4(const String& semanticName, const uInt& type, const Matrix4x4& mat) const;
 
 		NT_API void Use() const noexcept;
+		NT_API void Delete() const;
 
 		NT_API void EnableStrict() noexcept;
 		NT_API void DisableStrict() noexcept;
 
-	private:
-		uInt m_Program;
-		Bool m_fStrict;
-		GLEWFunctions m_GLEW;
+		NT_API void UniformBlockBinding(const String& semanticName, const uInt& uniformBlockBinding);
+		NT_API void BindBufferBase(const Buffer& buffer, const uInt& index);
 
 	private:
-		NT_API uInt _GetUniformLocation(const String& semanticName) const;
-		NT_API uInt _CompileShader(const uInt& ShaderID, LPCSTR Code) const;
-		NT_API void _VarifyResult(const uInt& ShaderID, const Shader::Types& ShaderType, const cString& FileName = nullptr);
+		Void* m_UniformFunctions[2][UNIFORM_TYPES_COUNT][UNIFORM_DIMENSIONS_COUNT] = { };
+		Void* m_UniformMatrixFunctions[2][UNIFORM_TYPES_COUNT] = { };
+		std::map<Types, uInt> m_Shaders;
+		uInt m_ProgramID = 0;
+		Bool m_fStrict;
+
+	private:
+		template <typename _Ty> requires std::is_arithmetic_v<_Ty>
+		NT_NODISCARD_CONSTEXPR UniformType _GetUniformType() const noexcept {
+			using _U = UniformTypeMap_t<_Ty>;
+
+			if constexpr (std::is_same_v<_U, Double>)
+				return UNIFORM_DOUBLE;
+			else if constexpr (std::is_same_v<_U, Float>)
+				return UNIFORM_FLOAT;
+			else if constexpr (std::is_same_v<_U, Int>)
+				return UNIFORM_INT;
+			else if constexpr (std::is_same_v<_U, uInt>)
+				return UNIFORM_UINT;
+			else
+				static_assert(std::is_same_v<_U, uInt>, "Error uniform type");
+		}
+
+		NT_NODISCARD NT_API uInt _GetUniformLocation(const String& semanticName) const;
+		NT_NODISCARD NT_API uInt _CompileShader(const uInt& ShaderID, const cString& code) const;
+		NT_API void _VarifyResult(const uInt& ShaderID, const Types& shaderType, const cString& fileName = nullptr);
 	};
 }

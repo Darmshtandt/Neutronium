@@ -1,20 +1,22 @@
 #pragma once
 
+#include <Nt/Core/Utilities.h>
+
 namespace Nt {
-	class Timer {
+	class NT_API Timer {
 	public:
-		NT_API Timer() noexcept;
+		Timer() noexcept;
 
-		NT_API void Restart() noexcept;
+		void Restart() noexcept;
 
-		NT_API uLLong SecondsToTicks(const Double& Seconds) const noexcept;
+		_NODISCARD uLLong SecondsToTicks(const Double& Seconds) const noexcept;
 
-		NT_API uLLong GetElapsedTimeMs() const noexcept;
-		NT_API uLLong GetTicks() noexcept;
+		_NODISCARD uLLong GetElapsedTimeMs() const noexcept;
+		_NODISCARD uLLong GetTicks() noexcept;
 
 	private:
-		uLLong m_Start;
-		uLLong m_Frequency;
-		uLLong m_Ticks;
+		uLLong m_Start = 0ull;
+		uLLong m_Frequency = 0ull;
+		uLLong m_Ticks = 0ull;
 	};
 }

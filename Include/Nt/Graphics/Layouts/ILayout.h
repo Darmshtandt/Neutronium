@@ -79,11 +79,11 @@ namespace Nt {
 
 			HPEN hPen = CreatePen(PS_SOLID, 1, VectorToColorRef(DebugGridColorConfig.GapColor));
 			if (hPen == nullptr) {
-				Log::Warning("Failed to create pen");
+				Log::Instance().Warning("Failed to create pen");
 				return;
 			}
 			if (SelectObject(hdc, hPen) == nullptr) {
-				Log::Warning("Failed to select pen");
+				Log::Instance().Warning("Failed to select pen");
 				return;
 			}
 
@@ -112,30 +112,30 @@ namespace Nt {
 				const Float x1 = lineEnd.x;
 				const Float y1 = lineEnd.y;
 
-				if (lineStart.x < gapRect.Left) {
-					lineStart.x = gapRect.Left;
+				if (lineStart.x < Float(gapRect.Left)) {
+					lineStart.x = Float(gapRect.Left);
 					lineStart.y = y0 + (lineStart.x - x0) * (y1 - y0) / (x1 - x0);
 				}
-				if (lineEnd.x > gapRect.Right) {
-					lineEnd.x = gapRect.Right;
+				if (lineEnd.x > Float(gapRect.Right)) {
+					lineEnd.x = Float(gapRect.Right);
 					lineEnd.y = y0 + (lineEnd.x - x0) * (y1 - y0) / (x1 - x0);
 				}
 
 				if (!isVerical) {
-					lineStart.y = gapRect.Top;
+					lineStart.y = Float(gapRect.Top);
 					lineStart.x = x0 + (lineStart.y - y0) * (x1 - x0) / (y1 - y0);
 
-					lineEnd.y = gapRect.Bottom;
+					lineEnd.y = Float(gapRect.Bottom);
 					lineEnd.x = x0 + (lineEnd.y - y0) * (x1 - x0) / (y1 - y0);
 				}
 
-				if (lineStart.x < gapRect.Left)
+				if (lineStart.x < Float(gapRect.Left))
 					continue;
-				else if (lineStart.y < gapRect.Top)
+				else if (lineStart.y < Float(gapRect.Top))
 					continue;
-				else if (lineEnd.x > gapRect.Right)
+				else if (lineEnd.x > Float(gapRect.Right))
 					continue;
-				else if (lineEnd.y > gapRect.Bottom)
+				else if (lineEnd.y > Float(gapRect.Bottom))
 					continue;
 
 				MoveToEx(hdc, (Int)lineStart.x, (Int)lineStart.y, nullptr);

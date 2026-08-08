@@ -1,60 +1,45 @@
 #pragma once
 
+#include <Nt/Graphics/Geometry/Shape.h>
+#include <Nt/Graphics/Buffer.h>
+
 namespace Nt {
-	enum eUsageDraw {
-		USAGE_STREAMDRAW = 0x88E0,
-		USAGE_STREAMREAD = 0x88E1,
-		USAGE_STREAMCOPY = 0x88E2,
-
-		USAGE_STATICDRAW = 0x88E4,
-		USAGE_STATICREAD = 0x88E5,
-		USAGE_STATICCOPY = 0x88E6,
-
-		USAGE_DYNAMICDRAW = 0x88E8,
-		USAGE_DYNAMICREAD = 0x88E9,
-		USAGE_DYNAMICCOPY = 0x88EA
-	};
-
-	class VertexArray {
+	class NT_API VertexArray {
 	public:
-		NT_API VertexArray() noexcept;
-		NT_API VertexArray(const VertexArray& Array) noexcept;
-		NT_API ~VertexArray() noexcept;
+		VertexArray();
+		VertexArray(const VertexArray& other);
+		VertexArray(VertexArray&& other) noexcept = default;
+		~VertexArray() noexcept;
 
-		NT_API void CopyTo(VertexArray* pVertexArray) const;
+		void Clear() noexcept;
 
-		NT_API void UpdateVBO(const uInt& NumVertices, Vertex* pData);
-		NT_API void UpdateEBO(const uInt& NumIndices, Vertex* pData);
+		void UpdateVBO(const uInt& numVertices, Vertex* pData) const;
+		void UpdateEBO(const uInt& numIndices, Vertex* pData) const;
 
-		NT_API void SetVBOData(const uInt& NumVertices, Vertex* pData, const uInt& Usage = USAGE_DYNAMICDRAW) noexcept;
-		NT_API void SetEBOData(const uInt& NumIndices, Index_t* pData, const uInt& Usage = USAGE_DYNAMICDRAW) noexcept;
+		void SetVBOData(const uInt& numVertices, Vertex* pData, const UsageDraw& usage = USAGE_DYNAMICDRAW) noexcept;
+		void SetEBOData(const uInt& numIndices, Index_t* pData, const UsageDraw& usage = USAGE_DYNAMICDRAW) noexcept;
 
-		NT_API void Set() const noexcept;
+		void Bind() const noexcept;
 
-		NT_API Vertex* GetVBOData() const noexcept;
-		NT_API Index_t* GetEBOData() const noexcept;
+		VertexArray& operator = (const VertexArray& other) noexcept;
+		VertexArray& operator = (VertexArray&& other) noexcept = default;
 
-		NT_API uInt GetNumVertices() const noexcept;
-		NT_API uInt GetNumIndices() const noexcept;
+		NT_NODISCARD const Buffer& GetVertexBuffer() const noexcept;
+		NT_NODISCARD const Buffer& GetElementBuffer() const noexcept;
 
-		NT_API uInt GetVBOUsage() const noexcept;
-		NT_API uInt GetEBOUsage() const noexcept;
+		NT_NODISCARD const Vertex* GetVerticesData() const noexcept;
+		NT_NODISCARD const Index_t* GetIndicesData() const noexcept;
 
-	private:
-		void* m_VBOData;
-		void* m_EBOData;
-
-		uInt m_VAO;
-		uInt m_VBO;
-		uInt m_EBO;
-
-		uInt m_VBOUsage;
-		uInt m_EBOUsage;
-
-		uInt m_NumVertices;
-		uInt m_NumIndices;
+		NT_NODISCARD uInt GetNumVertices() const noexcept;
+		NT_NODISCARD uInt GetNumIndices() const noexcept;
+		NT_NODISCARD uInt GetID() const noexcept;
 
 	private:
-		NT_API void _Create();
+		Buffer m_VertexBuffer;
+		Buffer m_ElementBuffer;
+		uInt m_ID;
+
+	private:
+		void _Create();
 	};
 }

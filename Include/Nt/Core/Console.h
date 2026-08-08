@@ -1,8 +1,11 @@
 #pragma once
 
+#include <Nt/Core/String.h>
+#include <Nt/Core/Math/Vector.h>
+
 namespace Nt {
 	enum class CodePageID : unsigned {
-		IBM037 = 037,						// IBM EBCDIC US-Canada
+		IBM037 = 37,						// IBM EBCDIC US-Canada
 		IBM437 = 437,						// OEM United States
 		IBM500 = 500,						// IBM EBCDIC International
 		ASMO_708 = 708,						// Arabic (ASMO 708)

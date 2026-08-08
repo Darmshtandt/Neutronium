@@ -1,56 +1,63 @@
+// This is an open source non-commercial project. Dear PVS-Studio, please check it.
+// PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
+
+#include <Nt/Core/WinMinimal.h>
+
+#undef NOUSER
+
 #include <windows.h>
 
-#include <Nt/Core/Defines.h>
-#include <Nt/Core/NtTypes.h>
-#include <Nt/Core/String.h>
 #include <Nt/Core/Utilities.h>
-#include <Nt/Core/Math/Vector2D.h>
 #include <Nt/Core/Input.h>
 
+
 namespace Nt {
-	//Bool Keyboard::IsKeyPressed(const Key& Key, const Bool& Once) noexcept {
-	//	Bool Result = false;
-	//	const Byte KeyCode = Byte(Key);
-	//	Byte Keyboard[256];
-	//	if (GetKeyboardState(Keyboard) && (Keyboard[KeyCode] & 0x80)) {
-	//		Result = true;
-	//		if (Once && (m_PressStampKeys[KeyCode] != m_PressStamp))
-	//			Result = (m_PressStampKeys[KeyCode] != m_PressStamp - 1);
-	//		m_PressStampKeys[KeyCode] = m_PressStamp;
-	//	}
-	//	return Result;
-	//}
-	Bool Keyboard::IsKeyPressed(const Key& Key, const Bool& Once) noexcept {
-		Bool Result = false;
-		const Byte KeyCode = Byte(Key);
-		if (GetAsyncKeyState(KeyCode) & 0x8000) {
-			Result = true;
-			if (Once && (m_PressStampKeys[KeyCode] != m_PressStamp))
-				Result = (m_PressStampKeys[KeyCode] != m_PressStamp - 1);
-			m_PressStampKeys[KeyCode] = m_PressStamp;
+	void Keyboard::Update() noexcept {
+		memcpy(m_IsPressedKeyPrevStateArray, m_IsPressedKeyArray, 256);
+		ZeroMemory(m_IsPressedKeyArray, 256);
+	}
+
+	Bool Keyboard::IsKeyPressed(const Key& keyCode, const Bool& once) noexcept {
+		const Int& keyIntCode = Int(keyCode);
+
+		m_IsPressedKeyArray[keyIntCode] = (GetAsyncKeyState(keyIntCode) & 0x8000);
+		if (m_IsPressedKeyArray[keyIntCode]) {
+			if (once)
+				return (!m_IsPressedKeyPrevStateArray[keyIntCode]);
+			return true;
 		}
-		return Result;
+		return false;
 	}
 
-	Bool Mouse::IsButtonPressed(const Mouse::Button& Button, const Bool& Once) noexcept {
-		Bool Result = false;
-		const Byte ButtonCode = Byte(Button);
-		if (GetAsyncKeyState(ButtonCode) & 0x8000) {
-			Result = true;
-			if (Once && (m_PressStampButtons[ButtonCode] != m_PressStamp))
-				Result = (m_PressStampButtons[ButtonCode] != m_PressStamp - 1);
-			m_PressStampButtons[ButtonCode] = m_PressStamp;
+	void Mouse::Update() noexcept {
+		memcpy(m_IsPressedButtonPrevStateArray, m_IsPressedButtonArray, 6);
+		ZeroMemory(m_IsPressedButtonArray, 6);
+	}
+
+	Bool Mouse::IsButtonPressed(const Key& buttonCode, const Bool& once) noexcept {
+		m_IsPressedButtonArray[buttonCode] = (GetAsyncKeyState(buttonCode) & 0x8000);
+		if (m_IsPressedButtonArray[buttonCode]) {
+			if (once)
+				return (!m_IsPressedButtonPrevStateArray[buttonCode]);
+			return true;
 		}
-		return Result;
+		return false;
 	}
 
-	Int2D Mouse::GetCursorPosition() noexcept {
-		POINT CursorPosition;
-		GetCursorPos(&CursorPosition);
-		return CursorPosition;
+	NT_FORCE_INLINE Bool Mouse::MoveCursorToCenter() noexcept {
+		return SetCursorPos(
+			GetSystemMetrics(SM_CXSCREEN) / 2, 
+			GetSystemMetrics(SM_CYSCREEN) / 2);
 	}
 
-	void Mouse::SetCursorPosition(const Int2D& Position) noexcept {
+	NT_FORCE_INLINE Int2D Mouse::GetCursorPosition() noexcept {
+		POINT cursorPosition;
+		GetCursorPos(&cursorPosition);
+
+		return cursorPosition;
+	}
+
+	NT_FORCE_INLINE void Mouse::SetCursorPosition(const Int2D& Position) noexcept {
 		SetCursorPos(Position.x, Position.y);
 	}
 }
